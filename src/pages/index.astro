@@ -1,17 +1,62 @@
 ---
-
+/**
+ * Página principal — Hero, RSVP, Ubicación, Contacto.
+ * Mobile-first, estilo editorial.
+ */
+import Layout from '../layouts/Layout.astro';
+import RSVPForm from '../components/forms/RSVPForm';
+import LocationSection from '../components/LocationSection';
+import WhatsAppButton from '../components/WhatsAppButton';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Irene y Carlos — Nos casamos" description="Bienvenidos a nuestra boda. Irene y Carlos tienen el honor de invitaros a celebrar con nosotros.">
+  <!-- Hero -->
+  <main class="min-h-screen flex flex-col items-center justify-center px-6 py-16 sm:py-24 md:py-32">
+    <figure class="mb-10 sm:mb-14 md:mb-16 w-full max-w-[160px] sm:max-w-[200px] md:max-w-[220px] mx-auto">
+      <img
+        src="/branding-logo.png"
+        alt="Irene y Carlos — 26.06.26"
+        width="220"
+        height="220"
+        class="w-full h-auto object-contain"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+
+    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center tracking-tight text-[#1A1A1A] mb-6 sm:mb-8">
+      Irene y Carlos
+    </h1>
+
+    <p class="font-sans text-base sm:text-lg md:text-xl text-center text-[#1A1A1A]/90 max-w-md mx-auto leading-relaxed">
+      Tienen el honor de invitaros a celebrar su unión
+    </p>
+
+    <p class="font-serif text-sm sm:text-base mt-10 sm:mt-12 text-[#1A1A1A]/70 tracking-widest uppercase">
+      26 · 06 · 26
+    </p>
+  </main>
+
+  <!-- RSVP -->
+  <section class="px-6 py-16 sm:py-24">
+    <div class="mx-auto max-w-2xl">
+      <RSVPForm client:load />
+    </div>
+  </section>
+
+  <!-- Ubicación -->
+  <LocationSection client:load />
+
+  <!-- Footer con WhatsApp -->
+  <footer class="border-t border-[#C5A059]/20 px-6 py-12">
+    <div class="mx-auto flex max-w-xl flex-col items-center gap-6 text-center">
+      <p class="font-sans text-sm text-[#1A1A1A]/70">
+        ¿Dudas? Estamos a tu disposición.
+      </p>
+      <WhatsAppButton client:load flotante={false} />
+    </div>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <WhatsAppButton client:load flotante={true} />
+</Layout>

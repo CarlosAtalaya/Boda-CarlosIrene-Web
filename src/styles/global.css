@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Sistema de diseño: fuentes y colores editoriales */
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --color-crema: #F9F7F2;
+  --color-acento: #1A1A1A;
+  --color-oro: #C5A059;
+}

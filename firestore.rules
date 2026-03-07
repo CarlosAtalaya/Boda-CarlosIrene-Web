@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Colección de respuestas RSVP: solo escritura (crear/actualizar)
+    // Lectura restringida para privacidad; el backend/admin puede leer desde la consola
+    match /respuestas_boda/{documentId} {
+      allow read: if false;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if false;
+    }
+  }
+}
