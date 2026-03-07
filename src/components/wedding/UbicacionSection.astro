@@ -1,65 +1,130 @@
 ---
 /**
- * Sección de ubicación con enlace a Google Maps.
+ * Sección Dónde & Cuándo — Estructura idéntica a plantilla.
+ * Grid 2 cols: texto + iconos | galería de fotos del restaurante.
  */
-import { MapPin } from 'lucide-react';
+import { MapPin, Calendar, Clock, ExternalLink } from 'lucide-react';
 import { EVENT_CONFIG } from '../../lib/event-config';
+import { getVenueImageUrls } from '../../lib/venue-images';
+import AddToCalendarButton from '../AddToCalendarButton';
 
-const { lugar, lugarDireccion, coordenadas, textos } = EVENT_CONFIG;
+const { lugar, lugarDireccion, coordenadas, fechaLegible, horaInicio, lugarWeb } = EVENT_CONFIG;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordenadas)}`;
+const venueImages = getVenueImageUrls();
+
+// Formatear día de la semana y año (26 de junio de 2026 -> Viernes, Dos mil veintiséis)
+const fechaDate = new Date(parseInt(EVENT_CONFIG.fecha.slice(0,4)), parseInt(EVENT_CONFIG.fecha.slice(4,6)) - 1, parseInt(EVENT_CONFIG.fecha.slice(6,8)));
+const diaSemana = fechaDate.toLocaleDateString('es-ES', { weekday: 'long' });
+const diaSemanaCap = diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1);
+const anioTexto = new Date(EVENT_CONFIG.fecha.slice(0,4) + '-01-01').toLocaleDateString('es-ES', { year: 'numeric' });
+const anioPalabras = anioTexto === '2026' ? 'Dos mil veintiséis' : anioTexto;
+
+// Hora legible (190000 -> 19:00)
+const hora = `${horaInicio.slice(0,2)}:${horaInicio.slice(2,4)}`;
 ---
 
-<section class="px-6 py-[var(--spacing-section)]">
-  <div class="mx-auto max-w-2xl">
+<section id="ubicacion" class="py-24 sm:py-32 px-6 paper-texture">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
 
-    <!-- Header -->
-    <div class="reveal-up text-center mb-12">
-      <p class="font-sans text-[0.7rem] tracking-[0.35em] uppercase text-[#C5A059] mb-4">
-        Dónde celebramos
-      </p>
-      <h2 class="font-serif font-light" style="font-size: var(--text-heading-xl);">
-        {textos.ubicacionTitulo}
-      </h2>
-    </div>
+      <!-- Diseño tipográfico y botones (order-2 en móvil para que mapa vaya primero) -->
+      <div class="order-2 md:order-1 text-center md:text-left">
+        <h2 class="font-serif text-4xl md:text-5xl mb-6 text-[#2A2A2A]">Dónde & Cuándo</h2>
+        <div class="w-12 h-px bg-[#8B4542] mx-auto md:mx-0 mb-10"></div>
 
-    <!-- Tarjeta de ubicación -->
-    <div class="reveal-up relative rounded-2xl overflow-hidden border border-[#C5A059]/20 bg-white/60 backdrop-blur-sm p-8 sm:p-12 text-center">
+        <div class="space-y-8 mb-12 font-sans font-light">
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+            <span class="text-[#8B4542] mt-1"><Calendar size={20} strokeWidth={1} /></span>
+            <div>
+              <h3 class="font-serif text-xl mb-1 text-[#2A2A2A]">{diaSemanaCap}, {fechaLegible.replace(/ de \d{4}$/, '')}</h3>
+              <p class="text-[#2A2A2A]/60 text-sm tracking-wide">{anioPalabras}</p>
+            </div>
+          </div>
 
-      <!-- Ornamento superior -->
-      <div class="divider-gold mb-8 reveal-line"></div>
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+            <span class="text-[#8B4542] mt-1"><Clock size={20} strokeWidth={1} /></span>
+            <div>
+              <h3 class="font-serif text-xl mb-1 text-[#2A2A2A]">{hora} Horas</h3>
+              <p class="text-[#2A2A2A]/60 text-sm tracking-wide">Se ruega puntualidad</p>
+            </div>
+          </div>
 
-      <!-- Logo pequeño -->
-      <img
-        src="/branding-logo.png"
-        alt="Logo boda"
-        width="60"
-        height="60"
-        class="w-12 h-12 object-contain mx-auto mb-6 opacity-30"
-        loading="lazy"
-      />
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+            <span class="text-[#8B4542] mt-1"><MapPin size={20} strokeWidth={1} /></span>
+            <div>
+              <h3 class="font-serif text-xl mb-1 text-[#2A2A2A]">{lugar}</h3>
+              <p class="text-[#2A2A2A]/60 text-sm tracking-wide leading-relaxed">
+                {lugarDireccion}
+              </p>
+            </div>
+          </div>
+        </div>
 
-      <h3 class="font-serif" style="font-size: var(--text-heading-lg);">{lugar}</h3>
-      <p class="mt-2 font-sans font-light text-[#1A1A1A]/60" style="font-size: var(--text-body);">
-        {lugarDireccion}
-      </p>
-      <p class="mt-4 font-sans font-light text-[#1A1A1A]/70 max-w-sm mx-auto leading-relaxed" style="font-size: var(--text-body);">
-        {textos.ubicacionTexto}
-      </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start flex-wrap">
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="min-h-[44px] inline-flex items-center justify-center bg-[#2A2A2A] text-white px-8 py-3 uppercase tracking-[0.2em] text-xs hover:bg-[#8B4542] transition-colors duration-300 text-center touch-manipulation"
+          >
+            Ver en Mapa
+          </a>
+          <a
+            href={lugarWeb}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="min-h-[44px] border border-[#D9C5C5] text-[#2A2A2A] px-8 py-3 uppercase tracking-[0.2em] text-xs hover:border-[#2A2A2A] transition-colors duration-300 text-center inline-flex items-center justify-center gap-2 touch-manipulation"
+          >
+            <ExternalLink size={14} />
+            Visitar web
+          </a>
+          <AddToCalendarButton className="min-h-[44px] border border-[#D9C5C5] hover:border-[#2A2A2A] rounded-none px-8 py-3 uppercase tracking-[0.2em] text-xs justify-center" />
+        </div>
+      </div>
 
-      <!-- Botón -->
-      <a
-        href={mapsUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-8 inline-flex items-center gap-3 rounded-full border border-[#C5A059] px-8 py-3 font-sans font-light text-[#1A1A1A] transition-all duration-300 hover:bg-[#C5A059] hover:text-white hover:shadow-lg hover:shadow-[#C5A059]/20 hover:-translate-y-0.5"
-        style="font-size: var(--text-small);"
-      >
-        <MapPin size={14} />
-        Ver en Google Maps
-      </a>
+      <!-- Galería de fotos del restaurante (enlace a web) -->
+      <div class="order-1 md:order-2 relative">
+        <a
+          href={lugarWeb}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full border border-[#D9C5C5] p-2 group"
+        >
+          {venueImages.length > 0 ? (
+            <div class="aspect-[4/5] w-full overflow-hidden bg-[#F3EFEA] relative">
+              {venueImages.length === 1 ? (
+                <img
+                  src={venueImages[0]}
+                  alt={`${lugar} — Fotografías del lugar`}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="grid grid-cols-2 gap-1 w-full h-full">
+                  {venueImages.slice(0, 4).map((src, i) => (
+                    <img
+                      src={src}
+                      alt={`${lugar} — Foto ${i + 1}`}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              )}
+              <div class="absolute inset-0 bg-black/5 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <span class="font-serif text-lg text-[#8B4542] italic absolute bottom-4 left-1/2 -translate-x-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">Conocer el lugar</span>
+            </div>
+          ) : (
+            <div class="aspect-[4/5] w-full bg-[#F3EFEA] relative flex items-center justify-center">
+              <span class="font-serif text-lg text-[#8B4542] italic">Fotos del lugar</span>
+            </div>
+          )}
+        </a>
+        <!-- Detalle estético superpuesto con el tono primario -->
+        <div class="absolute -bottom-6 -left-6 w-32 h-32 border-b border-l border-[#8B4542] opacity-50 pointer-events-none"></div>
+        <div class="absolute -top-6 -right-6 w-32 h-32 border-t border-r border-[#8B4542] opacity-50 pointer-events-none"></div>
+      </div>
 
-      <!-- Ornamento inferior -->
-      <div class="divider-gold mt-8 reveal-line"></div>
     </div>
   </div>
 </section>

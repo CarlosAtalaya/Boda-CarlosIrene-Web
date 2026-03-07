@@ -8,7 +8,7 @@
  */
 import { useState, useCallback } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { Plus, Trash2, ChevronRight, ChevronLeft, Check, AlertCircle, X } from "lucide-react";
+import { Plus, Trash2, ChevronRight, ChevronLeft, Check, AlertCircle, X, Music } from "lucide-react";
 import {
   rsvpFormSchema,
   toFirestorePayload,
@@ -46,14 +46,15 @@ interface ToastProps {
 function Toast({ message, type, onClose }: ToastProps) {
   const colors: Record<ToastType, string> = {
     error: "border-red-200 bg-red-50 text-red-800",
-    success: "border-[#C5A059]/30 bg-[#C5A059]/10 text-[#1A1A1A]",
+    success: "border-[#8B4542]/30 bg-[#8B4542]/10 text-[#2A2A2A]",
     info: "border-blue-200 bg-blue-50 text-blue-800",
   };
   const Icon = type === "error" ? AlertCircle : Check;
 
   return (
     <div
-      className={`toast-enter fixed bottom-24 left-1/2 z-[100] -translate-x-1/2 flex items-center gap-3 rounded-xl border px-5 py-3.5 shadow-lg ${colors[type]}`}
+      className={`toast-enter fixed left-1/2 z-[100] -translate-x-1/2 flex items-center gap-3 rounded-xl border px-5 py-3.5 shadow-lg ${colors[type]}`}
+      style={{ bottom: "calc(7rem + env(safe-area-inset-bottom, 0px))" }}
       role="alert"
     >
       <Icon size={15} className="flex-shrink-0" />
@@ -62,7 +63,7 @@ function Toast({ message, type, onClose }: ToastProps) {
       </p>
       <button
         onClick={onClose}
-        className="ml-2 opacity-60 hover:opacity-100 transition-opacity"
+        className="ml-2 flex-shrink-0 p-2 -m-2 opacity-60 hover:opacity-100 transition-opacity touch-manipulation"
         aria-label="Cerrar notificación"
       >
         <X size={13} />
@@ -81,24 +82,24 @@ interface StepIndicatorProps {
 
 function StepIndicator({ current, total, labels }: StepIndicatorProps) {
   return (
-    <div className="flex items-center justify-center gap-0 mb-10">
+    <div className="flex items-center justify-center gap-0 mb-8 sm:mb-10 overflow-x-auto pb-2 -mx-2 px-2">
       {Array.from({ length: total }).map((_, i) => (
-        <div key={i} className="flex items-center">
+        <div key={i} className="flex items-center flex-shrink-0">
           <div className="flex flex-col items-center gap-1.5">
             <div
-              className={`step-dot w-7 h-7 rounded-full flex items-center justify-center text-xs font-sans font-medium transition-all duration-500 ${
+              className={`step-dot w-8 h-8 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs font-sans font-medium transition-all duration-500 min-w-[2rem] min-h-[2rem] ${
                 i < current
-                  ? "completed bg-[#1A1A1A] text-[#F9F7F2]"
+                  ? "completed bg-[#2A2A2A] text-[#F9F8F6]"
                   : i === current
-                  ? "active bg-[#C5A059] text-white"
-                  : "bg-[#1A1A1A]/10 text-[#1A1A1A]/40"
+                  ? "active bg-[#8B4542] text-white"
+                  : "bg-[#2A2A2A]/10 text-[#2A2A2A]/40"
               }`}
             >
               {i < current ? <Check size={12} /> : i + 1}
             </div>
             <span
               className={`font-sans text-[0.6rem] tracking-wide uppercase transition-colors duration-300 hidden sm:block ${
-                i === current ? "text-[#C5A059]" : "text-[#1A1A1A]/40"
+                i === current ? "text-[#8B4542]" : "text-[#2A2A2A]/40"
               }`}
             >
               {labels[i]}
@@ -107,7 +108,7 @@ function StepIndicator({ current, total, labels }: StepIndicatorProps) {
           {i < total - 1 && (
             <div
               className={`w-10 sm:w-16 h-px mx-1 mb-4 transition-all duration-500 ${
-                i < current ? "bg-[#1A1A1A]/40" : "bg-[#1A1A1A]/10"
+                i < current ? "bg-[#2A2A2A]/40" : "bg-[#2A2A2A]/10"
               }`}
             />
           )}
@@ -130,13 +131,13 @@ function Step1({ principal, onChange, error }: Step1Props) {
     <div className="step-panel space-y-8">
       <div className="text-center space-y-2">
         <h3
-          className="font-serif font-light text-[#1A1A1A]"
+          className="font-serif font-light text-[#2A2A2A]"
           style={{ fontSize: "var(--text-heading-md)" }}
         >
           ¿Asistirás a la celebración?
         </h3>
         <p
-          className="font-sans font-light text-[#1A1A1A]/60"
+          className="font-sans font-light text-[#2A2A2A]/60"
           style={{ fontSize: "var(--text-body)" }}
         >
           Por favor, indica tu nombre y confirma tu asistencia.
@@ -146,7 +147,7 @@ function Step1({ principal, onChange, error }: Step1Props) {
       <div className="space-y-2">
         <label
           htmlFor="nombre-principal"
-          className="block font-sans text-xs tracking-widest uppercase text-[#1A1A1A]/60"
+          className="block font-sans text-xs tracking-widest uppercase text-[#2A2A2A]/60"
         >
           Nombre completo
         </label>
@@ -155,7 +156,7 @@ function Step1({ principal, onChange, error }: Step1Props) {
           type="text"
           value={principal.nombre}
           onChange={(e) => onChange("nombre", e.target.value)}
-          className="input-editorial w-full rounded-xl border border-[#C5A059]/25 bg-white/70 px-4 py-3.5 font-sans font-light text-[#1A1A1A] placeholder:text-[#1A1A1A]/30 focus:border-[#C5A059] focus:outline-none focus:bg-white"
+          className="input-editorial w-full rounded-xl border border-[#8B4542]/25 bg-white/70 px-4 py-3.5 font-sans font-light text-[#2A2A2A] placeholder:text-[#2A2A2A]/30 focus:border-[#8B4542] focus:outline-none focus:bg-white"
           style={{ fontSize: "var(--text-body)" }}
           placeholder="Introduce tu nombre y apellidos"
           autoComplete="name"
@@ -168,7 +169,7 @@ function Step1({ principal, onChange, error }: Step1Props) {
       </div>
 
       <div className="space-y-3">
-        <p className="font-sans text-xs tracking-widest uppercase text-[#1A1A1A]/60">
+        <p className="font-sans text-xs tracking-widest uppercase text-[#2A2A2A]/60">
           Confirmación
         </p>
         <div className="grid grid-cols-2 gap-3">
@@ -183,14 +184,14 @@ function Step1({ principal, onChange, error }: Step1Props) {
               className={`relative rounded-xl border px-4 py-4 font-sans font-light text-sm transition-all duration-300 ${
                 principal.confirmado === value
                   ? value
-                    ? "border-[#C5A059] bg-[#C5A059]/10 text-[#1A1A1A] shadow-sm"
-                    : "border-[#1A1A1A]/30 bg-[#1A1A1A]/5 text-[#1A1A1A]"
-                  : "border-[#1A1A1A]/10 bg-transparent text-[#1A1A1A]/50 hover:border-[#1A1A1A]/20"
+                    ? "border-[#8B4542] bg-[#8B4542]/10 text-[#2A2A2A] shadow-sm"
+                    : "border-[#2A2A2A]/30 bg-[#2A2A2A]/5 text-[#2A2A2A]"
+                  : "border-[#2A2A2A]/10 bg-transparent text-[#2A2A2A]/50 hover:border-[#2A2A2A]/20"
               }`}
             >
               <span
                 className={`block text-xl mb-1 font-serif ${
-                  value ? "text-[#C5A059]" : "text-[#1A1A1A]/40"
+                  value ? "text-[#8B4542]" : "text-[#2A2A2A]/40"
                 }`}
               >
                 {icon}
@@ -219,13 +220,13 @@ function Step2({ acompañantes, onAdd, onRemove, onChange, errors }: Step2Props)
     <div className="step-panel space-y-6">
       <div className="text-center space-y-2">
         <h3
-          className="font-serif font-light text-[#1A1A1A]"
+          className="font-serif font-light text-[#2A2A2A]"
           style={{ fontSize: "var(--text-heading-md)" }}
         >
           ¿Vendrás acompañado?
         </h3>
         <p
-          className="font-sans font-light text-[#1A1A1A]/60"
+          className="font-sans font-light text-[#2A2A2A]/60"
           style={{ fontSize: "var(--text-body)" }}
         >
           Añade el nombre de cada acompañante.
@@ -236,23 +237,23 @@ function Step2({ acompañantes, onAdd, onRemove, onChange, errors }: Step2Props)
         {acompañantes.map((ac, i) => (
           <div
             key={i}
-            className="guest-card flex items-center gap-3 rounded-xl border border-[#C5A059]/20 bg-white/60 px-4 py-3"
+            className="guest-card flex items-center gap-3 rounded-xl border border-[#8B4542]/20 bg-white/60 px-4 py-3"
           >
-            <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#C5A059]/15 flex items-center justify-center">
-              <span className="font-serif text-xs text-[#C5A059]">{i + 1}</span>
+            <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#8B4542]/15 flex items-center justify-center">
+              <span className="font-serif text-xs text-[#8B4542]">{i + 1}</span>
             </div>
             <input
               type="text"
               value={ac.nombre}
               onChange={(e) => onChange(i, "nombre", e.target.value)}
-              className="flex-1 bg-transparent font-sans font-light text-[#1A1A1A] placeholder:text-[#1A1A1A]/30 focus:outline-none"
+              className="flex-1 bg-transparent font-sans font-light text-[#2A2A2A] placeholder:text-[#2A2A2A]/30 focus:outline-none"
               style={{ fontSize: "var(--text-body)" }}
               placeholder={`Nombre del acompañante ${i + 1}`}
             />
             <button
               type="button"
               onClick={() => onRemove(i)}
-              className="flex-shrink-0 rounded-lg p-1.5 text-[#1A1A1A]/30 transition-all duration-200 hover:bg-red-50 hover:text-red-400"
+              className="flex-shrink-0 rounded-lg p-1.5 text-[#2A2A2A]/30 transition-all duration-200 hover:bg-red-50 hover:text-red-400"
               aria-label="Eliminar acompañante"
             >
               <Trash2 size={13} />
@@ -270,7 +271,7 @@ function Step2({ acompañantes, onAdd, onRemove, onChange, errors }: Step2Props)
       <button
         type="button"
         onClick={onAdd}
-        className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-dashed border-[#C5A059]/30 py-3.5 font-sans font-light text-[#C5A059] transition-all duration-300 hover:border-[#C5A059] hover:bg-[#C5A059]/5"
+        className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-dashed border-[#8B4542]/30 py-3.5 font-sans font-light text-[#8B4542] transition-all duration-300 hover:border-[#8B4542] hover:bg-[#8B4542]/5"
         style={{ fontSize: "var(--text-small)" }}
       >
         <Plus size={14} />
@@ -295,13 +296,13 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
     <div className="step-panel space-y-5">
       <div className="text-center space-y-2">
         <h3
-          className="font-serif font-light text-[#1A1A1A]"
+          className="font-serif font-light text-[#2A2A2A]"
           style={{ fontSize: "var(--text-heading-md)" }}
         >
           Alergias y restricciones
         </h3>
         <p
-          className="font-sans font-light text-[#1A1A1A]/60"
+          className="font-sans font-light text-[#2A2A2A]/60"
           style={{ fontSize: "var(--text-body)" }}
         >
           Para que el menú sea perfecto para todos.
@@ -312,22 +313,22 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
         {todos.map((persona, i) => (
           <div
             key={i}
-            className="rounded-xl border border-[#C5A059]/15 overflow-hidden"
+            className="rounded-xl border border-[#8B4542]/15 overflow-hidden"
           >
             {/* Cabecera acordeón */}
             <button
               type="button"
               onClick={() => setExpandido(expandido === i ? -1 : i)}
-              className="w-full flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-[#C5A059]/5 transition-colors duration-200"
+              className="w-full flex items-center justify-between px-4 py-3 bg-white/50 hover:bg-[#8B4542]/5 transition-colors duration-200"
             >
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#C5A059]/15 flex items-center justify-center flex-shrink-0">
-                  <span className="font-serif text-xs text-[#C5A059]">
+                <div className="w-6 h-6 rounded-full bg-[#8B4542]/15 flex items-center justify-center flex-shrink-0">
+                  <span className="font-serif text-xs text-[#8B4542]">
                     {persona.nombre ? persona.nombre.charAt(0).toUpperCase() : "?"}
                   </span>
                 </div>
                 <span
-                  className="font-sans font-light text-[#1A1A1A] text-left truncate max-w-[160px]"
+                  className="font-sans font-light text-[#2A2A2A] text-left truncate min-w-0 max-w-[140px] sm:max-w-[160px]"
                   style={{ fontSize: "var(--text-body)" }}
                 >
                   {persona.nombre || `Persona ${i + 1}`}
@@ -335,13 +336,13 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
               </div>
               <div className="flex items-center gap-2">
                 {persona.dieta.alergias.length > 0 && (
-                  <span className="rounded-full bg-[#C5A059]/20 px-2 py-0.5 font-sans text-[0.65rem] text-[#C5A059]">
+                  <span className="rounded-full bg-[#8B4542]/20 px-2 py-0.5 font-sans text-[0.65rem] text-[#8B4542]">
                     {persona.dieta.alergias.length}
                   </span>
                 )}
                 <ChevronRight
                   size={14}
-                  className={`text-[#1A1A1A]/40 transition-transform duration-300 ${
+                  className={`text-[#2A2A2A]/40 transition-transform duration-300 ${
                     expandido === i ? "rotate-90" : ""
                   }`}
                 />
@@ -357,15 +358,15 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
                       key={opt.id}
                       className={`flex cursor-pointer items-center gap-2 rounded-lg border p-2.5 transition-all duration-200 ${
                         persona.dieta.alergias.includes(opt.id)
-                          ? "border-[#C5A059]/40 bg-[#C5A059]/10"
-                          : "border-[#1A1A1A]/8 bg-white/50 hover:border-[#C5A059]/20"
+                          ? "border-[#8B4542]/40 bg-[#8B4542]/10"
+                          : "border-[#2A2A2A]/8 bg-white/50 hover:border-[#8B4542]/20"
                       }`}
                     >
                       <div
                         className={`flex-shrink-0 w-4 h-4 rounded border flex items-center justify-center transition-all duration-200 ${
                           persona.dieta.alergias.includes(opt.id)
-                            ? "bg-[#C5A059] border-[#C5A059]"
-                            : "border-[#1A1A1A]/20"
+                            ? "bg-[#8B4542] border-[#8B4542]"
+                            : "border-[#2A2A2A]/20"
                         }`}
                       >
                         {persona.dieta.alergias.includes(opt.id) && (
@@ -379,7 +380,7 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
                         onChange={() => onToggleAlergia(i, opt.id)}
                       />
                       <span
-                        className="font-sans font-light text-[#1A1A1A] leading-tight"
+                        className="font-sans font-light text-[#2A2A2A] leading-tight"
                         style={{ fontSize: "0.7rem" }}
                       >
                         {opt.label}
@@ -392,7 +393,7 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
                   type="text"
                   value={persona.dieta.notas_medicas}
                   onChange={(e) => onChangeNotas(i, e.target.value)}
-                  className="input-editorial w-full rounded-xl border border-[#C5A059]/20 bg-white/60 px-3.5 py-2.5 font-sans font-light text-[#1A1A1A] placeholder:text-[#1A1A1A]/30 focus:border-[#C5A059] focus:outline-none"
+                  className="input-editorial w-full rounded-xl border border-[#8B4542]/20 bg-white/60 px-3.5 py-2.5 font-sans font-light text-[#2A2A2A] placeholder:text-[#2A2A2A]/30 focus:border-[#8B4542] focus:outline-none"
                   style={{ fontSize: "0.8rem" }}
                   placeholder="Otras alergias o enfermedades alimentarias…"
                 />
@@ -405,14 +406,63 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
   );
 }
 
+// ── Step 4: Canciones (salero y alegría) ──────────────────────────────
+
+interface Step4Props {
+  canciones: string;
+  onChange: (value: string) => void;
+}
+
+function Step4({ canciones, onChange }: Step4Props) {
+  return (
+    <div className="step-panel space-y-6">
+      <div className="text-center space-y-3">
+        <div className="mx-auto w-14 h-14 rounded-full bg-[#8B4542]/15 flex items-center justify-center">
+          <Music size={28} className="text-[#8B4542]" />
+        </div>
+        <h3
+          className="font-serif font-light text-[#2A2A2A]"
+          style={{ fontSize: "var(--text-heading-md)" }}
+        >
+          ¡La guinda del pastel!
+        </h3>
+        <p
+          className="font-sans font-light text-[#2A2A2A]/60"
+          style={{ fontSize: "var(--text-body)" }}
+        >
+          ¿Qué canción no puede faltar en la pista? Sugiérenos títulos o artistas que te harían bailar seguro.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <label
+          htmlFor="canciones"
+          className="block font-sans text-xs tracking-widest uppercase text-[#2A2A2A]/60"
+        >
+          Canción o canciones (opcional)
+        </label>
+        <textarea
+          id="canciones"
+          value={canciones}
+          onChange={(e) => onChange(e.target.value)}
+          rows={3}
+          className="input-editorial w-full rounded-xl border border-[#8B4542]/25 bg-white/70 px-4 py-3.5 font-sans font-light text-[#2A2A2A] placeholder:text-[#2A2A2A]/30 focus:border-[#8B4542] focus:outline-none focus:bg-white resize-none"
+          style={{ fontSize: "var(--text-body)" }}
+          placeholder=""
+        />
+      </div>
+    </div>
+  );
+}
+
 // ── Success Screen ───────────────────────────────────────────────────
 
 function SuccessScreen() {
   return (
     <div className="step-panel space-y-8 text-center py-6">
       {/* Icono animado */}
-      <div className="mx-auto w-16 h-16 rounded-full border-2 border-[#C5A059] flex items-center justify-center">
-        <Check size={28} className="text-[#C5A059]" />
+      <div className="mx-auto w-16 h-16 rounded-full border-2 border-[#8B4542] flex items-center justify-center">
+        <Check size={28} className="text-[#8B4542]" />
       </div>
 
       {/* Logo */}
@@ -426,29 +476,45 @@ function SuccessScreen() {
 
       <div className="space-y-2">
         <h3
-          className="font-serif font-light text-[#1A1A1A]"
+          className="font-serif font-light text-[#2A2A2A]"
           style={{ fontSize: "var(--text-heading-md)" }}
         >
           Gracias por confirmar
         </h3>
         <p
-          className="font-sans font-light text-[#1A1A1A]/60 max-w-xs mx-auto"
+          className="font-sans font-light text-[#2A2A2A]/60 max-w-xs mx-auto"
           style={{ fontSize: "var(--text-body)" }}
         >
           Hemos recibido tu respuesta. Nos vemos el{" "}
-          <span className="text-[#C5A059]">{EVENT_CONFIG.fechaLegible}</span>.
+          <span className="text-[#8B4542]">{EVENT_CONFIG.fechaLegible}</span>.
         </p>
       </div>
 
       <div className="divider-gold w-32 mx-auto" />
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         <p
-          className="font-sans text-xs tracking-widest uppercase text-[#1A1A1A]/40"
+          className="font-sans font-light text-[#2A2A2A]/70 max-w-sm mx-auto"
+          style={{ fontSize: "var(--text-body)" }}
         >
-          Guarda la fecha
+          ¿Vienes de fuera y necesitas ayuda para encontrar alojamiento?{" "}
+          <a
+            href="#hoteles"
+            className="text-[#8B4542] underline underline-offset-2 hover:no-underline transition-colors"
+          >
+            Consulta nuestras recomendaciones de hoteles
+          </a>
+          .
         </p>
-        <AddToCalendarButton />
+
+        <div className="space-y-3">
+          <p
+            className="font-sans text-xs tracking-widest uppercase text-[#2A2A2A]/40"
+          >
+            Guarda la fecha
+          </p>
+          <AddToCalendarButton />
+        </div>
       </div>
     </div>
   );
@@ -463,6 +529,7 @@ export default function RSVPForm() {
     es_acompañante: false,
   });
   const [acompañantes, setAcompañantes] = useState<InvitadoForm[]>([]);
+  const [cancionesSugeridas, setCancionesSugeridas] = useState("");
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [estado, setEstado] = useState<"idle" | "enviando" | "ok">("idle");
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
@@ -495,9 +562,9 @@ export default function RSVPForm() {
     setStep(2);
   };
 
-  // ── Submit final
+  // ── Submit final (incluye canciones sugeridas)
   const handleSubmit = async () => {
-    const data = { invitados: todosInvitados };
+    const data = { invitados: todosInvitados, cancionesSugeridas: cancionesSugeridas.trim() || undefined };
     const result = rsvpFormSchema.safeParse(data);
 
     if (!result.success) {
@@ -578,7 +645,7 @@ export default function RSVPForm() {
 
   if (estado === "ok") return <SuccessScreen />;
 
-  const STEP_LABELS = ["Asistencia", "Acompañantes", "Menú"];
+  const STEP_LABELS = ["Asistencia", "Acompañantes", "Menú", "¡La fiesta!"];
 
   return (
     <>
@@ -591,23 +658,23 @@ export default function RSVPForm() {
         />
       )}
 
-      <div className="rounded-2xl border border-[#C5A059]/15 bg-white/50 backdrop-blur-sm p-6 sm:p-10 shadow-sm shadow-[#C5A059]/5">
+      <div className="rounded-2xl border border-[#8B4542]/15 bg-white/50 backdrop-blur-sm p-4 sm:p-10 shadow-sm shadow-[#8B4542]/5 overflow-x-hidden">
 
         {/* Header del formulario */}
         <div className="text-center mb-8 space-y-1">
           {isMockMode() && (
-            <span className="inline-block rounded-full bg-[#C5A059]/15 px-3 py-1 font-sans text-[0.65rem] tracking-wide text-[#C5A059] mb-3">
+            <span className="inline-block rounded-full bg-[#8B4542]/15 px-3 py-1 font-sans text-[0.65rem] tracking-wide text-[#8B4542] mb-3">
               Modo simulación · sin Firebase
             </span>
           )}
           <h2
-            className="font-serif font-light text-[#1A1A1A]"
+            className="font-serif font-light text-[#2A2A2A]"
             style={{ fontSize: "var(--text-heading-lg)" }}
           >
             {EVENT_CONFIG.textos.rsvpTitulo}
           </h2>
           <p
-            className="font-sans font-light text-[#1A1A1A]/50"
+            className="font-sans font-light text-[#2A2A2A]/50"
             style={{ fontSize: "var(--text-small)" }}
           >
             Antes del {EVENT_CONFIG.textos.rsvpFechaLimite}
@@ -615,7 +682,8 @@ export default function RSVPForm() {
         </div>
 
         {/* Step indicator */}
-        <StepIndicator current={step} total={3} labels={STEP_LABELS} />
+        <StepIndicator current={step} total={4} labels={STEP_LABELS} />
+        {/* En móvil: labels abreviados para evitar overflow */}
 
         {/* Contenido por paso */}
         {step === 0 && (
@@ -641,27 +709,33 @@ export default function RSVPForm() {
             onChangeNotas={changeNotas}
           />
         )}
+        {step === 3 && (
+          <Step4
+            canciones={cancionesSugeridas}
+            onChange={setCancionesSugeridas}
+          />
+        )}
 
-        {/* Navegación */}
-        <div className="mt-10 flex items-center justify-between gap-4">
+        {/* Navegación — en móvil: botones apilados para evitar overflow; touch targets 44px; pb-safe para teclado virtual */}
+        <div className="mt-10 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pb-[env(safe-area-inset-bottom,0px)]">
           {step > 0 ? (
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
-              className="flex items-center gap-2 rounded-xl border border-[#1A1A1A]/15 px-5 py-3 font-sans font-light text-[#1A1A1A]/60 transition-all duration-200 hover:border-[#1A1A1A]/30 hover:text-[#1A1A1A]"
+              className="flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-[#2A2A2A]/15 px-5 py-3 font-sans font-light text-[#2A2A2A]/60 transition-all duration-200 hover:border-[#2A2A2A]/30 hover:text-[#2A2A2A] touch-manipulation"
               style={{ fontSize: "var(--text-small)" }}
             >
               <ChevronLeft size={14} /> Anterior
             </button>
           ) : (
-            <div />
+            <div className="hidden sm:block" />
           )}
 
-          {step < 2 ? (
+          {step < 3 ? (
             <button
               type="button"
-              onClick={step === 0 ? handleNextStep1 : handleNextStep2}
-              className="btn-primary flex items-center gap-2 rounded-xl bg-[#1A1A1A] px-8 py-3 font-sans font-light text-[#F9F7F2] relative z-10"
+              onClick={step === 0 ? handleNextStep1 : step === 1 ? handleNextStep2 : () => setStep(3)}
+              className="btn-primary flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2A2A2A] px-8 py-3 font-sans font-light text-[#F9F8F6] relative z-10 touch-manipulation"
               style={{ fontSize: "var(--text-small)" }}
             >
               Siguiente <ChevronRight size={14} />
@@ -671,7 +745,7 @@ export default function RSVPForm() {
               type="button"
               onClick={handleSubmit}
               disabled={estado === "enviando"}
-              className="btn-primary flex items-center gap-2 rounded-xl bg-[#1A1A1A] px-8 py-3 font-sans font-light text-[#F9F7F2] disabled:opacity-50 relative z-10"
+              className="btn-primary flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2A2A2A] px-6 sm:px-8 py-3 font-sans font-light text-[#F9F8F6] disabled:opacity-50 relative z-10 touch-manipulation"
               style={{ fontSize: "var(--text-small)" }}
             >
               {estado === "enviando" ? (
@@ -681,7 +755,9 @@ export default function RSVPForm() {
                 </>
               ) : (
                 <>
-                  Confirmar asistencia <Check size={14} />
+                  <span className="sm:hidden">Confirmar</span>
+                  <span className="hidden sm:inline">Confirmar asistencia</span>
+                  <Check size={14} className="flex-shrink-0" />
                 </>
               )}
             </button>

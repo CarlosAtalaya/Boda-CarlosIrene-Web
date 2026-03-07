@@ -1,47 +1,63 @@
 ---
 /**
- * Footer editorial con logo ambient, contacto WhatsApp y copyright.
+ * Footer editorial — fondo claro para mejor legibilidad del contacto.
  */
 import WhatsAppButton from '../WhatsAppButton';
 import { EVENT_CONFIG } from '../../lib/event-config';
+
+const { novios, textos } = EVENT_CONFIG;
 ---
 
-<footer class="border-t border-[#C5A059]/15 px-6 py-16">
-  <div class="mx-auto max-w-xl">
+<footer class="bg-[#F3EFEA] border-t border-[#E8E3D9] text-[#2A2A2A] px-6 py-20 sm:py-24">
+  <div class="mx-auto max-w-xl text-center">
 
-    <!-- Logo -->
-    <div class="flex justify-center mb-8">
+    <!-- Eyebrow -->
+    <p class="font-sans text-xs uppercase tracking-[0.3em] text-[#8B4542] mb-6">
+      Contacto
+    </p>
+
+    <!-- Mensaje principal -->
+    <h2 class="font-serif text-3xl sm:text-4xl italic mb-8 text-[#2A2A2A]" style="font-size: var(--text-heading-lg);">
+      ¿Dudas? Estamos a tu disposición
+    </h2>
+
+    <!-- Logo principal del branding (grande, protagonista al final) -->
+    <div class="flex flex-col items-center gap-4 mb-10">
       <img
         src="/branding-logo.png"
-        alt="Irene y Carlos"
-        width="64"
-        height="64"
-        class="w-12 h-12 object-contain opacity-40"
+        alt={`${novios.ella} y ${novios.el}`}
+        aria-hidden="true"
+        width="200"
+        height="200"
+        class="w-72 h-72 sm:w-96 sm:h-96 md:w-[30rem] md:h-[30rem] object-contain opacity-70"
         loading="lazy"
       />
+      <p class="font-serif text-2xl tracking-[0.2em] text-[#8B4542]">
+        {novios.ella}
+        <span class="text-[#2A2A2A] font-light mx-1">&</span>
+        {novios.el}
+      </p>
     </div>
-
-    <!-- Divider -->
-    <div class="divider-gold mb-8"></div>
 
     <!-- Texto y contacto -->
-    <div class="flex flex-col items-center gap-6 text-center">
-      <p
-        class="font-serif italic text-[#1A1A1A]/60"
-        style="font-size: var(--text-body);"
-      >
-        {EVENT_CONFIG.textos.footerTexto}
-      </p>
+    <p
+      class="font-serif italic text-[#2A2A2A]/70 mb-8"
+      style="font-size: var(--text-body);"
+    >
+      {textos.footerTexto}
+    </p>
 
-      <WhatsAppButton client:load flotante={false} />
-
-      <p
-        class="font-sans text-[#1A1A1A]/30 tracking-widest"
-        style="font-size: var(--text-small);"
-      >
-        {EVENT_CONFIG.textos.footerCopyright}
-      </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+      <WhatsAppButton client:load flotante={false} contacto="carlos" />
+      <WhatsAppButton client:load flotante={false} contacto="irene" />
     </div>
+
+    <p
+      class="font-sans text-[#2A2A2A]/50 tracking-widest mt-8"
+      style="font-size: var(--text-small);"
+    >
+      {textos.footerCopyright}
+    </p>
 
   </div>
 </footer>

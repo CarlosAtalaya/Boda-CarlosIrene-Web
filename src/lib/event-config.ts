@@ -25,6 +25,8 @@ export const EVENT_CONFIG = {
   lugar: "Laberinto del Rey",
   lugarDireccion: "Toledo, España",
   coordenadas: "39.863237277761776, -4.00678011642759",
+  /** Web oficial del restaurante/venue */
+  lugarWeb: "https://www.laberintodelrey.com/",
 
   // ── Programa del día ──────────────────────────────────────────────
   programa: [
@@ -35,7 +37,19 @@ export const EVENT_CONFIG = {
     { hora: "00:00", descripcion: "Baile nupcial y fiesta" },
   ],
 
+  // ── Hoteles recomendados (para invitados de fuera) ───────────────────
+  hoteles: [
+    { nombre: "Hotel Cigarral El Bosque", enlace: "https://www.cigarralebosque.com/", descripcion: "A 5 min del centro, vistas al Tajo" },
+    { nombre: "Parador de Toledo", enlace: "https://www.parador.es/es/paradores/parador-de-toledo", descripcion: "Emblemático, vistas panorámicas" },
+    { nombre: "Eugenia de Montijo", enlace: "https://www.eugeniademontijo.com/", descripcion: "Centro histórico, estilo boutique" },
+  ],
+
   // ── Contacto ───────────────────────────────────────────────────────
+  contacto: {
+    carlos: { numero: "34673153863", mensaje: "Hola, tengo una consulta sobre la boda de Irene y Carlos." },
+    irene: { numero: "34658640737", mensaje: "Hola Irene, tengo una consulta sobre la boda." },
+  },
+  /** @deprecated Usar contacto.carlos */
   whatsappNumero: "34673153863",
   whatsappMensaje: "Hola, tengo una consulta sobre la boda de Irene y Carlos.",
 
