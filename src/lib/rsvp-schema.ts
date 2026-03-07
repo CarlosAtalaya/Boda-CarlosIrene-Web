@@ -3,11 +3,13 @@
  */
 import { z } from "zod";
 
-/** Opciones de alergias/restricciones dietéticas */
 export const ALERGIAS_OPCIONES = [
-  { id: "celiaco", label: "Celíaco" },
+  { id: "celiaco", label: "Celíaco / Sin gluten" },
   { id: "lactosa", label: "Intolerante a la Lactosa" },
-  { id: "vegano", label: "Vegano/Vegetariano" },
+  { id: "vegano", label: "Vegano / Vegetariano" },
+  { id: "frutos_secos", label: "Alérgico a Frutos Secos" },
+  { id: "marisco", label: "Alérgico a Marisco" },
+  { id: "huevo", label: "Alérgico al Huevo" },
   { id: "embarazada", label: "Embarazada (protocolo específico)" },
 ] as const;
 
@@ -32,17 +34,12 @@ export const rsvpFormSchema = z.object({
     .refine(
       (inv) => inv.every((i) => i.nombre.trim().length > 0),
       "Todos los invitados deben tener nombre"
-    )
-    .refine(
-      (inv) => inv.some((i) => i.confirmado === true || i.confirmado === false),
-      "Debe indicarse la asistencia de al menos un invitado"
     ),
 });
 
 export type InvitadoForm = z.infer<typeof invitadoSchema>;
 export type RSVPFormData = z.infer<typeof rsvpFormSchema>;
 
-/** Convierte los datos del formulario al formato Firestore */
 export function toFirestorePayload(data: RSVPFormData) {
   return {
     invitados: data.invitados.map((i) => ({

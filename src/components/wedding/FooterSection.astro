@@ -1,0 +1,47 @@
+---
+/**
+ * Footer editorial con logo ambient, contacto WhatsApp y copyright.
+ */
+import WhatsAppButton from '../WhatsAppButton';
+import { EVENT_CONFIG } from '../../lib/event-config';
+---
+
+<footer class="border-t border-[#C5A059]/15 px-6 py-16">
+  <div class="mx-auto max-w-xl">
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-8">
+      <img
+        src="/branding-logo.png"
+        alt="Irene y Carlos"
+        width="64"
+        height="64"
+        class="w-12 h-12 object-contain opacity-40"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Divider -->
+    <div class="divider-gold mb-8"></div>
+
+    <!-- Texto y contacto -->
+    <div class="flex flex-col items-center gap-6 text-center">
+      <p
+        class="font-serif italic text-[#1A1A1A]/60"
+        style="font-size: var(--text-body);"
+      >
+        {EVENT_CONFIG.textos.footerTexto}
+      </p>
+
+      <WhatsAppButton client:load flotante={false} />
+
+      <p
+        class="font-sans text-[#1A1A1A]/30 tracking-widest"
+        style="font-size: var(--text-small);"
+      >
+        {EVENT_CONFIG.textos.footerCopyright}
+      </p>
+    </div>
+
+  </div>
+</footer>

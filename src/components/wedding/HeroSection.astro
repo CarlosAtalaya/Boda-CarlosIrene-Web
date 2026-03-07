@@ -1,0 +1,89 @@
+---
+/**
+ * Hero — Sección de apertura con logo, nombres y fecha.
+ * Scroll-driven animations + tipografía fluida.
+ */
+import { EVENT_CONFIG } from '../../lib/event-config';
+
+const { novios, fechaCorta, textos } = EVENT_CONFIG;
+---
+
+<section
+  class="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden"
+>
+  <!-- Fondo decorativo: líneas doradas sutiles -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.04]"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full border border-[#C5A059]"
+    ></div>
+    <div
+      class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full border border-[#C5A059]"
+    ></div>
+    <div
+      class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-full border border-[#C5A059]"
+    ></div>
+  </div>
+
+  <!-- Logo branding -->
+  <figure class="mb-12 relative z-10">
+    <img
+      src="/branding-logo.png"
+      alt={`${novios.ella} y ${novios.el} — ${fechaCorta}`}
+      width="160"
+      height="160"
+      class="logo-ambient w-[120px] sm:w-[140px] md:w-[160px] h-auto object-contain"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </figure>
+
+  <!-- Eyebrow -->
+  <p
+    class="font-sans text-[0.7rem] tracking-[0.35em] uppercase text-[#C5A059] mb-6 relative z-10"
+    style="font-size: var(--text-small);"
+  >
+    Os invitan a su boda
+  </p>
+
+  <!-- Título principal — tipografía fluida -->
+  <h1
+    class="font-serif font-light text-center tracking-tight text-[#1A1A1A] leading-none relative z-10 mb-6"
+    style="font-size: var(--text-display);"
+  >
+    {novios.ella}
+    <span class="block italic text-[#C5A059]">&amp;</span>
+    {novios.el}
+  </h1>
+
+  <!-- Subtítulo -->
+  <p
+    class="font-sans font-light text-center text-[#1A1A1A]/70 max-w-xs sm:max-w-sm mx-auto leading-relaxed relative z-10"
+    style="font-size: var(--text-body);"
+  >
+    {textos.rsvpSubtitulo}
+  </p>
+
+  <!-- Separador -->
+  <div class="my-10 relative z-10 flex items-center gap-4 w-full max-w-xs">
+    <div class="flex-1 divider-gold"></div>
+    <span class="font-serif text-[#C5A059] text-lg italic">✦</span>
+    <div class="flex-1 divider-gold"></div>
+  </div>
+
+  <!-- Fecha -->
+  <p
+    class="font-serif italic tracking-[0.2em] text-[#1A1A1A]/60 relative z-10"
+    style="font-size: var(--text-heading-md);"
+  >
+    {fechaCorta}
+  </p>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+    <span class="font-sans text-[0.65rem] tracking-[0.25em] uppercase text-[#1A1A1A]">Desliza</span>
+    <div class="w-px h-10 bg-gradient-to-b from-[#C5A059] to-transparent"></div>
+  </div>
+</section>

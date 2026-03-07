@@ -1,10 +1,229 @@
 @import "tailwindcss";
 
-/* Sistema de diseño: fuentes y colores editoriales */
+/* ── Sistema de diseño ─────────────────────────────────────────────── */
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --color-crema: #F9F7F2;
   --color-acento: #1A1A1A;
   --color-oro: #C5A059;
+  --color-oro-light: #E8D4A8;
+  --color-oro-dark: #9A7A3A;
+}
+
+/* ── Tipografía fluida ──────────────────────────────────────────────── */
+:root {
+  --text-display: clamp(3rem, 8vw + 1rem, 8rem);
+  --text-heading-xl: clamp(2rem, 4vw + 0.5rem, 4.5rem);
+  --text-heading-lg: clamp(1.5rem, 2.5vw + 0.5rem, 3rem);
+  --text-heading-md: clamp(1.2rem, 1.5vw + 0.4rem, 2rem);
+  --text-body-lg: clamp(1rem, 0.8vw + 0.5rem, 1.25rem);
+  --text-body: clamp(0.875rem, 0.5vw + 0.5rem, 1.125rem);
+  --text-small: clamp(0.75rem, 0.3vw + 0.4rem, 0.875rem);
+
+  --spacing-section: clamp(4rem, 8vw, 8rem);
+  --spacing-section-sm: clamp(2rem, 4vw, 4rem);
+}
+
+/* ── Scroll-driven animations ───────────────────────────────────────── */
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.reveal-up {
+  animation: revealUp linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 30%;
+}
+
+.reveal-fade {
+  animation: revealFade linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 25%;
+}
+
+.reveal-line {
+  transform-origin: left;
+  animation: lineGrow linear both;
+  animation-timeline: view();
+  animation-range: entry 5% entry 25%;
+}
+
+/* ── Micro-interacciones globales ───────────────────────────────────── */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #C5A059 0%, #9A7A3A 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(197, 160, 89, 0.25); }
+.btn-primary:active { transform: translateY(0); }
+
+/* Borde animado en inputs */
+.input-editorial {
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.input-editorial:focus {
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+}
+
+/* ── Ornamento tipográfico ──────────────────────────────────────────── */
+.ornament::before,
+.ornament::after {
+  content: '—';
+  margin: 0 0.75rem;
+  color: #C5A059;
+  font-family: "Cormorant Garamond", serif;
+}
+
+/* ── Separador dorado ───────────────────────────────────────────────── */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #C5A059 30%, #C5A059 70%, transparent 100%);
+  opacity: 0.4;
+}
+
+/* ── Logo flotante ──────────────────────────────────────────────────── */
+.logo-ambient {
+  animation: floatSubtle 6s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(197, 160, 89, 0.2));
+}
+
+/* ── Grain texture overlay ──────────────────────────────────────────── */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── View Transitions ───────────────────────────────────────────────── */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 300ms ease both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 300ms ease both fade-in;
+}
+
+@keyframes fade-out {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* ── Step progress ──────────────────────────────────────────────────── */
+.step-dot {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-dot.active {
+  background: #C5A059;
+  box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.2);
+}
+
+.step-dot.completed {
+  background: #1A1A1A;
+}
+
+/* ── Form step transitions ──────────────────────────────────────────── */
+.step-panel {
+  animation: stepIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Acompañante card transitions ───────────────────────────────────── */
+@keyframes guestIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.guest-card {
+  animation: guestIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* ── Toast notification ─────────────────────────────────────────────── */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(1rem) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(1rem) scale(0.95); }
+}
+
+.toast-enter { animation: toastIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.toast-exit { animation: toastOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+/* ── Scrollbar personalizado ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #F9F7F2; }
+::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #9A7A3A; }
+
+/* ── Selección de texto ─────────────────────────────────────────────── */
+::selection {
+  background: rgba(197, 160, 89, 0.25);
+  color: #1A1A1A;
 }

@@ -1,0 +1,65 @@
+---
+/**
+ * Sección de ubicación con enlace a Google Maps.
+ */
+import { MapPin } from 'lucide-react';
+import { EVENT_CONFIG } from '../../lib/event-config';
+
+const { lugar, lugarDireccion, coordenadas, textos } = EVENT_CONFIG;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordenadas)}`;
+---
+
+<section class="px-6 py-[var(--spacing-section)]">
+  <div class="mx-auto max-w-2xl">
+
+    <!-- Header -->
+    <div class="reveal-up text-center mb-12">
+      <p class="font-sans text-[0.7rem] tracking-[0.35em] uppercase text-[#C5A059] mb-4">
+        Dónde celebramos
+      </p>
+      <h2 class="font-serif font-light" style="font-size: var(--text-heading-xl);">
+        {textos.ubicacionTitulo}
+      </h2>
+    </div>
+
+    <!-- Tarjeta de ubicación -->
+    <div class="reveal-up relative rounded-2xl overflow-hidden border border-[#C5A059]/20 bg-white/60 backdrop-blur-sm p-8 sm:p-12 text-center">
+
+      <!-- Ornamento superior -->
+      <div class="divider-gold mb-8 reveal-line"></div>
+
+      <!-- Logo pequeño -->
+      <img
+        src="/branding-logo.png"
+        alt="Logo boda"
+        width="60"
+        height="60"
+        class="w-12 h-12 object-contain mx-auto mb-6 opacity-30"
+        loading="lazy"
+      />
+
+      <h3 class="font-serif" style="font-size: var(--text-heading-lg);">{lugar}</h3>
+      <p class="mt-2 font-sans font-light text-[#1A1A1A]/60" style="font-size: var(--text-body);">
+        {lugarDireccion}
+      </p>
+      <p class="mt-4 font-sans font-light text-[#1A1A1A]/70 max-w-sm mx-auto leading-relaxed" style="font-size: var(--text-body);">
+        {textos.ubicacionTexto}
+      </p>
+
+      <!-- Botón -->
+      <a
+        href={mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-8 inline-flex items-center gap-3 rounded-full border border-[#C5A059] px-8 py-3 font-sans font-light text-[#1A1A1A] transition-all duration-300 hover:bg-[#C5A059] hover:text-white hover:shadow-lg hover:shadow-[#C5A059]/20 hover:-translate-y-0.5"
+        style="font-size: var(--text-small);"
+      >
+        <MapPin size={14} />
+        Ver en Google Maps
+      </a>
+
+      <!-- Ornamento inferior -->
+      <div class="divider-gold mt-8 reveal-line"></div>
+    </div>
+  </div>
+</section>

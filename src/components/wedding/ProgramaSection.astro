@@ -1,0 +1,57 @@
+---
+/**
+ * Sección del programa del día — Timeline elegante.
+ */
+import { EVENT_CONFIG } from '../../lib/event-config';
+const { programa, fechaLegible, lugar, lugarDireccion } = EVENT_CONFIG;
+---
+
+<section class="px-6 py-[var(--spacing-section)] bg-[#1A1A1A] text-[#F9F7F2]">
+  <div class="mx-auto max-w-2xl">
+
+    <!-- Header -->
+    <div class="reveal-up text-center mb-16">
+      <p class="font-sans text-[0.7rem] tracking-[0.35em] uppercase text-[#C5A059] mb-4">
+        El gran día
+      </p>
+      <h2 class="font-serif font-light" style="font-size: var(--text-heading-xl);">
+        Programa
+      </h2>
+      <p class="mt-3 font-sans font-light text-[#F9F7F2]/60" style="font-size: var(--text-body);">
+        {fechaLegible} · {lugar}
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <ol class="relative">
+      {programa.map((item, i) => (
+        <li class="reveal-up flex gap-6 sm:gap-10 pb-10 last:pb-0 relative">
+          <!-- Línea vertical -->
+          {i < programa.length - 1 && (
+            <div class="absolute left-[3.25rem] sm:left-[4.25rem] top-8 bottom-0 w-px bg-gradient-to-b from-[#C5A059]/40 to-transparent"></div>
+          )}
+
+          <!-- Hora -->
+          <div class="flex-shrink-0 w-14 sm:w-20 text-right">
+            <span class="font-serif italic text-[#C5A059]" style="font-size: var(--text-body);">
+              {item.hora}
+            </span>
+          </div>
+
+          <!-- Punto -->
+          <div class="flex-shrink-0 mt-1">
+            <div class="w-2 h-2 rounded-full bg-[#C5A059] ring-4 ring-[#C5A059]/15"></div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="pb-2">
+            <p class="font-sans font-light text-[#F9F7F2]/90 leading-relaxed" style="font-size: var(--text-body);">
+              {item.descripcion}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+  </div>
+</section>
