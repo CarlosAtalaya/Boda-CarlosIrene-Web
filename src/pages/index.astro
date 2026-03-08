@@ -8,9 +8,9 @@ import HeroSection from '../components/wedding/HeroSection.astro';
 import ProgramaSection from '../components/wedding/ProgramaSection.astro';
 import UbicacionSection from '../components/wedding/UbicacionSection.astro';
 import HotelesSection from '../components/wedding/HotelesSection.astro';
+import MusicaSection from '../components/wedding/MusicaSection.astro';
 import RSVPSection from '../components/wedding/RSVPSection.astro';
 import FooterSection from '../components/wedding/FooterSection.astro';
-import WhatsAppButton from '../components/WhatsAppButton';
 ---
 
 <Layout title="Irene y Carlos — Nos casamos" description="Bienvenidos a nuestra boda. Irene y Carlos tienen el honor de invitaros a celebrar con nosotros.">
@@ -18,10 +18,7 @@ import WhatsAppButton from '../components/WhatsAppButton';
   <ProgramaSection />
   <UbicacionSection />
   <RSVPSection />
+  <MusicaSection />
   <HotelesSection />
   <FooterSection />
-
-  <!-- Botones flotantes WhatsApp (Carlos e Irene) -->
-  <WhatsAppButton client:load flotante={true} contacto="carlos" />
-  <WhatsAppButton client:load flotante={true} contacto="irene" bottomOffset={72} />
 </Layout>

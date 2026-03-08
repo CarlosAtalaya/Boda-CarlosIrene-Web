@@ -1,43 +1,111 @@
-# Astro Starter Kit: Minimal
+# Web de Boda — Irene & Carlos
 
-```sh
-npm create astro@latest -- --template minimal
+Web de boda de alta distinción y protocolo en España. Estilo editorial, paleta burdeos/crema. Desplegada en Firebase Hosting con Firestore como backend.
+
+## Stack tecnológico
+
+- **Framework**: Astro 5.x (SSG)
+- **UI interactiva**: React 19 + `@astrojs/react` (islas)
+- **Estilos**: Tailwind CSS v4 (`@tailwindcss/vite`)
+- **Backend**: Firebase 11 — Firestore + Hosting
+- **Validación**: Zod 3.x
+- **Iconografía**: Lucide-react
+
+## Estructura del proyecto
+
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
 ├── public/
+│   ├── branding-logo.png          # Logo principal del evento
+│   └── fotos-restaurante/         # Imágenes del venue (o urls-imagenes.txt con enlaces Google Maps)
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/
+│   │   ├── wedding/               # Secciones de la web
+│   │   │   ├── HeroSection.astro
+│   │   │   ├── ProgramaSection.astro
+│   │   │   ├── UbicacionSection.astro
+│   │   │   ├── RSVPSection.astro
+│   │   │   ├── MusicaSection.astro + MusicaSection.tsx
+│   │   │   ├── HotelesSection.astro
+│   │   │   └── FooterSection.astro
+│   │   ├── forms/
+│   │   │   └── RSVPForm.tsx       # Formulario multi-paso (3 pasos)
+│   │   ├── AddToCalendarButton.tsx
+│   │   ├── WhatsAppButton.tsx
+│   │   └── Navbar.tsx
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── lib/
+│   │   ├── event-config.ts        # Fuente de verdad del evento (editar aquí)
+│   │   ├── rsvp-schema.ts         # Zod + ALERGIAS_OPCIONES + toFirestorePayload
+│   │   ├── firebase.ts
+│   │   ├── calendar.ts            # URL Google Calendar
+│   │   ├── venue-images.ts        # Imágenes del lugar (local o Google)
+│   │   └── ...
+│   ├── pages/
+│   │   └── index.astro
+│   └── styles/
+│       └── global.css             # @theme, tipografía fluida, animaciones
+├── firestore.rules
+├── firebase.json
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Flujo de la web
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. **Hero** — Invitación, nombres, fecha, CTA a RSVP
+2. **Programa** — Timeline del día
+3. **Ubicación** — Dónde & Cuándo, galería del lugar, enlaces Maps/web
+4. **RSVP** — Confirmación de asistencia (nombre, acompañantes, alergias/restricciones)
+5. **Música** — Recomendaciones de canciones (sin identificar al remitente)
+6. **Hoteles** — Recomendaciones para invitados de fuera
+7. **Footer** — Logo, contacto (Carlos e Irene vía WhatsApp)
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Colecciones Firestore
 
-## 🧞 Commands
+| Colección | Uso |
+|-----------|-----|
+| `respuestas_boda` | Confirmaciones RSVP (invitados, alergias, etc.) |
+| `recomendaciones_musicales` | Sugerencias de canciones (anónimas) |
 
-All commands are run from the root of the project, from a terminal:
+## Configuración
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Variables de entorno (`.env`)
 
-## 👀 Want to learn more?
+```
+PUBLIC_FIREBASE_API_KEY=
+PUBLIC_FIREBASE_AUTH_DOMAIN=
+PUBLIC_FIREBASE_PROJECT_ID=
+PUBLIC_FIREBASE_STORAGE_BUCKET=
+PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+PUBLIC_FIREBASE_APP_ID=
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Sin credenciales, el modo simulación activa `console.log` en lugar de escribir en Firestore.
+
+### Fuente de verdad del evento
+
+Todo el contenido editable está en `src/lib/event-config.ts`:
+
+- Novios, fecha, lugar, programa
+- Hoteles recomendados (nombre, enlace, descripción, dirección, teléfono, coordenadas)
+- Contacto WhatsApp (Carlos e Irene por separado)
+- Textos UI
+
+## Comandos
+
+| Comando | Acción |
+|---------|--------|
+| `npm install` | Instalar dependencias |
+| `npm run dev` | Desarrollo en `http://localhost:4321` (o IP de red con `--host`) |
+| `npm run build` | Build de producción en `./dist/` |
+| `npm run preview` | Preview del build local |
+| `firebase deploy` | Desplegar a Firebase (Hosting + Firestore rules) |
+
+## Despliegue
+
+```bash
+npm run build
+firebase deploy
+```
+
+El contenido estático se sirve desde Firebase Hosting; Firestore almacena RSVP y recomendaciones musicales.

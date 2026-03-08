@@ -6,7 +6,8 @@ import { z } from "zod";
 export const ALERGIAS_OPCIONES = [
   { id: "celiaco", label: "Celíaco / Sin gluten" },
   { id: "lactosa", label: "Intolerante a la Lactosa" },
-  { id: "vegano", label: "Vegano / Vegetariano" },
+  { id: "vegetariano", label: "Vegetariano" },
+  { id: "vegano", label: "Vegano" },
   { id: "frutos_secos", label: "Alérgico a Frutos Secos" },
   { id: "marisco", label: "Alérgico a Marisco" },
   { id: "huevo", label: "Alérgico al Huevo" },
@@ -35,15 +36,13 @@ export const rsvpFormSchema = z.object({
       (inv) => inv.every((i) => i.nombre.trim().length > 0),
       "Todos los invitados deben tener nombre"
     ),
-  /** Canciones sugeridas por el invitado (opcional, paso final con salero) */
-  cancionesSugeridas: z.string().optional(),
 });
 
 export type InvitadoForm = z.infer<typeof invitadoSchema>;
 export type RSVPFormData = z.infer<typeof rsvpFormSchema>;
 
 export function toFirestorePayload(data: RSVPFormData) {
-  const payload: Record<string, unknown> = {
+  return {
     invitados: data.invitados.map((i) => ({
       nombre: i.nombre.trim(),
       confirmado: i.confirmado,
@@ -55,8 +54,4 @@ export function toFirestorePayload(data: RSVPFormData) {
     })),
     createdAt: new Date().toISOString(),
   };
-  if (data.cancionesSugeridas?.trim()) {
-    payload.cancionesSugeridas = data.cancionesSugeridas.trim();
-  }
-  return payload;
 }

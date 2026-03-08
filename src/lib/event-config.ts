@@ -39,14 +39,35 @@ export const EVENT_CONFIG = {
 
   // ── Hoteles recomendados (para invitados de fuera) ───────────────────
   hoteles: [
-    { nombre: "Hotel Cigarral El Bosque", enlace: "https://www.cigarralebosque.com/", descripcion: "A 5 min del centro, vistas al Tajo" },
-    { nombre: "Parador de Toledo", enlace: "https://www.parador.es/es/paradores/parador-de-toledo", descripcion: "Emblemático, vistas panorámicas" },
-    { nombre: "Eugenia de Montijo", enlace: "https://www.eugeniademontijo.com/", descripcion: "Centro histórico, estilo boutique" },
+    {
+      nombre: "Hotel Princesa Galiana",
+      enlace: "http://hotelprincesagaliana.com/",
+      descripcion: "El más cercano al lugar de la celebración",
+      direccion: "P.º de la Rosa, 58, 45006 Toledo",
+      telefono: "925 257 200",
+      coordenadas: "39.86213069950938, -4.012770656862215",
+    },
+    {
+      nombre: "Hotel Medina",
+      enlace: "https://www.hotelmedina.com/?utm_source=google&utm_medium=business&utm_campaign=maps",
+      descripcion: "En el casco histórico",
+      direccion: "Bajada Desamparados, 2, 45003 Toledo",
+      telefono: "925 699 999",
+      coordenadas: "39.86170031159682, -4.021746230857924",
+    },
+    {
+      nombre: "Hotel Zentral Mayoral",
+      enlace: "http://www.hotelzentraltoledo.com/",
+      descripcion: "Frente a la estación de autobuses, a 250 m del casco antiguo",
+      direccion: "Av. Castilla-La Mancha, 3, 45003 Toledo",
+      telefono: "925 216 000",
+      coordenadas: "39.865045180943525, -4.020575877388362",
+    },
   ],
 
   // ── Contacto ───────────────────────────────────────────────────────
   contacto: {
-    carlos: { numero: "34673153863", mensaje: "Hola, tengo una consulta sobre la boda de Irene y Carlos." },
+    carlos: { numero: "34673153863", mensaje: "Hola Carlos, tengo una consulta sobre la boda." },
     irene: { numero: "34658640737", mensaje: "Hola Irene, tengo una consulta sobre la boda." },
   },
   /** @deprecated Usar contacto.carlos */

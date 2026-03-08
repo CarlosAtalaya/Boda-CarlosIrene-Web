@@ -1,4 +1,5 @@
 # ROL Y CONTEXTO
+
 Actúa como un Ingeniero Full-Stack Senior y Diseñador de UX especializado en estilo "Editorial".
 El proyecto es una web de boda de alta distinción y protocolo en España.
 El usuario es un desarrollador Backend/Python; proporciona explicaciones claras sobre el estado del Frontend y el ecosistema de Node.js cuando sea necesario.
@@ -18,223 +19,177 @@ El usuario es un desarrollador Backend/Python; proporciona explicaciones claras 
 
 ---
 
-# ARQUITECTURA DE FICHEROS (CANÓNICA)
+# ARQUITECTURA DE FICHEROS (ACTUAL)
 
 ```
 src/
 ├── components/
-│   ├── wedding/                  ← Secciones estáticas (.astro) — sin JS de cliente
-│   │   ├── HeroSection.astro
-│   │   ├── ProgramaSection.astro
-│   │   ├── UbicacionSection.astro
-│   │   ├── RSVPSection.astro     ← Wrapper .astro que monta RSVPForm con client:load
-│   │   └── FooterSection.astro
+│   ├── wedding/                   ← Secciones de la web
+│   │   ├── HeroSection.astro      ← Hero con logo, nombres, fecha, CTA
+│   │   ├── ProgramaSection.astro  ← Timeline del día
+│   │   ├── UbicacionSection.astro ← Dónde & Cuándo, galería fotos venue
+│   │   ├── RSVPSection.astro      ← Wrapper que monta RSVPForm (client:load)
+│   │   ├── MusicaSection.astro    ← Wrapper para MusicaSection.tsx
+│   │   ├── MusicaSection.tsx      ← Recomendaciones musicales (anónimas)
+│   │   ├── HotelesSection.astro   ← Hoteles recomendados (nombre, enlace, direccion, tlf, mapa)
+│   │   └── FooterSection.astro    ← Logo, contacto Carlos e Irene (WhatsApp inline)
 │   ├── forms/
-│   │   └── RSVPForm.tsx          ← Isla React interactiva (formulario multi-paso)
+│   │   └── RSVPForm.tsx           ← Formulario RSVP 3 pasos (Asistencia, Acompañantes, Menú)
 │   ├── AddToCalendarButton.tsx
-│   └── WhatsAppButton.tsx
+│   ├── WhatsAppButton.tsx         ← Solo inline en footer (flotante=false). Sin FABs.
+│   └── Navbar.tsx
 ├── layouts/
-│   └── Layout.astro              ← HTML base, fuentes Google, grain overlay, meta tags
+│   └── Layout.astro
 ├── lib/
-│   ├── event-config.ts           ← ÚNICA fuente de verdad del evento (fechas, textos, config)
-│   ├── rsvp-schema.ts            ← Zod schemas + tipos + toFirestorePayload()
-│   ├── calendar.ts               ← Generador de URL para Google Calendar
-│   └── firebase.ts               ← Inicialización lazy de Firebase App + Firestore
+│   ├── event-config.ts            ← ÚNICA fuente de verdad del evento
+│   ├── rsvp-schema.ts             ← Zod, ALERGIAS_OPCIONES, toFirestorePayload
+│   ├── firebase.ts
+│   ├── calendar.ts
+│   └── venue-images.ts            ← Lee public/fotos-restaurante/ (imágenes locales o urls-imagenes.txt)
 ├── pages/
-│   └── index.astro               ← Orquesta todas las secciones, sin lógica propia
+│   └── index.astro                ← Orquesta: Hero, Programa, Ubicación, RSVP, Música, Hoteles, Footer
 ├── styles/
-│   └── global.css                ← @theme Tailwind v4, tipografía fluida, scroll animations
-└── env.d.ts                      ← Tipos de ImportMetaEnv para variables PUBLIC_FIREBASE_*
+│   └── global.css
+└── env.d.ts
 ```
 
-**Regla de oro**: si un componente no necesita `useState` o event listeners, debe ser un fichero `.astro`, no `.tsx`.
+**Regla de oro**: si un componente no necesita `useState` o event listeners, debe ser `.astro`, no `.tsx`.
 
 ---
 
-# SISTEMA DE DISEÑO (IMPLEMENTADO)
+# SISTEMA DE DISEÑO (ACTUAL)
 
-## Paleta de colores
+## Paleta de colores (burdeos, crema, rosado empolvado)
 
-| Token         | Hex       | Uso                                        |
-|---------------|-----------|--------------------------------------------|
-| Crema / Fondo | `#F9F7F2` | Background global, inputs                  |
-| Oro Mate      | `#C5A059` | Acentos, bordes, iconos, CTA               |
-| Oro Claro     | `#E8D4A8` | Hover states, fills suaves                 |
-| Oro Oscuro    | `#9A7A3A` | Degradados, hover de botones               |
-| Carbono       | `#1A1A1A` | Texto, sección Programa (fondo)            |
-| Verde WA      | `#25D366` | Exclusivo botón WhatsApp                   |
+| Token         | Hex       | Uso                                      |
+|---------------|-----------|------------------------------------------|
+| Crema / Fondo | `#F9F8F6` | Background global, inputs                |
+| Crema alt     | `#F3EFEA` | Footer, secciones alternas               |
+| Burdeos       | `#8B4542` | Acentos, bordes, iconos, CTA, primario   |
+| Rosado empolvado | `#D9C5C5` | Bordes suaves, acentos secundarios    |
+| Texto         | `#2A2A2A` | Texto principal                          |
+| Verde WA      | `#25D366` | Botón WhatsApp (footer)                  |
 
 ## Tipografía fluida (variables CSS en `:root`)
 
-Nunca usar tamaños de fuente fijos en Tailwind para headings. Usar las variables definidas en `global.css`:
-
 ```css
---text-display        /* clamp(3rem, 8vw + 1rem, 8rem)          — hero H1  */
---text-heading-xl     /* clamp(2rem, 4vw + 0.5rem, 4.5rem)                  */
---text-heading-lg     /* clamp(1.5rem, 2.5vw + 0.5rem, 3rem)                */
---text-heading-md     /* clamp(1.2rem, 1.5vw + 0.4rem, 2rem)                */
---text-body-lg        /* clamp(1rem, 0.8vw + 0.5rem, 1.25rem)               */
---text-body           /* clamp(0.875rem, 0.5vw + 0.5rem, 1.125rem)          */
---text-small          /* clamp(0.75rem, 0.3vw + 0.4rem, 0.875rem)           */
+--text-display    /* Hero H1 */
+--text-heading-xl, --text-heading-lg, --text-heading-md
+--text-body-lg, --text-body, --text-small
 ```
 
-Aplicar en JSX/TSX como `style={{ fontSize: "var(--text-body)" }}`.
-En `.astro` como `style="font-size: var(--text-heading-xl);"`.
+Familias: Cormorant Garamond (serif) para títulos; Inter (sans) para UI y body.
 
-## Familias tipográficas
+## Clases CSS clave (global.css)
 
-- **Serif** (`font-serif`): Cormorant Garamond — títulos, nombres, citas, elementos de alta distinción.
-- **Sans** (`font-sans`): Inter — UI funcional, labels, body text, botones.
-- Los `font-weight` preferidos son `300` (light) y `400` (regular). Evitar bold salvo eyebrows y labels de formulario.
-
-## Espaciado de sección
-
-Usar variables CSS para padding vertical consistente:
-
-- `py-[var(--spacing-section)]` — secciones principales
-- `py-[var(--spacing-section-sm)]` — secciones secundarias
+- `.reveal-up`, `.reveal-fade`, `.reveal-line` — Scroll-driven animations
+- `.btn-primary` — Botones primarios (hover con pseudo-elemento; contenido con z-index explícito)
+- `.input-editorial` — Focus ring burdeos
+- `.step-dot`, `.step-panel`, `.guest-card`, `.toast-enter` — Formulario RSVP
 
 ---
 
-# CLASES CSS UTILITARIAS (definidas en global.css)
+# ORDEN DE SECCIONES (index.astro)
 
-| Clase              | Efecto                                                          |
-|--------------------|-----------------------------------------------------------------|
-| `.reveal-up`       | Scroll-driven: aparece subiendo al entrar en viewport           |
-| `.reveal-fade`     | Scroll-driven: fade-in al entrar en viewport                    |
-| `.reveal-line`     | Scroll-driven: línea que crece horizontalmente                  |
-| `.logo-ambient`    | Float animation suave + drop-shadow dorado                      |
-| `.divider-gold`    | Línea de 1px degradada transparente → oro → transparente        |
-| `.ornament`        | Pseudo-elementos `—` dorados a ambos lados del texto            |
-| `.grain`           | Textura grain sobre `body` via `::after` (z-index: 9999)        |
-| `.btn-primary`     | Hover con gradiente dorado, elevación sutil                     |
-| `.input-editorial` | Focus ring dorado + transición suave de borde                   |
-| `.step-dot`        | Dot de progreso del stepper con transiciones                    |
-| `.step-panel`      | Animación `stepIn` (translateX + opacity) en cada paso          |
-| `.guest-card`      | Animación `guestIn` al añadir acompañante                       |
-| `.toast-enter`     | Animación de entrada del Toast de notificación                  |
-| `.toast-exit`      | Animación de salida del Toast                                   |
+1. HeroSection
+2. ProgramaSection
+3. UbicacionSection
+4. RSVPSection
+5. MusicaSection
+6. HotelesSection
+7. FooterSection
+
+**Sin botones flotantes de WhatsApp.** Contacto solo en footer (Carlos e Irene inline).
 
 ---
 
-# COMPONENTE RSVP — ARQUITECTURA MULTI-PASO
+# FUENTE DE VERDAD: event-config.ts
 
-`RSVPForm.tsx` contiene los siguientes sub-componentes internos:
-
-```
-RSVPForm (estado global del formulario)
-├── StepIndicator     — Dots de progreso + labels (Asistencia, Acompañantes, Menú)
-├── Step1             — Nombre + botones Sí/No asistencia (card seleccionable)
-├── Step2             — Lista dinámica de acompañantes (añadir/quitar con animación)
-├── Step3             — Acordeón por persona para alergias y restricciones
-├── Toast             — Notificación flotante de error/éxito
-└── SuccessScreen     — Pantalla de confirmación + AddToCalendarButton (recompensa visual)
-```
-
-## Flujo de datos interno
-
-1. El estado vive en `RSVPForm` como `principal: InvitadoForm` + `acompañantes: InvitadoForm[]`.
-2. En submit, se fusionan en `todosInvitados = [principal, ...acompañantes]`.
-3. Se valida con `rsvpFormSchema.safeParse()` antes de escribir en Firestore.
-4. `toFirestorePayload()` normaliza los datos y añade `createdAt: ISO string`.
-
-## Modo simulación
-
-`isMockMode()` devuelve `true` si `PUBLIC_FIREBASE_API_KEY` está vacía. En ese caso el submit hace `console.log` en lugar de escribir en Firestore. Útil para desarrollar sin credenciales activas.
-
----
-
-# LÓGICA DE NEGOCIO (RSVP Y ALERGIAS)
-
-## Colección Firestore: `respuestas_boda`
-
-```typescript
-// Documento guardado por toFirestorePayload()
-{
-  createdAt: string,          // ISO 8601
-  invitados: Array<{
-    nombre: string,           // Trimmed, obligatorio
-    confirmado: boolean,
-    dieta: {
-      alergias: string[],     // IDs de ALERGIAS_OPCIONES
-      notas_medicas: string   // Free text, trimmed
-    },
-    es_acompañante: boolean
-  }>
-}
-```
-
-## Opciones de alergias (definidas en `rsvp-schema.ts`)
-
-`celiaco` | `lactosa` | `vegano` | `frutos_secos` | `marisco` | `huevo` | `embarazada`
-
-## Reglas Firestore (`firestore.rules`)
-
-- `read: false` — privacidad total de respuestas
-- `create/update: true` — cualquier cliente puede escribir
-- `delete: false` — sin borrado desde cliente
-
----
-
-# FUENTE DE VERDAD DEL EVENTO
-
-**Todo texto, fecha o dato del evento vive en `src/lib/event-config.ts`. Nunca hardcodear strings de contenido en componentes.**
+**Nunca hardcodear contenido en componentes. Todo en `event-config.ts`.**
 
 ```typescript
 EVENT_CONFIG.novios.ella / .el / .titulo / .subtitulo
-EVENT_CONFIG.fechaLegible           // "26 de junio de 2026"
-EVENT_CONFIG.fechaCorta             // "26 · 06 · 26"
-EVENT_CONFIG.fecha / .fechaFin      // "20260626" / "20260627" (formato Google Calendar)
-EVENT_CONFIG.horaInicio / .horaFin  // "190000" / "040000"
-EVENT_CONFIG.lugar / .lugarDireccion / .coordenadas
-EVENT_CONFIG.programa[]             // Array de { hora: string, descripcion: string }
-EVENT_CONFIG.whatsappNumero / .whatsappMensaje
-EVENT_CONFIG.textos.*               // Todos los literales de UI
+EVENT_CONFIG.fechaLegible, .fechaCorta, .fecha, .fechaFin
+EVENT_CONFIG.horaInicio, .horaFin
+EVENT_CONFIG.lugar, .lugarDireccion, .coordenadas, .lugarWeb
+EVENT_CONFIG.programa[]                    // { hora, descripcion }
+EVENT_CONFIG.hoteles[]                     // { nombre, enlace, descripcion, direccion?, telefono?, coordenadas? }
+EVENT_CONFIG.contacto.carlos / .irene     // { numero, mensaje }
+EVENT_CONFIG.textos.*
 ```
+
+---
+
+# RSVP Y LÓGICA DE NEGOCIO
+
+## RSVPForm — 3 pasos
+
+1. **Step1**: Nombre + Sí/No asistencia
+2. **Step2**: Acompañantes (añadir/quitar)
+3. **Step3**: Alergias y restricciones por persona (acordeón)
+
+Colección Firestore: `respuestas_boda`. Campos: `invitados[]`, `createdAt`.
+
+## ALERGIAS_OPCIONES (rsvp-schema.ts)
+
+`celiaco` | `lactosa` | `vegetariano` | `vegano` | `frutos_secos` | `marisco` | `huevo` | `embarazada`
+
+**Vegetariano y vegano son opciones separadas.**
+
+---
+
+# MUSICA SECTION
+
+- Sección independiente entre RSVP y Hoteles.
+- Cualquiera puede enviar sugerencias sin identificarse.
+- Colección Firestore: `recomendaciones_musicales` — `{ sugerencias, createdAt }`.
+
+---
+
+# HOTELES
+
+Cada hotel en `event-config.hoteles` puede tener: `nombre`, `enlace`, `descripcion`, `direccion`, `telefono`, `coordenadas`. HotelesSection muestra web, mapa (Google Maps) y teléfono si existen.
+
+---
+
+# CONTACTO WHATSAPP
+
+- `EVENT_CONFIG.contacto.carlos` y `.irene` — mensajes individuales ("Hola Carlos..." / "Hola Irene...").
+- WhatsAppButton: solo `flotante=false` en footer. Dos botones: "Hablar con Carlos" y "Hablar con Irene".
+- **No hay FABs flotantes.**
 
 ---
 
 # INTEGRACIONES EXTERNAS
 
-- **Google Calendar**: URL generada en `src/lib/calendar.ts` con `URLSearchParams`. Aparece en `SuccessScreen` como recompensa visual tras confirmar el RSVP.
-- **Google Maps**: URL directa `maps/search/?api=1&query={coordenadas}` construida en `UbicacionSection.astro`.
-- **WhatsApp**: `wa.me/{numero}?text={mensaje}` en `WhatsAppButton.tsx`. Dos modos: `flotante=true` (FAB circular fijo bottom-right) / `flotante=false` (inline en footer).
+- **Google Calendar**: `src/lib/calendar.ts` — aparece en SuccessScreen tras confirmar RSVP.
+- **Google Maps**: `maps/search/?api=1&query={coordenadas}` para ubicación y hoteles.
+- **Imágenes del venue**: `venue-images.ts` — prioriza archivos en `public/fotos-restaurante/`, fallback a `urls-imagenes.txt` (URLs Google Maps).
 
 ---
 
-# VIEW TRANSITIONS Y ANIMACIONES
+# MODO SIMULACIÓN
 
-## View Transitions (CSS nativo)
-
-Activadas en `global.css` con `@view-transition { navigation: auto }`. Las transiciones de entrada/salida se definen con `::view-transition-old(root)` y `::view-transition-new(root)` usando keyframes `fade-out` / `fade-in` de 300ms.
-
-## Scroll-driven Animations (CSS nativo, sin JS)
-
-Implementadas con `animation-timeline: view()` y `animation-range: entry 0% entry 30%`. No requieren IntersectionObserver ni librerías externas. Las clases `.reveal-up`, `.reveal-fade` y `.reveal-line` se aplican directamente en los elementos `.astro`.
-
-## Animaciones de componentes React
-
-Las animaciones de los elementos interactivos (step transitions, guest cards, toasts) se definen como keyframes en `global.css` y se aplican como clases CSS desde los componentes TSX.
+`isMockMode()` (en RSVPForm y MusicaSection) devuelve `true` si `PUBLIC_FIREBASE_API_KEY` está vacía. Entonces se hace `console.log` en lugar de escribir en Firestore.
 
 ---
 
 # REGLAS DE IMPLEMENTACIÓN
 
-1. Cada cambio en `main` debe poder desplegarse con `firebase deploy` sin pasos extra.
-2. Usar exclusivamente Lucide-react para iconografía. Tamaños con prop `size={N}`.
-3. Todo el contenido de la interfaz en castellano elegante y formal. Sin tuteos salvo en mensajes de error conversacionales.
-4. Mobile-first obligatorio. La mayoría de invitados usarán móvil.
-5. Imágenes estáticas en `/public/`. El logo de branding es `/public/branding-logo.png` y debe aparecer de forma sutil y recurrente (opacidad reducida) en secciones clave sin ser dominante.
-6. No añadir dependencias de npm sin justificación explícita. El bundle debe mantenerse ligero.
-7. Las variables de entorno Firebase llevan prefijo `PUBLIC_` para exponerse al cliente en Astro.
+1. Despliegue con `firebase deploy` sin pasos extra.
+2. Solo Lucide-react para iconos.
+3. Contenido en castellano formal.
+4. Mobile-first obligatorio.
+5. Logo en `/public/branding-logo.png` — uso sutil (opacidad reducida).
+6. No añadir dependencias sin justificación.
+7. Variables Firebase con prefijo `PUBLIC_`.
 
 ---
 
 # COMPORTAMIENTO DEL AGENTE
 
-- Antes de sugerir código, verificar si el paquete necesario ya está en `package.json`.
-- Proporcionar comandos de terminal para entorno Linux/Ubuntu.
-- Explicar la arquitectura isla de Astro cuando se introduzcan nuevos componentes React, indicando por qué se usa `client:load` vs `client:visible` vs sin directiva.
-- Si el usuario comparte imágenes o diseños de Canva, analizarlos y traducirlos a clases de Tailwind respetando el sistema de diseño existente.
-- Cuando se proponga un nuevo componente, indicar siempre si debe ser `.astro` o `.tsx` y justificarlo.
-- No modificar `event-config.ts` sin confirmación explícita del usuario, ya que es la fuente de verdad del evento.
+- Verificar `package.json` antes de proponer nuevas dependencias.
+- Comandos de terminal para Linux/Ubuntu.
+- Explicar arquitectura isla de Astro al añadir componentes React.
+- Indicar si un componente debe ser `.astro` o `.tsx` y por qué.
+- **No modificar `event-config.ts` sin confirmación del usuario.**

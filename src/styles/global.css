@@ -80,8 +80,11 @@ html {
 /* ── Micro-interacciones globales ───────────────────────────────────── */
 .btn-primary {
   position: relative;
-  overflow: hidden;
   transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
 }
 
 .btn-primary::before {
@@ -91,6 +94,8 @@ html {
   background: linear-gradient(135deg, #8B4542 0%, #6d3532 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .btn-primary:hover::before { opacity: 1; }

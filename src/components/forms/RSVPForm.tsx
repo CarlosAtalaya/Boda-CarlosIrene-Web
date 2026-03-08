@@ -8,7 +8,7 @@
  */
 import { useState, useCallback } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { Plus, Trash2, ChevronRight, ChevronLeft, Check, AlertCircle, X, Music } from "lucide-react";
+import { Plus, Trash2, ChevronRight, ChevronLeft, Check, AlertCircle, X } from "lucide-react";
 import {
   rsvpFormSchema,
   toFirestorePayload,
@@ -406,55 +406,6 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
   );
 }
 
-// ── Step 4: Canciones (salero y alegría) ──────────────────────────────
-
-interface Step4Props {
-  canciones: string;
-  onChange: (value: string) => void;
-}
-
-function Step4({ canciones, onChange }: Step4Props) {
-  return (
-    <div className="step-panel space-y-6">
-      <div className="text-center space-y-3">
-        <div className="mx-auto w-14 h-14 rounded-full bg-[#8B4542]/15 flex items-center justify-center">
-          <Music size={28} className="text-[#8B4542]" />
-        </div>
-        <h3
-          className="font-serif font-light text-[#2A2A2A]"
-          style={{ fontSize: "var(--text-heading-md)" }}
-        >
-          ¡La guinda del pastel!
-        </h3>
-        <p
-          className="font-sans font-light text-[#2A2A2A]/60"
-          style={{ fontSize: "var(--text-body)" }}
-        >
-          ¿Qué canción no puede faltar en la pista? Sugiérenos títulos o artistas que te harían bailar seguro.
-        </p>
-      </div>
-
-      <div className="space-y-2">
-        <label
-          htmlFor="canciones"
-          className="block font-sans text-xs tracking-widest uppercase text-[#2A2A2A]/60"
-        >
-          Canción o canciones (opcional)
-        </label>
-        <textarea
-          id="canciones"
-          value={canciones}
-          onChange={(e) => onChange(e.target.value)}
-          rows={3}
-          className="input-editorial w-full rounded-xl border border-[#8B4542]/25 bg-white/70 px-4 py-3.5 font-sans font-light text-[#2A2A2A] placeholder:text-[#2A2A2A]/30 focus:border-[#8B4542] focus:outline-none focus:bg-white resize-none"
-          style={{ fontSize: "var(--text-body)" }}
-          placeholder=""
-        />
-      </div>
-    </div>
-  );
-}
-
 // ── Success Screen ───────────────────────────────────────────────────
 
 function SuccessScreen() {
@@ -529,7 +480,6 @@ export default function RSVPForm() {
     es_acompañante: false,
   });
   const [acompañantes, setAcompañantes] = useState<InvitadoForm[]>([]);
-  const [cancionesSugeridas, setCancionesSugeridas] = useState("");
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [estado, setEstado] = useState<"idle" | "enviando" | "ok">("idle");
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
@@ -562,9 +512,9 @@ export default function RSVPForm() {
     setStep(2);
   };
 
-  // ── Submit final (incluye canciones sugeridas)
+  // ── Submit final
   const handleSubmit = async () => {
-    const data = { invitados: todosInvitados, cancionesSugeridas: cancionesSugeridas.trim() || undefined };
+    const data = { invitados: todosInvitados };
     const result = rsvpFormSchema.safeParse(data);
 
     if (!result.success) {
@@ -645,7 +595,7 @@ export default function RSVPForm() {
 
   if (estado === "ok") return <SuccessScreen />;
 
-  const STEP_LABELS = ["Asistencia", "Acompañantes", "Menú", "¡La fiesta!"];
+  const STEP_LABELS = ["Asistencia", "Acompañantes", "Menú"];
 
   return (
     <>
@@ -682,7 +632,7 @@ export default function RSVPForm() {
         </div>
 
         {/* Step indicator */}
-        <StepIndicator current={step} total={4} labels={STEP_LABELS} />
+        <StepIndicator current={step} total={3} labels={STEP_LABELS} />
         {/* En móvil: labels abreviados para evitar overflow */}
 
         {/* Contenido por paso */}
@@ -709,12 +659,6 @@ export default function RSVPForm() {
             onChangeNotas={changeNotas}
           />
         )}
-        {step === 3 && (
-          <Step4
-            canciones={cancionesSugeridas}
-            onChange={setCancionesSugeridas}
-          />
-        )}
 
         {/* Navegación — en móvil: botones apilados para evitar overflow; touch targets 44px; pb-safe para teclado virtual */}
         <div className="mt-10 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pb-[env(safe-area-inset-bottom,0px)]">
@@ -731,34 +675,34 @@ export default function RSVPForm() {
             <div className="hidden sm:block" />
           )}
 
-          {step < 3 ? (
+          {step < 2 ? (
             <button
               type="button"
-              onClick={step === 0 ? handleNextStep1 : step === 1 ? handleNextStep2 : () => setStep(3)}
-              className="btn-primary flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2A2A2A] px-8 py-3 font-sans font-light text-[#F9F8F6] relative z-10 touch-manipulation"
+              onClick={step === 0 ? handleNextStep1 : handleNextStep2}
+              className="btn-primary flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2A2A2A] px-8 py-3 font-sans font-light text-[#F9F8F6] touch-manipulation"
               style={{ fontSize: "var(--text-small)" }}
             >
-              Siguiente <ChevronRight size={14} />
+              <span className="inline-flex items-center gap-2 shrink-0">Siguiente <ChevronRight size={14} /></span>
             </button>
           ) : (
             <button
               type="button"
               onClick={handleSubmit}
               disabled={estado === "enviando"}
-              className="btn-primary flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2A2A2A] px-6 sm:px-8 py-3 font-sans font-light text-[#F9F8F6] disabled:opacity-50 relative z-10 touch-manipulation"
+              className="btn-primary flex min-h-[44px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2A2A2A] px-6 sm:px-8 py-3 font-sans font-light text-[#F9F8F6] disabled:opacity-50 touch-manipulation"
               style={{ fontSize: "var(--text-small)" }}
             >
               {estado === "enviando" ? (
-                <>
+                <span className="inline-flex items-center gap-2 shrink-0">
                   <span className="inline-block w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
                   Enviando…
-                </>
+                </span>
               ) : (
-                <>
+                <span className="inline-flex items-center gap-2 shrink-0">
                   <span className="sm:hidden">Confirmar</span>
                   <span className="hidden sm:inline">Confirmar asistencia</span>
                   <Check size={14} className="flex-shrink-0" />
-                </>
+                </span>
               )}
             </button>
           )}

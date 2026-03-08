@@ -2,10 +2,15 @@
 /**
  * Sección de hoteles recomendados para invitados de fuera.
  */
-import { MapPin } from 'lucide-react';
+import { MapPin, Phone, ExternalLink } from 'lucide-react';
 import { EVENT_CONFIG } from '../../lib/event-config';
 
 const { hoteles, lugar } = EVENT_CONFIG;
+
+function getMapsUrl(coords: string | undefined) {
+  if (!coords) return null;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coords)}`;
+}
 ---
 
 <section id="hoteles" class="py-16 sm:py-24 px-4 sm:px-6 bg-[#F9F8F6]">
@@ -24,31 +29,64 @@ const { hoteles, lugar } = EVENT_CONFIG;
     </div>
 
     <div class="space-y-4 sm:space-y-5">
-      {hoteles.map((hotel) => (
-        <a
-          href={hotel.enlace}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="block rounded-xl border border-[#D9C5C5] bg-white/80 p-4 sm:p-5 hover:border-[#8B4542] hover:bg-white transition-all duration-300 group"
-        >
-          <div class="flex items-start gap-3 sm:gap-4">
-            <span class="flex-shrink-0 mt-0.5 text-[#8B4542]">
-              <MapPin size={20} strokeWidth={1.5} />
-            </span>
-            <div class="min-w-0 flex-1">
-              <h3 class="font-serif text-lg sm:text-xl text-[#2A2A2A] group-hover:text-[#8B4542] transition-colors">
-                {hotel.nombre}
-              </h3>
-              <p class="font-sans font-light text-[#2A2A2A]/60 text-sm mt-1">
-                {hotel.descripcion}
-              </p>
+      {hoteles.map((hotel) => {
+        const mapsUrl = 'coordenadas' in hotel ? getMapsUrl(hotel.coordenadas) : null;
+        const direccion = 'direccion' in hotel ? hotel.direccion : null;
+        const telefono = 'telefono' in hotel ? hotel.telefono : null;
+        return (
+          <div class="rounded-xl border border-[#D9C5C5] bg-white/80 p-4 sm:p-5 hover:border-[#8B4542] hover:bg-white transition-all duration-300 group">
+            <div class="flex items-start gap-3 sm:gap-4">
+              <span class="flex-shrink-0 mt-0.5 text-[#8B4542]">
+                <MapPin size={20} strokeWidth={1.5} />
+              </span>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-serif text-lg sm:text-xl text-[#2A2A2A] group-hover:text-[#8B4542] transition-colors">
+                  {hotel.nombre}
+                </h3>
+                <p class="font-sans font-light text-[#2A2A2A]/60 text-sm mt-1">
+                  {hotel.descripcion}
+                </p>
+                {direccion && (
+                  <p class="font-sans font-light text-[#2A2A2A]/50 text-xs mt-2">
+                    {direccion}
+                  </p>
+                )}
+                <div class="flex flex-wrap gap-3 mt-2">
+                  <a
+                    href={hotel.enlace}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 text-[#8B4542] text-xs font-sans uppercase tracking-wider hover:underline"
+                  >
+                    <ExternalLink size={12} />
+                    Web
+                  </a>
+                  {mapsUrl && (
+                    <a
+                      href={mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 text-[#8B4542] text-xs font-sans uppercase tracking-wider hover:underline"
+                    >
+                      <MapPin size={12} />
+                      Mapa
+                    </a>
+                  )}
+                  {telefono && (
+                    <a
+                      href={`tel:${telefono.replace(/\s/g, '')}`}
+                      class="inline-flex items-center gap-1.5 text-[#8B4542] text-xs font-sans uppercase tracking-wider hover:underline"
+                    >
+                      <Phone size={12} />
+                      {telefono}
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
-            <span class="flex-shrink-0 text-[#8B4542] text-xs font-sans uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-              Ver →
-            </span>
           </div>
-        </a>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
