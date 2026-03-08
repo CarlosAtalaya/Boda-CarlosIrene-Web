@@ -2,9 +2,10 @@
 /**
  * Layout base de la web de boda.
  * Incluye fuentes Google (Cormorant Garamond + Inter),
- * paleta de colores editorial, grain overlay y Navbar.
+ * paleta de colores editorial, grain overlay, AccessGate y Navbar.
  */
 import '../styles/global.css';
+import AccessGate from '../components/AccessGate';
 import Navbar from '../components/Navbar';
 
 interface Props {
@@ -32,7 +33,9 @@ const { title = 'Irene y Carlos', description = 'Nos casamos' } = Astro.props;
     <title>{title}</title>
   </head>
   <body class="grain min-h-screen bg-[#F9F8F6] text-[#2A2A2A] font-sans antialiased">
-    <Navbar client:load />
-    <slot />
+    <AccessGate client:load>
+      <Navbar client:load />
+      <slot />
+    </AccessGate>
   </body>
 </html>

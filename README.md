@@ -72,6 +72,7 @@ Web de boda de alta distinción y protocolo en España. Estilo editorial, paleta
 ### Variables de entorno (`.env`)
 
 ```
+PUBLIC_ACCESS_CODE=              # Código de acceso para la web (vacío = gate desactivado)
 PUBLIC_FIREBASE_API_KEY=
 PUBLIC_FIREBASE_AUTH_DOMAIN=
 PUBLIC_FIREBASE_PROJECT_ID=
@@ -80,7 +81,8 @@ PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 PUBLIC_FIREBASE_APP_ID=
 ```
 
-Sin credenciales, el modo simulación activa `console.log` en lugar de escribir en Firestore.
+- **PUBLIC_ACCESS_CODE**: Si está definido, los visitantes deben introducir este código para acceder. Vacío = sin barrera (útil en desarrollo). La sesión expira al cerrar la pestaña y, como máximo, a los 7 días desde el primer acceso (siguiendo recomendaciones OWASP para apps de bajo riesgo).
+- Sin credenciales Firebase, el modo simulación activa `console.log` en lugar de escribir en Firestore.
 
 ### Fuente de verdad del evento
 

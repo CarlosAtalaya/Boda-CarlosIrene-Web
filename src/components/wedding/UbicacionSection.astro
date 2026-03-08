@@ -1,12 +1,13 @@
 ---
 /**
  * Sección Dónde & Cuándo — Estructura idéntica a plantilla.
- * Grid 2 cols: texto + iconos | galería de fotos del restaurante.
+ * Grid 2 cols: texto + iconos | galería carrusel de fotos del restaurante.
  */
 import { MapPin, Calendar, Clock, ExternalLink } from 'lucide-react';
 import { EVENT_CONFIG } from '../../lib/event-config';
 import { getVenueImageUrls } from '../../lib/venue-images';
 import AddToCalendarButton from '../AddToCalendarButton';
+import VenueGallery from './VenueGallery';
 
 const { lugar, lugarDireccion, coordenadas, fechaLegible, horaInicio, lugarWeb } = EVENT_CONFIG;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordenadas)}`;
@@ -82,44 +83,9 @@ const hora = `${horaInicio.slice(0,2)}:${horaInicio.slice(2,4)}`;
         </div>
       </div>
 
-      <!-- Galería de fotos del restaurante (enlace a web) -->
+      <!-- Galería carrusel: una imagen a la vez con flechas para navegar -->
       <div class="order-1 md:order-2 relative">
-        <a
-          href={lugarWeb}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="block w-full border border-[#D9C5C5] p-2 group"
-        >
-          {venueImages.length > 0 ? (
-            <div class="aspect-[4/5] w-full overflow-hidden bg-[#F3EFEA] relative">
-              {venueImages.length === 1 ? (
-                <img
-                  src={venueImages[0]}
-                  alt={`${lugar} — Fotografías del lugar`}
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              ) : (
-                <div class="grid grid-cols-2 gap-1 w-full h-full">
-                  {venueImages.slice(0, 4).map((src, i) => (
-                    <img
-                      src={src}
-                      alt={`${lugar} — Foto ${i + 1}`}
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
-                  ))}
-                </div>
-              )}
-              <div class="absolute inset-0 bg-black/5 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <span class="font-serif text-lg text-[#8B4542] italic absolute bottom-4 left-1/2 -translate-x-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">Conocer el lugar</span>
-            </div>
-          ) : (
-            <div class="aspect-[4/5] w-full bg-[#F3EFEA] relative flex items-center justify-center">
-              <span class="font-serif text-lg text-[#8B4542] italic">Fotos del lugar</span>
-            </div>
-          )}
-        </a>
+        <VenueGallery client:load images={venueImages} lugar={lugar} lugarWeb={lugarWeb} />
         <!-- Detalle estético superpuesto con el tono primario -->
         <div class="absolute -bottom-6 -left-6 w-32 h-32 border-b border-l border-[#8B4542] opacity-50 pointer-events-none"></div>
         <div class="absolute -top-6 -right-6 w-32 h-32 border-t border-r border-[#8B4542] opacity-50 pointer-events-none"></div>

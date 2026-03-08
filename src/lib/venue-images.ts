@@ -20,14 +20,14 @@ function buildGoogleImageUrl(photoId: string): string {
   return `https://lh3.googleusercontent.com/p/${photoId}=w800-h600`;
 }
 
-/** Obtiene URLs de imágenes: prioriza locales, fallback a Google */
+/** Obtiene URLs de imágenes: prioriza locales (WebP), fallback a Google. Orden numérico (01, 02, …) */
 export function getVenueImageUrls(): string[] {
   const localImages: string[] = [];
   try {
     const files = fs.readdirSync(PHOTOS_DIR);
     for (const f of files) {
       const ext = path.extname(f).toLowerCase();
-      if ([".jpg", ".jpeg", ".png", ".webp"].includes(ext)) {
+      if ([".webp", ".jpg", ".jpeg", ".png"].includes(ext)) {
         localImages.push(`/fotos-restaurante/${f}`);
       }
     }
@@ -36,7 +36,11 @@ export function getVenueImageUrls(): string[] {
   }
 
   if (localImages.length > 0) {
-    return localImages.sort();
+    return localImages.sort((a, b) => {
+      const na = parseInt(path.basename(a).replace(/\D/g, ""), 10) || 0;
+      const nb = parseInt(path.basename(b).replace(/\D/g, ""), 10) || 0;
+      return na - nb || a.localeCompare(b);
+    });
   }
 
   // Fallback: extraer de urls-imagenes.txt

@@ -8,6 +8,7 @@ export default defineConfig({
   // View Transitions se activan directamente en el Layout vía CSS @view-transition
   vite: {
     plugins: [tailwindcss()],
+    envPrefix: ['PUBLIC_', 'VITE_'],
     server: {
       host: true,
       port: 4321,

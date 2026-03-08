@@ -74,6 +74,16 @@ export const EVENT_CONFIG = {
   whatsappNumero: "34673153863",
   whatsappMensaje: "Hola, tengo una consulta sobre la boda de Irene y Carlos.",
 
+  // ── Puerta de acceso (código de invitación) ────────────────────────
+  accessGate: {
+    titulo: "Acceso a la invitación",
+    mensaje:
+      "Introduce el código de acceso que figura en tu invitación para acceder a la web.",
+    placeholder: "Código de acceso",
+    boton: "Entrar",
+    errorMensaje: "Código incorrecto. Por favor, inténtalo de nuevo.",
+  },
+
   // ── Textos UI ──────────────────────────────────────────────────────
   textos: {
     rsvpTitulo: "Confirmación de Asistencia",
