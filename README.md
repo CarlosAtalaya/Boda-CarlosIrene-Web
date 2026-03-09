@@ -111,3 +111,22 @@ firebase deploy
 ```
 
 El contenido estático se sirve desde Firebase Hosting; Firestore almacena RSVP y recomendaciones musicales.
+
+## Seguridad (headers y buenas prácticas)
+
+La web incluye headers HTTP de seguridad configurados para mitigar riesgos detectados por OWASP ZAP:
+
+| Header | Propósito |
+|--------|-----------|
+| **Content-Security-Policy** | Mitiga XSS e inyección de datos; restringe orígenes de scripts, estilos, imágenes y fuentes |
+| **X-Frame-Options: DENY** | Protección anti-clickjacking |
+| **X-Content-Type-Options: nosniff** | Evita MIME-sniffing |
+| **Cross-Origin-Embedder-Policy** | Aísla el documento de recursos cross-origin no autorizados |
+| **Cross-Origin-Opener-Policy** | Previene fugas de datos entre ventanas |
+| **Cross-Origin-Resource-Policy** | Protección frente a ataques tipo Spectre |
+| **Permissions-Policy** | Desactiva APIs del navegador no usadas (cámara, micrófono, etc.) |
+
+- **Producción**: headers definidos en `firebase.json` (Firebase Hosting).
+- **Desarrollo**: headers inyectados por `src/middleware.ts` (servidor Astro).
+
+Las fuentes (Cormorant Garamond, Inter) se sirven localmente vía `@fontsource` para evitar dependencias externas y cumplir Subresource Integrity (SRI).

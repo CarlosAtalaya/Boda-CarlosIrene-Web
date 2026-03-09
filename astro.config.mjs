@@ -12,6 +12,12 @@ export default defineConfig({
     server: {
       host: true,
       port: 4321,
+      headers: {
+        "X-Content-Type-Options": "nosniff",
+        "Cross-Origin-Resource-Policy": "same-origin",
+        "Permissions-Policy":
+          "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+      },
     },
   },
   integrations: [react()],

@@ -50,7 +50,7 @@ export default function VenueGallery({ images, lugar, lugarWeb }: VenueGalleryPr
           alt={`${lugar} — Foto ${current + 1} de ${total}`}
           className="w-full h-full object-cover object-center transition-opacity duration-300"
           loading={current === 0 ? "eager" : "lazy"}
-          fetchpriority={current === 0 ? "high" : undefined}
+          fetchPriority={current === 0 ? "high" : undefined}
         />
 
         {/* Flechas — visible en hover y siempre en touch */}
