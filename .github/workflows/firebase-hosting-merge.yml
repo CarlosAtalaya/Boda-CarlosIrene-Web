@@ -26,12 +26,3 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BODA_CARLOSIRENE_26JN }}
           channelId: live
           projectId: boda-carlosirene-26jn
-      - name: Deploy Firestore rules
-        env:
-          FIREBASE_SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BODA_CARLOSIRENE_26JN }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/sa.json
-        run: |
-          echo "$FIREBASE_SA" > sa.json
-          npx firebase-tools deploy --only firestore --non-interactive
-          rm -f sa.json
-        continue-on-error: true
