@@ -84,6 +84,8 @@ PUBLIC_FIREBASE_APP_ID=
 - **PUBLIC_ACCESS_CODE**: Si está definido, los visitantes deben introducir este código para acceder. Vacío = sin barrera (útil en desarrollo). La sesión expira al cerrar la pestaña y, como máximo, a los 7 días desde el primer acceso (siguiendo recomendaciones OWASP para apps de bajo riesgo).
 - Sin credenciales Firebase, el modo simulación activa `console.log` en lugar de escribir en Firestore.
 
+**Despliegue vía GitHub Actions:** El build en CI no tiene acceso a `.env`. Configura las mismas variables como [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) (Settings → Secrets → Actions) para que el deploy use Firebase y el código de acceso. Ver `CHECKLIST-PRE-LANZAMIENTO.md` para la guía completa.
+
 ### Fuente de verdad del evento
 
 Todo el contenido editable está en `src/lib/event-config.ts`:
