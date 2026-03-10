@@ -15,7 +15,7 @@ export const EVENT_CONFIG = {
   fecha: "20260626",
   fechaFin: "20260627",
   horaInicio: "190000",
-  horaFin: "040000",
+  horaFin: "050000",
   /** Fecha en formato legible para mostrar en la UI */
   fechaLegible: "26 de junio de 2026",
   /** Fecha en formato corto para el hero */
@@ -30,11 +30,10 @@ export const EVENT_CONFIG = {
 
   // ── Programa del día ──────────────────────────────────────────────
   programa: [
-    { hora: "18:30", descripcion: "Llegada y bienvenida de los invitados" },
     { hora: "19:00", descripcion: "Ceremonia civil" },
-    { hora: "20:30", descripcion: "Cóctel de bienvenida" },
-    { hora: "22:00", descripcion: "Cena de celebración" },
-    { hora: "00:00", descripcion: "Baile nupcial y fiesta" },
+    { hora: "20:00", descripcion: "Cóctel de bienvenida" },
+    { hora: "21:30", descripcion: "Cena de celebración" },
+    { hora: "00:00", descripcion: "Fiesta con barra libre" },
   ],
 
   // ── Hoteles recomendados (para invitados de fuera) ───────────────────
