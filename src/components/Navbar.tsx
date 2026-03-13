@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "#programa", label: "Programa" },
   { href: "#ubicacion", label: "Ubicación" },
   { href: "#rsvp", label: "Asistencia" },
+  { href: "#regalos", label: "Regalos" },
 ] as const;
 
 export default function Navbar() {

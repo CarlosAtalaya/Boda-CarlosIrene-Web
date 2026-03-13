@@ -1,9 +1,106 @@
 ---
 /**
  * Sección de recomendaciones musicales — Wrapper Astro para el formulario React.
- * Encima de hoteles, sin identificación del remitente.
+ * Si PUBLIC_SPOTIFY_PLAYLIST_ID está configurado, muestra una tarjeta editorial
+ * con portada real de la playlist vía oEmbed (build-time, sin iframe, sin CSP issues).
  */
-import MusicaSection from './MusicaSection';
+import MusicaSectionIsland from './MusicaSection';
+import { EVENT_CONFIG } from '../../lib/event-config';
+
+const playlistId = import.meta.env.PUBLIC_SPOTIFY_PLAYLIST_ID ?? "";
+// Enlace colaborativo (con ?pt=...) para que los invitados puedan añadir canciones.
+// Si no está definido, se usa el enlace normal de la playlist.
+const playlistCollabUrl = import.meta.env.PUBLIC_SPOTIFY_PLAYLIST_COLLAB_URL
+  || (playlistId ? `https://open.spotify.com/playlist/${playlistId}` : "");
+const { novios } = EVENT_CONFIG;
+
+// Obtener metadatos de la playlist en build-time vía oEmbed (no requiere auth)
+let playlistTitle = `Playlist ${novios.ella} & ${novios.el}`;
+let playlistThumbnail = "";
+if (playlistId) {
+  try {
+    const oembed = await fetch(
+      `https://open.spotify.com/oembed?url=https://open.spotify.com/playlist/${playlistId}`
+    ).then((r) => r.json());
+    if (oembed.title) playlistTitle = oembed.title;
+    if (oembed.thumbnail_url) playlistThumbnail = oembed.thumbnail_url;
+  } catch {
+    // Fallback silencioso si falla en build
+  }
+}
 ---
 
-<MusicaSection client:load />
+<MusicaSectionIsland client:load />
+
+{playlistId && (
+  <div class="bg-[#F3EFEA] pb-14 sm:pb-16 px-4 sm:px-6">
+    <div class="mx-auto max-w-xl">
+
+      <div class="divider-gold mb-10 reveal-line" />
+
+      <p class="font-sans text-[0.7rem] sm:text-xs tracking-[0.35em] uppercase text-[#8B4542] text-center mb-2 reveal-fade">
+        Nuestra playlist
+      </p>
+      <p class="font-sans font-light text-[#2A2A2A]/50 text-xs sm:text-sm text-center mb-7 reveal-fade">
+        ¿Prefieres sugerir canciones desde Spotify? Guarda la playlist y añade
+        las que no pueden faltar — también las leeremos todas.
+      </p>
+
+      <!-- Tarjeta editorial de playlist con portada real — sin iframe, sin CSP issues -->
+      <a
+        href={playlistCollabUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="reveal-up group flex items-center gap-4 sm:gap-5 w-full rounded-xl border border-[#8B4542]/20 bg-white/60 hover:bg-white hover:border-[#8B4542]/40 transition-all duration-300 px-4 py-4 sm:px-5 sm:py-4 no-underline"
+        aria-label="Abrir nuestra playlist en Spotify"
+      >
+        <!-- Portada de la playlist (imagen real de Spotify) o fallback con logo -->
+        <div class="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden shadow-sm bg-[#2A2A2A] relative">
+          {playlistThumbnail ? (
+            <img
+              src={playlistThumbnail}
+              alt={playlistTitle}
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div class="w-full h-full flex items-center justify-center bg-[#1DB954]">
+              <svg viewBox="0 0 24 24" class="w-8 h-8 fill-white" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 1 1-.277-1.215c3.809-.87 7.076-.496 9.713 1.115a.623.623 0 0 1 .206.857zm1.223-2.723a.779.779 0 0 1-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 1 1-.452-1.489c3.633-1.102 8.147-.568 11.234 1.327a.78.78 0 0 1 .255 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 1 1-.543-1.79c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 0 1-.954 1.608z"/>
+              </svg>
+            </div>
+          )}
+          <!-- Badge Spotify en la esquina inferior derecha -->
+          <div class="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-[#1DB954] flex items-center justify-center shadow">
+            <svg viewBox="0 0 24 24" class="w-3 h-3 fill-white" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 1 1-.277-1.215c3.809-.87 7.076-.496 9.713 1.115a.623.623 0 0 1 .206.857zm1.223-2.723a.779.779 0 0 1-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.778.778 0 1 1-.452-1.489c3.633-1.102 8.147-.568 11.234 1.327a.78.78 0 0 1 .255 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.935.935 0 1 1-.543-1.79c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 0 1-.954 1.608z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Texto de la tarjeta -->
+        <div class="flex-1 min-w-0">
+          <p class="font-serif text-base sm:text-lg text-[#2A2A2A] group-hover:text-[#8B4542] transition-colors leading-tight truncate">
+            {playlistTitle}
+          </p>
+          <p class="font-sans font-light text-[#2A2A2A]/50 text-xs sm:text-sm mt-1">
+            {novios.ella} &amp; {novios.el} · Spotify
+          </p>
+          <p class="font-sans font-light text-[#1DB954] text-xs mt-1.5 flex items-center gap-1">
+            <svg viewBox="0 0 24 24" class="w-3 h-3 fill-current flex-shrink-0" aria-hidden="true">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Escuchar en Spotify
+          </p>
+        </div>
+
+        <!-- Flecha discreta -->
+        <svg viewBox="0 0 24 24" class="flex-shrink-0 w-4 h-4 text-[#8B4542]/30 group-hover:text-[#8B4542] group-hover:translate-x-0.5 transition-all duration-300 fill-none stroke-current stroke-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+        </svg>
+      </a>
+
+    </div>
+  </div>
+)}

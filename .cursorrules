@@ -26,10 +26,13 @@ src/
 ├── components/
 │   ├── wedding/                   ← Secciones de la web
 │   │   ├── HeroSection.astro      ← Hero con logo, nombres, fecha, CTA
+│   │   ├── CouplePhotoBlock.astro ← Módulo fotos pareja intercalado en flujo (variantes: wide, duo, single)
 │   │   ├── ProgramaSection.astro  ← Timeline del día
 │   │   ├── UbicacionSection.astro ← Dónde & Cuándo, galería fotos venue
 │   │   ├── RSVPSection.astro      ← Wrapper que monta RSVPForm (client:load)
-│   │   ├── MusicaSection.astro    ← Wrapper para MusicaSection.tsx
+│   │   ├── RegalosSection.astro   ← Sección regalo / IBAN (id="regalos")
+│   │   ├── CopyIBANButton.tsx     ← React island mínimo: botón copiar IBAN al portapapeles
+│   │   ├── MusicaSection.astro    ← Wrapper para MusicaSection.tsx + embed Spotify opcional
 │   │   ├── MusicaSection.tsx      ← Recomendaciones musicales (anónimas)
 │   │   ├── HotelesSection.astro   ← Hoteles recomendados (nombre, enlace, direccion, tlf, mapa)
 │   │   └── FooterSection.astro    ← Logo, contacto Carlos e Irene (WhatsApp inline)
@@ -45,9 +48,10 @@ src/
 │   ├── rsvp-schema.ts             ← Zod, ALERGIAS_OPCIONES, toFirestorePayload
 │   ├── firebase.ts
 │   ├── calendar.ts
+│   ├── couple-images.ts           ← Lee public/fotos-nuestras/ (WebP ordenadas numéricamente)
 │   └── venue-images.ts            ← Lee public/fotos-restaurante/ (imágenes locales o urls-imagenes.txt)
 ├── pages/
-│   └── index.astro                ← Orquesta: Hero, Programa, Ubicación, RSVP, Música, Hoteles, Footer
+│   └── index.astro                ← Orquesta: Hero, PhotoStrip, Programa, Ubicación, RSVP, Regalos, Música, Hoteles, Footer
 ├── styles/
 │   └── global.css
 └── env.d.ts
@@ -92,12 +96,19 @@ Familias: Cormorant Garamond (serif) para títulos; Inter (sans) para UI y body.
 # ORDEN DE SECCIONES (index.astro)
 
 1. HeroSection
-2. ProgramaSection
-3. UbicacionSection
-4. RSVPSection
-5. MusicaSection
-6. HotelesSection
-7. FooterSection
+2. CouplePhotoBlock `variant="wide"` — foto panorámica de transición (coupleImages[0])
+3. ProgramaSection
+4. UbicacionSection
+5. RSVPSection
+6. CouplePhotoBlock `variant="duo"` — dúo centrado (coupleImages[1], coupleImages[2])
+7. RegalosSection (`id="regalos"`)
+8. MusicaSection
+9. HotelesSection
+10. CouplePhotoBlock `variant="single"` — retrato de cierre (coupleImages[3])
+11. FooterSection
+
+Las fotos se insertan como módulos independientes (`CouplePhotoBlock.astro`) en el flujo de `index.astro`.
+`CouplePhotoBlock` soporta variantes: `wide` (panorámica a todo ancho), `duo` (dos fotos escalonadas), `single` (retrato centrado con marco decorativo).
 
 **Sin botones flotantes de WhatsApp.** Contacto solo en footer (Carlos e Irene inline).
 
@@ -115,6 +126,7 @@ EVENT_CONFIG.lugar, .lugarDireccion, .coordenadas, .lugarWeb
 EVENT_CONFIG.programa[]                    // { hora, descripcion }
 EVENT_CONFIG.hoteles[]                     // { nombre, enlace, descripcion, direccion?, telefono?, coordenadas? }
 EVENT_CONFIG.contacto.carlos / .irene     // { numero, mensaje }
+EVENT_CONFIG.regalos                       // { iban, titular, banco, destino } — RELLENAR iban y titular reales
 EVENT_CONFIG.textos.*
 ```
 
@@ -165,6 +177,8 @@ Cada hotel en `event-config.hoteles` puede tener: `nombre`, `enlace`, `descripci
 - **Google Calendar**: `src/lib/calendar.ts` — aparece en SuccessScreen tras confirmar RSVP.
 - **Google Maps**: `maps/search/?api=1&query={coordenadas}` para ubicación y hoteles.
 - **Imágenes del venue**: `venue-images.ts` — prioriza archivos en `public/fotos-restaurante/`, fallback a `urls-imagenes.txt` (URLs Google Maps).
+- **Imágenes de la pareja**: `couple-images.ts` — lee `public/fotos-nuestras/*.webp`, orden numérico (01, 02…).
+- **Spotify embed**: `MusicaSection.astro` — iframe embed oficial de Spotify. Requiere `PUBLIC_SPOTIFY_PLAYLIST_ID` en `.env`. Sin API keys. Si la variable está vacía, el embed no se renderiza.
 
 ---
 

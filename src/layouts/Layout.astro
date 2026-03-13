@@ -13,7 +13,7 @@ interface Props {
   description?: string;
 }
 
-const { title = 'Irene y Carlos', description = 'Nos casamos' } = Astro.props;
+const { title = 'Irene & Carlos · 26 Junio', description = 'Nos casamos' } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,8 +22,21 @@ const { title = 'Irene y Carlos', description = 'Nos casamos' } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Open Graph (preview en WhatsApp, redes sociales, iMessage…) -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
     <title>{title}</title>
   </head>
   <body class="grain min-h-screen bg-[#F9F8F6] text-[#2A2A2A] font-sans antialiased">

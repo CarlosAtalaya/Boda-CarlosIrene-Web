@@ -10,15 +10,33 @@ import UbicacionSection from '../components/wedding/UbicacionSection.astro';
 import HotelesSection from '../components/wedding/HotelesSection.astro';
 import MusicaSection from '../components/wedding/MusicaSection.astro';
 import RSVPSection from '../components/wedding/RSVPSection.astro';
+import RegalosSection from '../components/wedding/RegalosSection.astro';
 import FooterSection from '../components/wedding/FooterSection.astro';
+import CouplePhotoBlock from '../components/wedding/CouplePhotoBlock.astro';
+import { getCoupleImageUrls } from '../lib/couple-images';
+
+const coupleImages = getCoupleImageUrls();
 ---
 
-<Layout title="Irene y Carlos — Nos casamos" description="Bienvenidos a nuestra boda. Irene y Carlos tienen el honor de invitaros a celebrar con nosotros.">
+<Layout title="Irene & Carlos · 26 Junio" description="Bienvenidos a nuestra boda. Irene y Carlos tienen el honor de invitaros a celebrar con nosotros.">
   <HeroSection />
-  <ProgramaSection />
-  <UbicacionSection />
+
+  {/* Foto 1 — panorámica de transición entre Hero y RSVP */}
+  <CouplePhotoBlock photos={[coupleImages[0]]} variant="wide" bgColor="#F5F1EB" />
+
   <RSVPSection />
+  <UbicacionSection />
+  <ProgramaSection />
+
+  {/* Fotos 2 y 3 — dúo centrado entre Programa y Regalos */}
+  <CouplePhotoBlock photos={[coupleImages[1], coupleImages[2]]} variant="duo" bgColor="#F9F8F6" />
+
+  <RegalosSection />
   <MusicaSection />
   <HotelesSection />
+
+  {/* Foto 4 — retrato centrado antes del footer, cierre narrativo */}
+  <CouplePhotoBlock photos={[coupleImages[3]]} variant="single" bgColor="#F9F8F6" />
+
   <FooterSection />
 </Layout>

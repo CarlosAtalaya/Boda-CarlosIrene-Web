@@ -83,6 +83,20 @@ export const EVENT_CONFIG = {
     errorMensaje: "Código incorrecto. Por favor, inténtalo de nuevo.",
   },
 
+  // ── Regalos / número de cuenta ────────────────────────────────────
+  // Prioridad: PUBLIC_IBAN (variable de entorno) > valor hardcodeado aquí.
+  // En producción, define PUBLIC_IBAN en .env para no exponer el IBAN en el repositorio.
+  regalos: {
+    /** IBAN: se lee de PUBLIC_IBAN en .env si existe, sino usa este valor de fallback */
+    iban: import.meta.env.PUBLIC_IBAN || "ES00 0000 0000 0000 0000 0000",
+    /** Nombre del titular de la cuenta */
+    titular: "Carlos e Irene",
+    /** Nombre del banco (dejar vacío "" para ocultar) */
+    banco: "",
+    /** Texto que describe el destino del regalo */
+    destino: "nuestra luna de miel y nuestro nuevo hogar",
+  },
+
   // ── Textos UI ──────────────────────────────────────────────────────
   textos: {
     rsvpTitulo: "Confirmación de Asistencia",
@@ -95,4 +109,4 @@ export const EVENT_CONFIG = {
     footerTexto: "Con amor, Irene y Carlos",
     footerCopyright: "26.06.26",
   },
-} as const;
+} satisfies Record<string, unknown>;

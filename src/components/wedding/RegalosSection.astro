@@ -1,0 +1,72 @@
+---
+/**
+ * RegalosSection — Sección de regalos / número de cuenta.
+ * Sección estática con un React island mínimo (CopyIBANButton) para copiar el IBAN.
+ * Posicionada entre ProgramaSection y MusicaSection.
+ */
+import { EVENT_CONFIG } from '../../lib/event-config';
+import CopyIBANButton from './CopyIBANButton.tsx';
+
+const { iban, titular, banco } = EVENT_CONFIG.regalos;
+
+const wishlist: { emoji?: string; img?: string; texto: string }[] = [
+  { emoji: "🐱🐶", texto: "Nuestra casa siempre está abierta a gatos y perros." },
+  { img: "/emoji-dyson.png", texto: "La Dyson para recoger el pelo de dichos gatos y perros." },
+  { emoji: "🚗", texto: "Un Toyota Yaris Cross." },
+  { emoji: "🏖️", texto: "Un piso en la playa." },
+];
+---
+
+<section id="regalos" class="py-16 sm:py-20 px-4 sm:px-6 bg-[#F3EFEA]">
+  <div class="mx-auto max-w-xl">
+
+    <!-- Eyebrow -->
+    <div class="text-center mb-8">
+      <p class="font-sans text-[0.7rem] sm:text-xs tracking-[0.35em] uppercase text-[#8B4542] mb-3 reveal-fade">
+        El mejor regalo
+      </p>
+      <h2 class="font-serif text-2xl sm:text-3xl font-light text-[#2A2A2A] mb-2 reveal-up">
+        Vuestra presencia es el mayor de los regalos
+      </h2>
+      <div class="w-12 h-px bg-[#8B4542] mx-auto mb-4 reveal-line" />
+      <p class="font-sans font-light text-[#2A2A2A]/60 text-sm sm:text-base reveal-fade">
+        Aunque no queríamos incluir una parte de regalo porque ya lo tenemos todo en la vida,
+        si nos queréis hacer un regalo os dejamos algunas ideas:
+      </p>
+    </div>
+
+    <!-- Lista de ideas con gracia -->
+    <ul class="space-y-3 mb-8 reveal-up">
+      {wishlist.map((item) => (
+        <li class="flex items-start gap-3 rounded-xl border border-[#8B4542]/10 bg-white/50 px-4 py-3 sm:px-5 sm:py-3.5">
+          <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center select-none" aria-hidden="true">
+            {item.img
+              ? <img src={item.img} alt="" class="w-6 h-6 object-contain" loading="lazy" decoding="async" />
+              : <span class="text-lg leading-none">{item.emoji}</span>
+            }
+          </span>
+          <span class="font-sans font-light text-[#2A2A2A]/70 text-sm sm:text-base leading-snug">{item.texto}</span>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Separador con transición hacia el IBAN -->
+    <p class="font-sans font-light text-[#2A2A2A]/50 text-sm text-center mb-5 reveal-fade">
+      Si preferís algo más tradicional, este es nuestro número de cuenta:
+    </p>
+
+    <!-- Tarjeta IBAN con botón copiar (React island) -->
+    <CopyIBANButton
+      iban={iban}
+      titular={titular}
+      banco={banco}
+      client:load
+    />
+
+    <!-- Nota final discreta -->
+    <p class="mt-6 text-center font-sans text-xs text-[#2A2A2A]/30 reveal-fade">
+      ¡Gracias de corazón! 🤍
+    </p>
+
+  </div>
+</section>

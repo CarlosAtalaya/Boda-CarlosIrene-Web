@@ -1,0 +1,128 @@
+---
+/**
+ * CouplePhotoBlock — Módulo de foto(s) de la pareja intercalado entre secciones.
+ * Tres variantes según cuántas fotos reciba:
+ *   - variant="single": foto ancha centrada (1 imagen, ancho máximo ~480px)
+ *   - variant="duo":    dos fotos side-by-side con alturas distintas (2 imágenes)
+ *   - variant="wide":  foto panorámica a todo el ancho del contenedor (1 imagen, horizontal)
+ * Siempre visible en móvil y escritorio. Sin rotaciones. Integrado en el flujo.
+ */
+interface Props {
+  photos: string[];
+  variant?: 'single' | 'duo' | 'wide';
+  bgColor?: string;
+}
+
+const {
+  photos,
+  variant = photos.length >= 2 ? 'duo' : 'single',
+  bgColor = '#F9F8F6',
+} = Astro.props;
+
+const validPhotos = photos.filter(Boolean);
+if (validPhotos.length === 0) return;
+---
+
+<div
+  class="overflow-hidden"
+  style={`background-color: ${bgColor};`}
+  aria-hidden="true"
+  role="presentation"
+>
+
+  {/* ── VARIANTE WIDE: foto horizontal contenida, difuminada en bordes ────────── */}
+  {variant === 'wide' && validPhotos[0] && (
+    <div class="py-6 sm:py-10 px-4 sm:px-8">
+      <div class="relative mx-auto max-w-2xl">
+        <div class="w-full aspect-[4/3] sm:aspect-[16/9] overflow-hidden">
+          <img
+            src={validPhotos[0]}
+            alt=""
+            class="w-full h-full object-cover object-top reveal-fade"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <!-- Difuminado de borde muy sutil (estilo "bordes suaves") -->
+        <div class="absolute inset-0 pointer-events-none" style={`
+          background:
+            linear-gradient(to right,  ${bgColor} 0%, transparent 5%,  transparent 95%,  ${bgColor} 100%),
+            linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
+        `} />
+      </div>
+      <div class="w-8 h-px bg-[#8B4542] opacity-30 mx-auto mt-5" />
+    </div>
+  )}
+
+  {/* ── VARIANTE SINGLE: retrato centrado, difuminado perimetral ───────────── */}
+  {variant === 'single' && validPhotos[0] && (
+    <div class="py-10 sm:py-14 px-4 flex justify-center">
+      <div class="w-full max-w-xs sm:max-w-sm">
+        <div class="relative">
+          <div class="absolute -top-2 -left-2 w-full h-full border border-[#8B4542]/25 pointer-events-none z-10" />
+          <div class="aspect-[3/4] overflow-hidden relative">
+            <img
+              src={validPhotos[0]}
+              alt=""
+              class="w-full h-full object-cover object-center reveal-fade"
+              loading="lazy"
+              decoding="async"
+            />
+            <!-- Difuminado de borde muy sutil -->
+            <div class="absolute inset-0 pointer-events-none" style={`
+              background:
+                linear-gradient(to right,  ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%),
+                linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
+            `} />
+          </div>
+        </div>
+        <div class="w-8 h-px bg-[#8B4542] opacity-40 mx-auto mt-5" />
+      </div>
+    </div>
+  )}
+
+  {/* ── VARIANTE DUO: dos fotos del mismo tamaño side-by-side ─────────────── */}
+  {variant === 'duo' && validPhotos.length >= 2 && (
+    <div class="py-10 sm:py-14 px-4 sm:px-8">
+      <div class="flex items-center justify-center gap-3 sm:gap-5 max-w-xl mx-auto">
+        <!-- Foto izquierda -->
+        <div class="flex-1 max-w-[200px] sm:max-w-[220px]">
+          <div class="aspect-[3/4] overflow-hidden relative">
+            <img
+              src={validPhotos[0]}
+              alt=""
+              class="w-full h-full object-cover object-center reveal-fade"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 pointer-events-none" style={`
+              background:
+                linear-gradient(to right,  ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%),
+                linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
+            `} />
+          </div>
+        </div>
+        <!-- Foto derecha: mismo tamaño -->
+        <div class="flex-1 max-w-[200px] sm:max-w-[220px]">
+          <div class="aspect-[3/4] overflow-hidden relative">
+            <img
+              src={validPhotos[1]}
+              alt=""
+              class="w-full h-full object-cover object-center reveal-fade"
+              loading="lazy"
+              decoding="async"
+              style="animation-delay: 80ms"
+            />
+            <div class="absolute inset-0 pointer-events-none" style={`
+              background:
+                linear-gradient(to right,  ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%),
+                linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
+            `} />
+          </div>
+        </div>
+      </div>
+      <div class="w-8 h-px bg-[#8B4542] opacity-40 mx-auto mt-4 sm:mt-6" />
+    </div>
+  )}
+
+</div>
