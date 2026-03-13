@@ -30,11 +30,11 @@ if (validPhotos.length === 0) return;
   role="presentation"
 >
 
-  {/* ── VARIANTE WIDE: foto horizontal contenida, difuminada en bordes ────────── */}
+  {/* ── VARIANTE WIDE: foto horizontal con marco sutil ────────── */}
   {variant === 'wide' && validPhotos[0] && (
     <div class="py-6 sm:py-10 px-4 sm:px-8">
       <div class="relative mx-auto max-w-2xl">
-        <div class="w-full aspect-[4/3] sm:aspect-[16/9] overflow-hidden">
+        <div class="w-full aspect-[4/3] sm:aspect-[16/9] overflow-hidden border-2 border-[#2A2A2A]/15">
           <img
             src={validPhotos[0]}
             alt=""
@@ -43,51 +43,36 @@ if (validPhotos.length === 0) return;
             decoding="async"
           />
         </div>
-        <!-- Difuminado de borde muy sutil (estilo "bordes suaves") -->
-        <div class="absolute inset-0 pointer-events-none" style={`
-          background:
-            linear-gradient(to right,  ${bgColor} 0%, transparent 5%,  transparent 95%,  ${bgColor} 100%),
-            linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
-        `} />
       </div>
       <div class="w-8 h-px bg-[#8B4542] opacity-30 mx-auto mt-5" />
     </div>
   )}
 
-  {/* ── VARIANTE SINGLE: retrato centrado, difuminado perimetral ───────────── */}
+  {/* ── VARIANTE SINGLE: retrato centrado con marco sutil ───────────── */}
   {variant === 'single' && validPhotos[0] && (
     <div class="py-10 sm:py-14 px-4 flex justify-center">
       <div class="w-full max-w-xs sm:max-w-sm">
-        <div class="relative">
-          <div class="absolute -top-2 -left-2 w-full h-full border border-[#8B4542]/25 pointer-events-none z-10" />
-          <div class="aspect-[3/4] overflow-hidden relative">
-            <img
-              src={validPhotos[0]}
-              alt=""
-              class="w-full h-full object-cover object-center reveal-fade"
-              loading="lazy"
-              decoding="async"
-            />
-            <!-- Difuminado de borde muy sutil -->
-            <div class="absolute inset-0 pointer-events-none" style={`
-              background:
-                linear-gradient(to right,  ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%),
-                linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
-            `} />
-          </div>
+        <div class="aspect-[3/4] overflow-hidden border-2 border-[#2A2A2A]/15">
+          <img
+            src={validPhotos[0]}
+            alt=""
+            class="w-full h-full object-cover object-center reveal-fade"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div class="w-8 h-px bg-[#8B4542] opacity-40 mx-auto mt-5" />
       </div>
     </div>
   )}
 
-  {/* ── VARIANTE DUO: dos fotos del mismo tamaño side-by-side ─────────────── */}
+  {/* ── VARIANTE DUO: dos fotos del mismo tamaño side-by-side con marco sutil ─────────────── */}
   {variant === 'duo' && validPhotos.length >= 2 && (
     <div class="py-10 sm:py-14 px-4 sm:px-8">
       <div class="flex items-center justify-center gap-3 sm:gap-5 max-w-xl mx-auto">
         <!-- Foto izquierda -->
         <div class="flex-1 max-w-[200px] sm:max-w-[220px]">
-          <div class="aspect-[3/4] overflow-hidden relative">
+          <div class="aspect-[3/4] overflow-hidden border-2 border-[#2A2A2A]/15">
             <img
               src={validPhotos[0]}
               alt=""
@@ -95,16 +80,11 @@ if (validPhotos.length === 0) return;
               loading="lazy"
               decoding="async"
             />
-            <div class="absolute inset-0 pointer-events-none" style={`
-              background:
-                linear-gradient(to right,  ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%),
-                linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
-            `} />
           </div>
         </div>
         <!-- Foto derecha: mismo tamaño -->
         <div class="flex-1 max-w-[200px] sm:max-w-[220px]">
-          <div class="aspect-[3/4] overflow-hidden relative">
+          <div class="aspect-[3/4] overflow-hidden border-2 border-[#2A2A2A]/15">
             <img
               src={validPhotos[1]}
               alt=""
@@ -113,11 +93,6 @@ if (validPhotos.length === 0) return;
               decoding="async"
               style="animation-delay: 80ms"
             />
-            <div class="absolute inset-0 pointer-events-none" style={`
-              background:
-                linear-gradient(to right,  ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%),
-                linear-gradient(to bottom, ${bgColor} 0%, transparent 5%, transparent 95%, ${bgColor} 100%);
-            `} />
           </div>
         </div>
       </div>
