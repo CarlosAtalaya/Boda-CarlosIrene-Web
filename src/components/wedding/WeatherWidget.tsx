@@ -15,9 +15,8 @@ import { useState, useEffect } from "react";
 interface Props {
   lat: number;
   lon: number;
-  weddingDateISO: string;   // "2026-06-26"
+  weddingDateISO: string;
   venueName: string;
-  testDateISO?: string;     // solo para pruebas: simula "hoy" con otra fecha
 }
 
 interface DayForecast {
@@ -40,19 +39,19 @@ function weatherInfo(code: number): { label: string; icon: string } {
   return { label: "Variable", icon: "🌤️" };
 }
 
-function daysUntil(weddingISO: string, todayISO?: string): number {
-  const base = todayISO ? new Date(todayISO + "T00:00:00") : new Date();
-  base.setHours(0, 0, 0, 0);
+function daysUntil(weddingISO: string): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const target = new Date(weddingISO + "T00:00:00");
-  return Math.round((target.getTime() - base.getTime()) / 86_400_000);
+  return Math.round((target.getTime() - today.getTime()) / 86_400_000);
 }
 
-export default function WeatherWidget({ lat, lon, weddingDateISO, venueName, testDateISO }: Props) {
+export default function WeatherWidget({ lat, lon, weddingDateISO, venueName }: Props) {
   const [forecast, setForecast] = useState<DayForecast | null>(null);
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState(false);
 
-  const days = daysUntil(weddingDateISO, testDateISO);
+  const days = daysUntil(weddingDateISO);
   const canFetch = days >= 0 && days <= 16;
 
   useEffect(() => {
@@ -143,12 +142,6 @@ export default function WeatherWidget({ lat, lon, weddingDateISO, venueName, tes
         </div>
       )}
 
-      {/* Indicador de modo prueba */}
-      {testDateISO && (
-        <p className="mt-3 font-sans text-[0.6rem] text-amber-500/70 border-t border-amber-200/50 pt-2">
-          🧪 Modo prueba — simulando fecha: {testDateISO}
-        </p>
-      )}
     </div>
   );
 }

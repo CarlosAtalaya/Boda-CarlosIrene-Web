@@ -15,8 +15,6 @@ const [latStr, lonStr] = coordenadas.split(",").map((s) => s.trim());
 const lat = parseFloat(latStr);
 const lon = parseFloat(lonStr);
 const weddingDateISO = `${fecha.slice(0,4)}-${fecha.slice(4,6)}-${fecha.slice(6,8)}`;
-// Solo en desarrollo: define PUBLIC_WEATHER_TEST_DATE=2026-06-16 en .env para simular fecha cercana
-const testDateISO = import.meta.env.PUBLIC_WEATHER_TEST_DATE || undefined;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordenadas)}`;
 const venueImages = getVenueImageUrls();
 
@@ -96,7 +94,6 @@ const hora = `${horaInicio.slice(0,2)}:${horaInicio.slice(2,4)}`;
           lon={lon}
           weddingDateISO={weddingDateISO}
           venueName={lugar}
-          testDateISO={testDateISO}
         />
 
         <!-- Enlace discreto a la página de histórico -->

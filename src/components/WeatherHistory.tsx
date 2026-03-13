@@ -146,12 +146,11 @@ export default function WeatherHistory({ month, day, venueName, venueCity }: Pro
       </div>
 
       {/* Tarjetas resumen */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {[
           { label: "Temp. máx. media", value: `${avgMax}°C`, icon: "🌡️" },
           { label: "Temp. mín. media", value: `${avgMin}°C`, icon: "🌙" },
           { label: "Días con lluvia",  value: `${rainDays} de ${data.length}`, icon: "💧" },
-          { label: "Prob. de lluvia",  value: `${Math.round((rainDays / data.length) * 100)}%`, icon: "☂️" },
         ].map((stat) => (
           <div
             key={stat.label}
