@@ -1,0 +1,10 @@
+Exportaciones firestore:
+
+$env:GOOGLE_APPLICATION_CREDENTIALS = "../boda-carlosirene-26jn-firebase-adminsdk-fbsvc-ff7924d312.json"
+npm run export-firestore
+
+Generar informe HTML (pestañas: recomendaciones musicales + respuestas boda):
+
+npm run report
+
+Abre scripts/export/informe-respuestas.html en el navegador.

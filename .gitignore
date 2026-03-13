@@ -17,6 +17,10 @@ pnpm-debug.log*
 .env
 .env.production
 
+# exported Firestore data (contiene datos personales)
+scripts/export/
+firebase-service-account.json
+
 # macOS-specific files
 .DS_Store
 
