@@ -7,11 +7,11 @@ import { Menu, X } from "lucide-react";
 import { EVENT_CONFIG } from "../lib/event-config";
 
 const NAV_LINKS = [
-  { href: "#hero", label: "Inicio" },
-  { href: "#programa", label: "Programa" },
-  { href: "#ubicacion", label: "Ubicación" },
-  { href: "#rsvp", label: "Asistencia" },
-  { href: "#regalos", label: "Regalos" },
+  { href: "#hero",      label: "Inicio"     },
+  { href: "#rsvp",      label: "Asistencia" },
+  { href: "#ubicacion", label: "Ubicación"  },
+  { href: "#programa",  label: "Programa"   },
+  { href: "#regalos",   label: "Regalos"    },
 ] as const;
 
 export default function Navbar() {
@@ -25,7 +25,7 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20 sm:h-24">
-          {/* Logo + monograma — integración orgánica */}
+          {/* Logo + monograma */}
           <a
             href="#hero"
             className="flex items-center gap-3 group"

@@ -1,0 +1,64 @@
+---
+/**
+ * Página /tiempo — Histórico meteorológico del día de la boda.
+ * Layout propio sin Navbar: la única navegación es el botón "Volver".
+ * Protegida por AccessGate igual que el resto de la web.
+ */
+import '../styles/global.css';
+import AccessGate from '../components/AccessGate';
+import WeatherHistory from '../components/WeatherHistory';
+import { EVENT_CONFIG } from '../lib/event-config';
+
+const { lugar, coordenadas, fecha, novios } = EVENT_CONFIG;
+const [latStr, lonStr] = coordenadas.split(",").map((s) => s.trim());
+const lat = parseFloat(latStr);
+const lon = parseFloat(lonStr);
+const month = parseInt(fecha.slice(4, 6));
+const day = parseInt(fecha.slice(6, 8));
+const title = `Tiempo en junio · ${novios.titulo}`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={`Histórico meteorológico del ${day}/${month} en ${lugar}, Toledo.`} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+  </head>
+  <body class="grain min-h-screen bg-[#F9F8F6] text-[#2A2A2A] font-sans antialiased">
+    <AccessGate client:load>
+      <main class="min-h-screen bg-[#F9F8F6] px-4 sm:px-6">
+
+        <!-- Cabecera fija mínima con solo el botón volver -->
+        <header class="fixed top-0 left-0 right-0 z-50 bg-[#F9F8F6]/90 backdrop-blur-md border-b border-[#E8E3D9] h-16 flex items-center px-4 sm:px-8">
+          <a
+            href="/#ubicacion"
+            class="inline-flex items-center gap-2 font-sans font-light text-xs tracking-[0.2em] uppercase text-[#2A2A2A]/60 hover:text-[#8B4542] transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Volver
+          </a>
+        </header>
+
+        <div class="max-w-2xl mx-auto pt-28 pb-20">
+          <WeatherHistory
+            client:load
+            lat={lat}
+            lon={lon}
+            month={month}
+            day={day}
+            venueName={lugar}
+            venueCity="Toledo"
+          />
+        </div>
+
+      </main>
+    </AccessGate>
+  </body>
+</html>

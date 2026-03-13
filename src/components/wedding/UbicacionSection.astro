@@ -8,8 +8,15 @@ import { EVENT_CONFIG } from '../../lib/event-config';
 import { getVenueImageUrls } from '../../lib/venue-images';
 import AddToCalendarButton from '../AddToCalendarButton';
 import VenueGallery from './VenueGallery';
+import WeatherWidget from '../wedding/WeatherWidget';
 
-const { lugar, lugarDireccion, coordenadas, fechaLegible, horaInicio, lugarWeb } = EVENT_CONFIG;
+const { lugar, lugarDireccion, coordenadas, fechaLegible, horaInicio, lugarWeb, fecha } = EVENT_CONFIG;
+const [latStr, lonStr] = coordenadas.split(",").map((s) => s.trim());
+const lat = parseFloat(latStr);
+const lon = parseFloat(lonStr);
+const weddingDateISO = `${fecha.slice(0,4)}-${fecha.slice(4,6)}-${fecha.slice(6,8)}`;
+// Solo en desarrollo: define PUBLIC_WEATHER_TEST_DATE=2026-06-16 en .env para simular fecha cercana
+const testDateISO = import.meta.env.PUBLIC_WEATHER_TEST_DATE || undefined;
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordenadas)}`;
 const venueImages = getVenueImageUrls();
 
@@ -81,6 +88,26 @@ const hora = `${horaInicio.slice(0,2)}:${horaInicio.slice(2,4)}`;
           </a>
           <AddToCalendarButton className="min-h-[44px] border border-[#D9C5C5] hover:border-[#2A2A2A] rounded-none px-8 py-3 uppercase tracking-[0.2em] text-xs justify-center" />
         </div>
+
+        <!-- Widget de tiempo -->
+        <WeatherWidget
+          client:load
+          lat={lat}
+          lon={lon}
+          weddingDateISO={weddingDateISO}
+          venueName={lugar}
+          testDateISO={testDateISO}
+        />
+
+        <!-- Enlace discreto a la página de histórico -->
+        <p class="mt-3 text-right">
+          <a
+            href="/tiempo"
+            class="font-sans font-light text-[0.65rem] tracking-[0.2em] uppercase text-[#2A2A2A]/55 hover:text-[#8B4542] transition-colors"
+          >
+            ¿Curioso? → Cómo suele ser el tiempo en junio
+          </a>
+        </p>
       </div>
 
       <!-- Galería carrusel: una imagen a la vez con flechas para navegar -->

@@ -12,7 +12,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://*.firebaseapp.com https://*.googleapis.com https://open.spotify.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://lh3.googleusercontent.com https://*.googleusercontent.com https://www.google.com https://www.gstatic.com https://i.scdn.co https://*.scdn.co https://*.spotifycdn.com; font-src 'self'; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://*.firebaseapp.com https://api.spotify.com https://open.spotify.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; frame-src https://www.google.com https://open.spotify.com"
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://*.firebaseapp.com https://*.googleapis.com https://open.spotify.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://lh3.googleusercontent.com https://*.googleusercontent.com https://www.google.com https://www.gstatic.com https://i.scdn.co https://*.scdn.co https://*.spotifycdn.com; font-src 'self'; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://*.firebaseapp.com https://api.spotify.com https://open.spotify.com https://api.open-meteo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; frame-src https://www.google.com https://open.spotify.com"
           },
           {
             "key": "X-Frame-Options",
@@ -33,6 +33,10 @@
           {
             "key": "Cross-Origin-Resource-Policy",
             "value": "cross-origin"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "no-referrer"
           },
           {
             "key": "Permissions-Policy",

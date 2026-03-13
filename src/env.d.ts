@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_SPOTIFY_PLAYLIST_ID: string;
   readonly PUBLIC_SPOTIFY_PLAYLIST_COLLAB_URL: string;
   readonly PUBLIC_IBAN: string;
+  readonly PUBLIC_WEATHER_TEST_DATE: string;
 }
 
 interface ImportMeta {

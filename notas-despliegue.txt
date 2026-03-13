@@ -1,0 +1,51 @@
+Checklist para el despliegue definitivo en Firebase
+1. Variables de entorno en producción
+El .env nunca se sube a Firebase (ni a git). Astro en tiempo de build necesita leer esas variables del entorno del sistema donde se ejecuta npm run build. En Firebase Hosting el build se hace en tu máquina local, así que lo que tienes en .env ya se usa automáticamente al compilar.
+
+Revisa que tu .env tenga estas variables correctamente rellenadas antes de hacer el build final:
+
+PUBLIC_FIREBASE_API_KEY=...
+PUBLIC_FIREBASE_AUTH_DOMAIN=...
+PUBLIC_FIREBASE_PROJECT_ID=...
+PUBLIC_FIREBASE_STORAGE_BUCKET=...
+PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
+PUBLIC_FIREBASE_APP_ID=...
+PUBLIC_ACCESS_CODE=...
+# NUEVAS — asegúrate de que estén rellenas:
+PUBLIC_SPOTIFY_PLAYLIST_ID=3CCOg2Zpe4GLvioOuEy68S
+PUBLIC_SPOTIFY_PLAYLIST_COLLAB_URL=https://open.spotify.com/playlist/3CCOg2Zpe4GLvioOuEy68S?si=ac7d1cea095448f1&pt=7e2eebd19fc047b4273f9cb76fc71b9f
+PUBLIC_IBAN=ES00 0000 0000 0000 0000 0000   ← pon aquí el IBAN real
+¿Qué pasa si falta alguna?
+
+PUBLIC_SPOTIFY_PLAYLIST_ID vacío → la tarjeta de Spotify no muestra imagen de portada ni título real (usa el fallback genérico), pero no se rompe.
+PUBLIC_SPOTIFY_PLAYLIST_COLLAB_URL vacío → el botón de la playlist no tendrá href, quedará como enlace muerto.
+PUBLIC_IBAN vacío → se muestra el placeholder ES00 0000 0000 0000 0000 0000 del fallback en event-config.ts. Ponlo antes de desplegar.
+2. El build de Astro hace llamadas de red en tiempo de compilación
+MusicaSection.astro llama a la API oEmbed de Spotify durante el build para obtener la portada de la playlist. Necesitas tener conexión a Internet cuando ejecutes npm run build. Si Spotify falla (timeout, caída temporal), el build continúa igualmente con el fallback, no se rompe.
+
+3. Orden correcto de comandos
+# 1. Asegúrate de que el .env está correcto
+# 2. Instala dependencias (por si acaso)
+npm install
+# 3. Build estático
+npm run build
+# 4. Previsualiza localmente para verificar que todo se ve bien
+npm run preview
+# 5. Despliega a Firebase Hosting
+firebase deploy --only hosting
+Si no tienes firebase-tools instalado globalmente:
+
+npx firebase-tools deploy --only hosting
+4. Verifica que el .firebaserc apunta al proyecto correcto
+Antes de desplegar, comprueba que firebase use está apuntando al proyecto correcto ejecutando:
+
+firebase use
+Debe mostrar el project ID de tu proyecto Firebase (el mismo que PUBLIC_FIREBASE_PROJECT_ID en .env).
+
+5. Archivos que no deben subirse (ya cubiertos por .gitignore)
+Confirma que tu .gitignore incluye:
+
+.env ← nunca al repo
+dist/ ← Firebase lo regenera con cada build local
+node_modules/
+Firebase Hosting solo sirve el contenido de la carpeta dist/, que se genera limpia con cada npm run build.

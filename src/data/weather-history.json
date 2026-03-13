@@ -1,0 +1,13 @@
+[
+  { "year": 2015, "tempMax": 35, "tempMin": 20, "tempMean": 28, "precip": 0,   "weatherCode": 1  },
+  { "year": 2016, "tempMax": 34, "tempMin": 19, "tempMean": 27, "precip": 0,   "weatherCode": 2  },
+  { "year": 2017, "tempMax": 31, "tempMin": 18, "tempMean": 24, "precip": 2.2, "weatherCode": 61 },
+  { "year": 2018, "tempMax": 33, "tempMin": 21, "tempMean": 28, "precip": 0,   "weatherCode": 2  },
+  { "year": 2019, "tempMax": 37, "tempMin": 22, "tempMean": 30, "precip": 0,   "weatherCode": 0  },
+  { "year": 2020, "tempMax": 32, "tempMin": 21, "tempMean": 27, "precip": 0,   "weatherCode": 3  },
+  { "year": 2021, "tempMax": 33, "tempMin": 20, "tempMean": 27, "precip": 0,   "weatherCode": 3  },
+  { "year": 2022, "tempMax": 28, "tempMin": 15, "tempMean": 22, "precip": 0,   "weatherCode": 2  },
+  { "year": 2023, "tempMax": 38, "tempMin": 23, "tempMean": 30, "precip": 0,   "weatherCode": 1  },
+  { "year": 2024, "tempMax": 34, "tempMin": 20, "tempMean": 25, "precip": 0.9, "weatherCode": 51 },
+  { "year": 2025, "tempMax": 35, "tempMin": 18, "tempMean": 27, "precip": 0,   "weatherCode": 0  }
+]
