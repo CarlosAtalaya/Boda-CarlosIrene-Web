@@ -17,6 +17,9 @@ jobs:
       PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.PUBLIC_FIREBASE_STORAGE_BUCKET }}
       PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
       PUBLIC_FIREBASE_APP_ID: ${{ secrets.PUBLIC_FIREBASE_APP_ID }}
+      PUBLIC_SPOTIFY_PLAYLIST_ID: ${{ secrets.PUBLIC_SPOTIFY_PLAYLIST_ID }}
+      PUBLIC_SPOTIFY_PLAYLIST_COLLAB_URL: ${{ secrets.PUBLIC_SPOTIFY_PLAYLIST_COLLAB_URL }}
+      PUBLIC_IBAN: ${{ secrets.PUBLIC_IBAN }}
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
