@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: "#ubicacion", label: "Ubicación"  },
   { href: "#programa",  label: "Programa"   },
   { href: "#regalos",   label: "Regalos"    },
+  { href: "#faq",       label: "FAQ"        },
 ] as const;
 
 export default function Navbar() {

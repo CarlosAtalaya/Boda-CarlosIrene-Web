@@ -26,6 +26,7 @@ Web de boda de alta distinción y protocolo en España. Estilo editorial, paleta
 │   │   │   ├── RSVPSection.astro
 │   │   │   ├── MusicaSection.astro + MusicaSection.tsx
 │   │   │   ├── HotelesSection.astro
+│   │   │   ├── FAQSection.astro
 │   │   │   └── FooterSection.astro
 │   │   ├── forms/
 │   │   │   └── RSVPForm.tsx       # Formulario multi-paso (3 pasos)
@@ -58,7 +59,8 @@ Web de boda de alta distinción y protocolo en España. Estilo editorial, paleta
 4. **RSVP** — Confirmación de asistencia (nombre, acompañantes, alergias/restricciones)
 5. **Música** — Recomendaciones de canciones (sin identificar al remitente)
 6. **Hoteles** — Recomendaciones para invitados de fuera
-7. **Footer** — Logo, contacto (Carlos e Irene vía WhatsApp)
+7. **FAQ** — Preguntas frecuentes (dress code, horarios, niños, alergias, etc.)
+8. **Footer** — Logo, contacto (Carlos e Irene vía WhatsApp)
 
 ## Colecciones Firestore
 

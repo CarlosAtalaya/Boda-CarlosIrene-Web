@@ -101,8 +101,8 @@ export const EVENT_CONFIG = {
   textos: {
     rsvpTitulo: "Confirmación de Asistencia",
     rsvpSubtitulo:
-      "Por favor, confirma tu asistencia antes del 1 de mayo de 2026.",
-    rsvpFechaLimite: "1 de mayo de 2026",
+      "Por favor, confirma tu asistencia antes del 26 de mayo de 2026.",
+    rsvpFechaLimite: "26 de mayo de 2026",
     ubicacionTitulo: "El lugar",
     ubicacionTexto:
       "Una finca excepcional en el corazón de Toledo, rodeada de naturaleza y arquitectura histórica.",
