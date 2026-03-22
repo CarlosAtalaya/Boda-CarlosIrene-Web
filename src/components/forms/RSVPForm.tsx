@@ -233,7 +233,8 @@ function Step2({ acompañantes, onAdd, onRemove, onChange, errors }: Step2Props)
         </p>
       </div>
 
-      <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+      {/* En móvil: sin scroll interno (iOS oculta la barra en contenedores anidados); desde sm, caja con scroll */}
+      <div className="space-y-3 sm:max-h-64 sm:overflow-y-auto sm:pr-1 sm:[-webkit-overflow-scrolling:touch]">
         {acompañantes.map((ac, i) => (
           <div
             key={i}
@@ -309,7 +310,7 @@ function Step3({ todos, onToggleAlergia, onChangeNotas }: Step3Props) {
         </p>
       </div>
 
-      <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+      <div className="space-y-3 sm:max-h-80 sm:overflow-y-auto sm:pr-1 sm:[-webkit-overflow-scrolling:touch]">
         {todos.map((persona, i) => (
           <div
             key={i}
