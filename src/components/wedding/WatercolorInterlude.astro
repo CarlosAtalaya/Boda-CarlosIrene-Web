@@ -1,0 +1,138 @@
+---
+/**
+ * WatercolorInterlude — Separadores editoriales ilustrados en acuarela y tinta viva.
+ * Sustituyen a los bloques de fotografías de pareja cuando no existen imágenes de los novios,
+ * aportando ritmo respirable de cuaderno botánico y arquitectónico manchego (Quinta Monteguerra).
+ */
+interface Props {
+  variant?: 'encina' | 'caserio' | 'olivo';
+  quote?: string;
+}
+
+const { variant = 'encina', quote } = Astro.props;
+---
+
+<div
+  class="relative py-10 sm:py-16 px-4 overflow-hidden select-none"
+  aria-hidden={quote ? undefined : 'true'}
+>
+  <div class="max-w-2xl mx-auto flex flex-col items-center text-center">
+
+    {/* ── VARIANTE 1: RAMA DE ENCINA EN ACUARELA Y TINTA ────────────── */}
+    {variant === 'encina' && (
+      <svg
+        viewBox="0 0 520 130"
+        class="w-full max-w-md h-28 sm:h-32 overflow-visible pigment-multiply"
+        aria-hidden="true"
+      >
+        <!-- Manchas de acuarela de fondo -->
+        <g filter="url(#watercolor-edge)">
+          <ellipse cx="260" cy="65" rx="170" ry="34" fill="#B8CDE3" fill-opacity="0.32" />
+          <ellipse cx="215" cy="58" rx="68" ry="26" fill="#8A9A5B" fill-opacity="0.42" />
+          <ellipse cx="315" cy="68" rx="72" ry="24" fill="#58693B" fill-opacity="0.32" />
+          <ellipse cx="265" cy="64" rx="45" ry="18" fill="#DFB98C" fill-opacity="0.35" />
+        </g>
+
+        <!-- Rama botánica a plumilla con vibración stop-motion -->
+        <g class="boil-line" stroke="#2B2B29" fill="none" stroke-linecap="round">
+          <path d="M 75 72 C 165 55, 275 76, 445 56" stroke-width="1.4" />
+          <!-- Hojas de encina izquierdas -->
+          <path
+            d="M 160 64 C 145 42, 168 32, 185 48 C 178 58, 168 62, 160 64 Z"
+            fill="#8A9A5B"
+            fill-opacity="0.55"
+            stroke-width="1.1"
+          />
+          <path
+            d="M 210 66 C 198 85, 222 96, 238 80 C 230 70, 218 67, 210 66 Z"
+            fill="#58693B"
+            fill-opacity="0.48"
+            stroke-width="1.1"
+          />
+          <!-- Hojas centrales y bellota manchega -->
+          <path
+            d="M 265 65 C 255 40, 282 30, 298 48 C 288 60, 274 64, 265 65 Z"
+            fill="#8A9A5B"
+            fill-opacity="0.6"
+            stroke-width="1.1"
+          />
+          <ellipse cx="255" cy="79" rx="7" ry="10" transform="rotate(-18 255 79)" fill="#B88655" fill-opacity="0.7" stroke-width="1.1" />
+          <!-- Hojas derechas -->
+          <path
+            d="M 325 63 C 318 84, 344 92, 356 74 C 345 66, 334 64, 325 63 Z"
+            fill="#58693B"
+            fill-opacity="0.5"
+            stroke-width="1.1"
+          />
+          <path
+            d="M 370 60 C 362 40, 386 34, 400 48 C 390 56, 380 59, 370 60 Z"
+            fill="#8A9A5B"
+            fill-opacity="0.5"
+            stroke-width="1.1"
+          />
+        </g>
+      </svg>
+    )}
+
+    {/* ── VARIANTE 2: BOCETO ARQUITECTÓNICO DEL PATIO MANCHEGO ───────── */}
+    {variant === 'caserio' && (
+      <svg
+        viewBox="0 0 540 150"
+        class="w-full max-w-lg h-32 sm:h-36 overflow-visible pigment-multiply"
+        aria-hidden="true"
+      >
+        <g filter="url(#watercolor-edge)">
+          <ellipse cx="270" cy="78" rx="195" ry="42" fill="#DFB98C" fill-opacity="0.34" />
+          <ellipse cx="270" cy="62" rx="135" ry="35" fill="#B8CDE3" fill-opacity="0.4" />
+          <ellipse cx="170" cy="85" rx="55" ry="28" fill="#8A9A5B" fill-opacity="0.35" />
+          <ellipse cx="370" cy="85" rx="55" ry="28" fill="#8A9A5B" fill-opacity="0.35" />
+        </g>
+
+        <!-- Trazos a plumilla del arco cervantino y tejado -->
+        <g class="boil-line" stroke="#2B2B29" fill="none" stroke-linecap="round">
+          <path d="M 110 118 L 430 118" stroke-width="1.2" stroke-dasharray="120 6 180 6" />
+          <path d="M 185 118 L 185 62 L 270 28 L 355 62 L 355 118" stroke-width="1.25" />
+          <!-- Tejado ocre -->
+          <path d="M 172 65 L 270 24 L 368 65" stroke="#B88655" stroke-width="3" />
+          <!-- Arco Azul Cobalto -->
+          <path
+            d="M 244 118 L 244 76 C 244 56, 296 56, 296 76 L 296 118"
+            fill="#3B539A"
+            fill-opacity="0.7"
+            stroke="#3B539A"
+            stroke-width="1.4"
+          />
+          <!-- Ventanales laterales -->
+          <rect x="204" y="74" width="20" height="26" fill="#3B539A" fill-opacity="0.55" stroke="#2B2B29" stroke-width="0.9" />
+          <rect x="316" y="74" width="20" height="26" fill="#3B539A" fill-opacity="0.55" stroke="#2B2B29" stroke-width="0.9" />
+        </g>
+      </svg>
+    )}
+
+    {/* ── VARIANTE 3: SELLO DE CIERRE CON CORONA DE OLIVO Y COBALTO ─── */}
+    {variant === 'olivo' && (
+      <svg
+        viewBox="0 0 420 120"
+        class="w-full max-w-sm h-24 sm:h-28 overflow-visible pigment-multiply"
+        aria-hidden="true"
+      >
+        <g filter="url(#watercolor-edge)">
+          <ellipse cx="210" cy="60" rx="120" ry="32" fill="#B8CDE3" fill-opacity="0.38" />
+          <ellipse cx="210" cy="64" rx="75" ry="22" fill="#DFB98C" fill-opacity="0.3" />
+        </g>
+        <g class="boil-line" fill="none" stroke-linecap="round">
+          <path d="M 45 60 C 110 52, 155 66, 185 60" stroke="#3B539A" stroke-width="1.2" stroke-opacity="0.6" />
+          <path d="M 235 60 C 265 54, 310 68, 375 60" stroke="#3B539A" stroke-width="1.2" stroke-opacity="0.6" />
+          <circle cx="210" cy="60" r="14" stroke="#2B2B29" stroke-width="1.1" stroke-dasharray="4 3" />
+          <path d="M 203 60 C 207 52, 213 52, 217 60 C 213 68, 207 68, 203 60 Z" fill="#8A9A5B" fill-opacity="0.65" stroke="#58693B" stroke-width="1" />
+        </g>
+      </svg>
+    )}
+
+    {quote && (
+      <p class="font-hand text-2xl sm:text-3xl text-[#3B539A] mt-2 max-w-md leading-relaxed reveal-fade">
+        “{quote}”
+      </p>
+    )}
+  </div>
+</div>

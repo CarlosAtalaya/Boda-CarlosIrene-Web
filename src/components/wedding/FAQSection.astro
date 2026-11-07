@@ -1,118 +1,87 @@
 ---
 /**
- * Preguntas frecuentes — acordeón nativo (details/summary), sin JS extra.
+ * FAQSection — Notas sobre el pliego de algodón con divisores de tinta a mano alzada.
  */
 import { ChevronDown } from 'lucide-react';
 import { EVENT_CONFIG } from '../../lib/event-config';
 
-const { horaInicio, textos } = EVENT_CONFIG;
-const horaCeremonia = `${horaInicio.slice(0, 2)}:${horaInicio.slice(2, 4)}`;
+const { horaInicio, textos, novios, lugar } = EVENT_CONFIG;
+const horaBienvenida = `${horaInicio.slice(0, 2)}:${horaInicio.slice(2, 4)}`;
+
+const FAQS = [
+  {
+    q: '¿Existe algún protocolo de vestimenta (dress code)?',
+    a: 'No pedimos una etiqueta rígida ni colores obligatorios. Lo único que deseamos es que os sintáis cómodos y elegantes para disfrutar de la tarde y la noche entre las encinas de la finca.',
+  },
+  {
+    q: '¿A qué hora debemos llegar a Quinta Monteguerra?',
+    a: `La recepción de invitados comienza a las ${horaBienvenida} h. Os recomendamos llegar con unos minutos de margen para dar un paseo tranquilo por los jardines antes de la ceremonia.`,
+  },
+  {
+    q: '¿Cómo indicamos alergias, intolerancias o menús especiales?',
+    a: 'En el tercer paso del formulario de confirmación de asistencia podréis marcar alergias o intolerancias para cada invitado (celíaco, lactosa, vegetariano, vegano, frutos secos, marisco, etc.) y añadir cualquier nota médica para cocina.',
+  },
+  {
+    q: '¿Hasta qué fecha podemos confirmar nuestra asistencia?',
+    a: `Os agradecemos que nos confirméis antes del ${textos.rsvpFechaLimite}, para poder organizar las mesas y el banquete en ${lugar} con todo el cariño.`,
+  },
+  {
+    q: '¿Dispone la finca de aparcamiento propio?',
+    a: `Sí, ${lugar} cuenta con un amplio aparcamiento privado dentro de la propia finca para todos los invitados.`,
+  },
+  {
+    q: 'Tengo otra consulta, ¿cómo puedo hablar con vosotros?',
+    a: `Al final de esta misma página encontrarás los botones directos para escribir por WhatsApp a ${novios.ella} o a ${novios.el}. ¡Estaremos encantados de ayudarte!`,
+  },
+];
 ---
 
-<section id="faq" class="py-24 sm:py-32 px-6 bg-[#F9F8F6] paper-texture scroll-mt-24">
+<section id="faq" class="relative py-24 sm:py-32 px-6 scroll-mt-20">
   <div class="max-w-2xl mx-auto">
     <div class="text-center mb-14">
-      <p class="font-sans text-[0.7rem] tracking-[0.35em] uppercase text-[#8B4542] mb-4">
-        Dudas habituales
+      <p class="font-hand text-3xl text-[#3B539A] mb-1 reveal-fade">
+        Notas al margen
       </p>
-      <h2 class="font-serif text-4xl md:text-5xl mb-6 text-[#2A2A2A]">Preguntas frecuentes</h2>
-      <div class="w-12 h-px bg-[#8B4542] mx-auto mb-6"></div>
-      <p class="font-sans font-light text-[#2A2A2A]/65 max-w-lg mx-auto leading-relaxed" style="font-size: var(--text-body);">
-        Aquí resolvemos lo que suele preguntarse. Si algo no queda claro, al final de la página podéis escribirnos.
+      <h2 class="font-serif text-4xl md:text-5xl mb-4 text-[#2B2B29] reveal-up">
+        Preguntas Frecuentes
+      </h2>
+      <div class="divider-ink w-28 mx-auto mb-6 reveal-line"></div>
+      <p class="font-serif italic text-[#2B2B29]/75 max-w-lg mx-auto leading-relaxed" style="font-size: var(--text-body-lg);">
+        Pequeñas respuestas para que solo tengáis que preocuparos de disfrutar.
       </p>
     </div>
 
-    <div class="space-y-0 border border-[#E8E3D9] bg-[#F3EFEA]/50">
-      <details class="group border-b border-[#E8E3D9] last:border-b-0 open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>¿Hay dress code?</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          No pedimos un dress code cerrado. No hace falta un color concreto, ni chaqué ni etiqueta tan estricta: lo <strong class="font-normal text-[#2A2A2A]">importante</strong> es que vengáis <strong class="font-normal text-[#2A2A2A]">cómodos</strong> y <strong class="font-normal text-[#2A2A2A]">elegantes</strong>.
-        </div>
-      </details>
-
-      <details class="group border-b border-[#E8E3D9] last:border-b-0 open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>¿A qué hora empieza?</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          La ceremonia comienza a las <strong class="font-normal text-[#2A2A2A]">{horaCeremonia}</strong>. Os recomendamos llegar unos <strong class="font-normal text-[#2A2A2A]">15 minutos antes</strong> para ubicaros con calma, pero no es obligatorio si no podéis.
-        </div>
-      </details>
-
-      <details class="group border-b border-[#E8E3D9] last:border-b-0 open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>¿Cómo comunicamos alergias o intolerancias?</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          En la <a href="#rsvp" class="text-[#8B4542] underline underline-offset-[3px] decoration-[#8B4542]/40 hover:decoration-[#8B4542]">confirmación de asistencia</a>, cuando indicáis que venís y, si aplica, quiénes os acompañan, hay un paso para anotar <strong class="font-normal text-[#2A2A2A]">alergias, intolerancias u otras necesidades alimentarias por cada invitado</strong>. Así lo tenemos todo recogido de forma ordenada.
-        </div>
-      </details>
-
-      <details class="group border-b border-[#E8E3D9] last:border-b-0 open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>¿Hasta cuándo podemos confirmar asistencia?</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          Os rogamos que confirméis antes del <strong class="font-normal text-[#2A2A2A]">{textos.rsvpFechaLimite}</strong> (aproximadamente un mes antes del gran día), para que podamos organizarlo todo con tiempo.
-        </div>
-      </details>
-
-      <details class="group border-b border-[#E8E3D9] last:border-b-0 open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>¿Pueden venir los niños?</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          <strong class="font-normal text-[#2A2A2A]">¡Por supuesto!</strong> Además, al terminar el banquete habrá un <strong class="font-normal text-[#2A2A2A]">servicio de animación</strong> con monitor: los peques podrán disfrutar hasta <strong class="font-normal text-[#2A2A2A]">unas tres horas</strong> de actividades mientras los mayores siguen la fiesta con tranquilidad.
-        </div>
-      </details>
-
-      <details class="group border-b border-[#E8E3D9] last:border-b-0 open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>¿Dónde es exactamente la celebración?</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          Toda la información del lugar, fecha y hora está en la sección <a href="#ubicacion" class="text-[#8B4542] underline underline-offset-[3px] decoration-[#8B4542]/40 hover:decoration-[#8B4542]">Dónde & Cuándo</a>, con mapa y enlaces útiles.
-        </div>
-      </details>
-
-      <details class="group open:bg-[#F9F8F6]/80 transition-colors">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 sm:px-6 sm:py-6 font-serif text-lg text-[#2A2A2A] hover:text-[#8B4542] transition-colors [&::-webkit-details-marker]:hidden">
-          <span>Tengo otra pregunta…</span>
-          <ChevronDown
-            className="h-5 w-5 shrink-0 text-[#8B4542] transition-transform duration-300 group-open:rotate-180"
-            strokeWidth={1.5}
-          />
-        </summary>
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 font-sans font-light text-[#2A2A2A]/80 leading-relaxed text-sm sm:text-[15px] border-t border-transparent group-open:border-[#E8E3D9]/60">
-          Sin problema: bajad hasta la parte inferior de la página, en <a href="#contacto" class="text-[#8B4542] underline underline-offset-[3px] decoration-[#8B4542]/40 hover:decoration-[#8B4542]">contacto</a>, y escribidnos por WhatsApp a Carlos o a Irene. Estaremos encantados de ayudaros.
-        </div>
-      </details>
+    <div class="space-y-2">
+      {FAQS.map((item) => (
+        <details class="group transition-colors">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 px-2 font-serif text-xl sm:text-2xl text-[#2B2B29] hover:text-[#3B539A] transition-colors [&::-webkit-details-marker]:hidden">
+            <span>{item.q}</span>
+            <ChevronDown
+              className="h-5 w-5 shrink-0 text-[#3B539A] transition-transform duration-300 group-open:rotate-180"
+              strokeWidth={1.5}
+            />
+          </summary>
+          <div class="px-2 pb-5 pt-1 font-serif text-[#2B2B29]/80 leading-relaxed text-base sm:text-lg">
+            {item.a}
+          </div>
+          <!-- Trazo de plumilla irregular como separador de nota -->
+          <svg
+            viewBox="0 0 600 6"
+            class="w-full h-1.5 overflow-visible pointer-events-none"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M 4 3 C 180 1, 410 5.5, 596 2.5"
+              fill="none"
+              stroke="#2B2B29"
+              stroke-width="0.9"
+              stroke-opacity="0.22"
+              stroke-linecap="round"
+            />
+          </svg>
+        </details>
+      ))}
     </div>
   </div>
 </section>

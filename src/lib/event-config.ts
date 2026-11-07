@@ -5,108 +5,77 @@
 export const EVENT_CONFIG = {
   // ── Protagonistas ──────────────────────────────────────────────────
   novios: {
-    ella: "Irene",
-    el: "Carlos",
-    titulo: "Irene & Carlos",
-    subtitulo: "Tienen el honor de invitaros a celebrar su unión",
+    ella: "Paloma",
+    el: "Jose",
+    titulo: "Paloma & Jose",
+    subtitulo: "Tienen la ilusión de invitaros a celebrar su boda",
   },
 
   // ── Fecha y hora ───────────────────────────────────────────────────
-  fecha: "20260626",
-  fechaFin: "20260627",
-  horaInicio: "190000",
+  fecha: "20270918",
+  fechaFin: "20270919",
+  horaInicio: "183000",
   horaFin: "050000",
   /** Fecha en formato legible para mostrar en la UI */
-  fechaLegible: "26 de junio de 2026",
+  fechaLegible: "18 de septiembre de 2027",
   /** Fecha en formato corto para el hero */
-  fechaCorta: "26 · 06 · 26",
+  fechaCorta: "18 · 09 · 27",
 
   // ── Lugar ──────────────────────────────────────────────────────────
-  lugar: "Laberinto del Rey",
-  lugarDireccion: "Toledo, España",
-  coordenadas: "39.863237277761776, -4.00678011642759",
+  lugar: "Quinta Monteguerra",
+  lugarDireccion: "Ctra. Herencia CR-1341, km 12,6 · Alcázar de San Juan, Ciudad Real",
+  coordenadas: "39.23625786133547, -3.3133013197136947",
   /** Web oficial del restaurante/venue */
-  lugarWeb: "https://www.laberintodelrey.com/",
+  lugarWeb: "http://www.quintamonteguerra.com/",
 
   // ── Programa del día ──────────────────────────────────────────────
   programa: [
-    { hora: "19:00", descripcion: "Ceremonia civil" },
-    { hora: "20:00", descripcion: "Cóctel de bienvenida" },
-    { hora: "21:30", descripcion: "Cena de celebración" },
-    { hora: "00:00", descripcion: "Fiesta con barra libre" },
-  ],
-
-  // ── Hoteles recomendados (para invitados de fuera) ───────────────────
-  hoteles: [
-    {
-      nombre: "Hotel Princesa Galiana",
-      enlace: "http://hotelprincesagaliana.com/",
-      descripcion: "El más cercano al lugar de la celebración",
-      direccion: "P.º de la Rosa, 58, 45006 Toledo",
-      telefono: "925 257 200",
-      coordenadas: "39.86213069950938, -4.012770656862215",
-    },
-    {
-      nombre: "Hotel Medina",
-      enlace: "https://www.hotelmedina.com/?utm_source=google&utm_medium=business&utm_campaign=maps",
-      descripcion: "En el casco histórico",
-      direccion: "Bajada Desamparados, 2, 45003 Toledo",
-      telefono: "925 699 999",
-      coordenadas: "39.86170031159682, -4.021746230857924",
-    },
-    {
-      nombre: "Hotel Zentral Mayoral",
-      enlace: "http://www.hotelzentraltoledo.com/",
-      descripcion: "Frente a la estación de autobuses, a 250 m del casco antiguo",
-      direccion: "Av. Castilla-La Mancha, 3, 45003 Toledo",
-      telefono: "925 216 000",
-      coordenadas: "39.865045180943525, -4.020575877388362",
-    },
+    { hora: "18:30", descripcion: "Llegada y bienvenida entre encinas" },
+    { hora: "19:00", descripcion: "Ceremonia civil en los jardines" },
+    { hora: "20:00", descripcion: "Cóctel de bienvenida en el Patio Encina" },
+    { hora: "21:30", descripcion: "Cena de celebración en el salón" },
+    { hora: "00:00", descripcion: "Baile nupcial y fiesta bajo las estrellas" },
   ],
 
   // ── Contacto ───────────────────────────────────────────────────────
   contacto: {
-    carlos: { numero: "34673153863", mensaje: "Hola Carlos, tengo una consulta sobre la boda." },
-    irene: { numero: "34658640737", mensaje: "Hola Irene, tengo una consulta sobre la boda." },
+    paloma: { numero: "34600000000", mensaje: "Hola Paloma, tengo una consulta sobre la boda." },
+    jose: { numero: "34600000000", mensaje: "Hola Jose, tengo una consulta sobre la boda." },
   },
-  /** @deprecated Usar contacto.carlos */
-  whatsappNumero: "34673153863",
-  whatsappMensaje: "Hola, tengo una consulta sobre la boda de Irene y Carlos.",
 
   // ── Puerta de acceso (código de invitación) ────────────────────────
   accessGate: {
-    titulo: "Acceso a la invitación",
+    titulo: "Invitación personal",
     mensaje:
-      "Introduce el código de acceso que figura en tu invitación para acceder a la web.",
-    placeholder: "Código de acceso",
-    boton: "Entrar",
-    errorMensaje: "Código incorrecto. Por favor, inténtalo de nuevo.",
+      "Introduce la clave escrita en tu sobre de invitación para abrir el cuaderno de nuestra boda.",
+    placeholder: "Clave de la invitación",
+    boton: "Abrir invitación",
+    errorMensaje: "La clave no coincide. Por favor, revísala e inténtalo de nuevo.",
   },
 
   // ── Regalos / número de cuenta ────────────────────────────────────
   // Prioridad: PUBLIC_IBAN (variable de entorno) > valor hardcodeado aquí.
-  // En producción, define PUBLIC_IBAN en .env para no exponer el IBAN en el repositorio.
   regalos: {
     /** IBAN: se lee de PUBLIC_IBAN en .env si existe, sino usa este valor de fallback */
     iban: import.meta.env.PUBLIC_IBAN || "ES00 0000 0000 0000 0000 0000",
     /** Nombre del titular de la cuenta */
-    titular: "Carlos e Irene",
+    titular: "Paloma y Jose",
     /** Nombre del banco (dejar vacío "" para ocultar) */
     banco: "",
     /** Texto que describe el destino del regalo */
-    destino: "nuestra luna de miel y nuestro nuevo hogar",
+    destino: "nuestro próximo gran viaje juntos y nuestro hogar",
   },
 
   // ── Textos UI ──────────────────────────────────────────────────────
   textos: {
     rsvpTitulo: "Confirmación de Asistencia",
     rsvpSubtitulo:
-      "Por favor, confirma tu asistencia antes del 26 de mayo de 2026.",
-    rsvpFechaLimite: "26 de mayo de 2026",
-    ubicacionTitulo: "El lugar",
+      "Por favor, confírmanos si podrás acompañarnos antes del 18 de agosto de 2027.",
+    rsvpFechaLimite: "18 de agosto de 2027",
+    ubicacionTitulo: "Dónde & Cuándo",
     ubicacionTexto:
-      "Una finca excepcional en el corazón de Toledo, rodeada de naturaleza y arquitectura histórica.",
-    footerTexto: "Con amor, Irene y Carlos",
-    footerCopyright: "26.06.26",
+      "Un caserío manchego restaurado con mimo y rodeado de 250 hectáreas de encinas centenarias, donde la arquitectura rústica de cal y azul cobalto se funde con la serenidad del campo.",
+    footerTexto: "Con todo nuestro cariño, Paloma y Jose",
+    footerCopyright: "18 · 09 · 2027 · Quinta Monteguerra",
   },
 } satisfies Record<string, unknown>;

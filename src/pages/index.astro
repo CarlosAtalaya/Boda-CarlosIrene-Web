@@ -1,44 +1,43 @@
 ---
 /**
- * Página principal — Orquesta todas las secciones wedding.
- * Mobile-first, estilo editorial, integración orgánica del logo.
+ * Página principal — Orquesta las secciones de la boda de Paloma & Jose
+ * sobre un pliego continuo de papel de algodón (#F4F6F8) con interludios en acuarela y tinta.
  */
 import Layout from '../layouts/Layout.astro';
 import HeroSection from '../components/wedding/HeroSection.astro';
-import ProgramaSection from '../components/wedding/ProgramaSection.astro';
+import WatercolorInterlude from '../components/wedding/WatercolorInterlude.astro';
 import UbicacionSection from '../components/wedding/UbicacionSection.astro';
-import HotelesSection from '../components/wedding/HotelesSection.astro';
-import FAQSection from '../components/wedding/FAQSection.astro';
-import MusicaSection from '../components/wedding/MusicaSection.astro';
+import ProgramaSection from '../components/wedding/ProgramaSection.astro';
 import RSVPSection from '../components/wedding/RSVPSection.astro';
 import RegalosSection from '../components/wedding/RegalosSection.astro';
+import FAQSection from '../components/wedding/FAQSection.astro';
 import FooterSection from '../components/wedding/FooterSection.astro';
-import CouplePhotoBlock from '../components/wedding/CouplePhotoBlock.astro';
-import { getCoupleImageUrls } from '../lib/couple-images';
-
-const coupleImages = getCoupleImageUrls();
 ---
 
-<Layout title="Irene & Carlos · 26 Junio" description="Bienvenidos a nuestra boda. Irene y Carlos tienen el honor de invitaros a celebrar con nosotros.">
+<Layout
+  title="Paloma & Jose · 18 Septiembre 2027"
+  description="Bienvenidos a nuestra boda en Quinta Monteguerra. Paloma y Jose tienen la ilusión de invitaros a celebrar con nosotros."
+>
   <HeroSection />
 
-  {/* Foto 1 — panorámica de transición entre Hero y RSVP */}
-  <CouplePhotoBlock photos={[coupleImages[0]]} variant="wide" bgColor="#F5F1EB" />
+  <!-- Interludio 1: Rama de encina en acuarela y plumilla -->
+  <WatercolorInterlude
+    variant="encina"
+    quote="En el viaje de la vida, lo más hermoso es el camino que trazamos juntos"
+  />
 
-  <RSVPSection />
   <UbicacionSection />
   <ProgramaSection />
 
-  {/* Fotos 2 y 3 — dúo centrado entre Programa y Regalos */}
-  <CouplePhotoBlock photos={[coupleImages[1], coupleImages[2]]} variant="duo" bgColor="#F9F8F6" />
+  <!-- Interludio 2: Boceto arquitectónico del caserío manchego en azul cobalto y albero -->
+  <WatercolorInterlude variant="caserio" />
 
+  <RSVPSection />
   <RegalosSection />
-  <MusicaSection />
-  <HotelesSection />
   <FAQSection />
 
-  {/* Foto 4 — retrato centrado antes del footer, cierre narrativo */}
-  <CouplePhotoBlock photos={[coupleImages[3]]} variant="single" bgColor="#F9F8F6" />
+  <!-- Interludio 3: Sello botánico de cierre antes del pie de página -->
+  <WatercolorInterlude variant="olivo" />
 
   <FooterSection />
 </Layout>

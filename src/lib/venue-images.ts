@@ -1,26 +1,27 @@
 /**
- * URLs de imágenes del lugar (Laberinto del Rey).
- * Lee desde public/fotos-restaurante/urls-imagenes.txt (URLs de Google Maps)
- * o usa imágenes locales en public/fotos-restaurante/*.jpg si existen.
+ * URLs de imágenes del lugar (Quinta Monteguerra).
+ * Lee las fotografías locales en public/fotos-quinta-monteguerra/*.{webp,jpg,jpeg,png}
+ * con fallback a las 10 imágenes seleccionadas de Quinta Monteguerra.
  */
 import fs from "node:fs";
 import path from "node:path";
 
-const TXT_PATH = path.join(process.cwd(), "public/fotos-restaurante/urls-imagenes.txt");
-const PHOTOS_DIR = path.join(process.cwd(), "public/fotos-restaurante");
+const PHOTOS_DIR = path.join(process.cwd(), "public/fotos-quinta-monteguerra");
 
-/** Extrae el ID de foto de Google de una URL de Maps */
-function extractGooglePhotoId(url: string): string | null {
-  const match = url.match(/1s([A-Za-z0-9_-]+)!/);
-  return match ? match[1] : null;
-}
+const FALLBACK_QUINTA_URLS = [
+  "http://quintamonteguerra.com/wp-content/uploads/2015/09/gallery-big-01.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/09/gallery-big-02.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/09/gallery-big-05.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/08/gallery-big-08.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/09/gallery-big-06.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/08/gallery-big-15.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/08/gallery-big-18.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/08/gallery-big-17.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/08/gallery-big-19.jpg",
+  "http://quintamonteguerra.com/wp-content/uploads/2015/10/gallery-big-28.jpg",
+];
 
-/** Construye URL directa de imagen de Google (tamaño 800px ancho) */
-function buildGoogleImageUrl(photoId: string): string {
-  return `https://lh3.googleusercontent.com/p/${photoId}=w800-h600`;
-}
-
-/** Obtiene URLs de imágenes: prioriza locales (WebP), fallback a Google. Orden numérico (01, 02, …) */
+/** Obtiene URLs de imágenes: prioriza locales en /fotos-quinta-monteguerra, ordenadas numéricamente (01, 02, …) */
 export function getVenueImageUrls(): string[] {
   const localImages: string[] = [];
   try {
@@ -28,7 +29,7 @@ export function getVenueImageUrls(): string[] {
     for (const f of files) {
       const ext = path.extname(f).toLowerCase();
       if ([".webp", ".jpg", ".jpeg", ".png"].includes(ext)) {
-        localImages.push(`/fotos-restaurante/${f}`);
+        localImages.push(`/fotos-quinta-monteguerra/${f}`);
       }
     }
   } catch {
@@ -43,21 +44,5 @@ export function getVenueImageUrls(): string[] {
     });
   }
 
-  // Fallback: extraer de urls-imagenes.txt
-  try {
-    const content = fs.readFileSync(TXT_PATH, "utf-8");
-    const lines = content.split("\n").map((l) => l.trim()).filter(Boolean);
-    const seen = new Set<string>();
-    const urls: string[] = [];
-    for (const line of lines) {
-      const id = extractGooglePhotoId(line);
-      if (id && !seen.has(id)) {
-        seen.add(id);
-        urls.push(buildGoogleImageUrl(id));
-      }
-    }
-    return urls;
-  } catch {
-    return [];
-  }
+  return FALLBACK_QUINTA_URLS;
 }

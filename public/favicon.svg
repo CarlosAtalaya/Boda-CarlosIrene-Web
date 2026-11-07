@@ -1,17 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Fondo crema -->
-  <rect width="64" height="64" rx="12" fill="#F5F1EB"/>
-  <!-- Iniciales I & C en serif elegante -->
+  <!-- Fondo papel de algodón -->
+  <rect width="64" height="64" rx="14" fill="#F4F6F8"/>
+  <!-- Mancha sutil de acuarela azul cielo -->
+  <ellipse cx="32" cy="32" rx="24" ry="20" fill="#B8CDE3" fill-opacity="0.45"/>
+  <!-- Iniciales P & J en serif / caligrafía azul cobalto y tinta -->
   <text
     x="32"
-    y="43"
+    y="42"
     text-anchor="middle"
     font-family="Georgia, 'Times New Roman', serif"
-    font-size="28"
+    font-size="25"
+    font-style="italic"
     font-weight="400"
-    letter-spacing="-1"
-    fill="#8B4542"
-  >I&amp;C</text>
-  <!-- Línea decorativa inferior -->
-  <line x1="18" y1="50" x2="46" y2="50" stroke="#8B4542" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    letter-spacing="-0.5"
+    fill="#2B2B29"
+  >P<tspan fill="#3B539A" font-size="20">&amp;</tspan>J</text>
+  <!-- Trazo de plumilla inferior -->
+  <path d="M16 50 C26 47, 38 52, 48 49" stroke="#3B539A" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.7"/>
 </svg>

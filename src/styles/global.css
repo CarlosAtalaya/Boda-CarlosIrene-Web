@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
-/* Fuentes auto-hosteadas (SRI): Cormorant Garamond + Inter — sin dependencia externa */
+/* Fuentes auto-hosteadas (cumple CSP font-src 'self'):
+   - Oooh Baby: Caligrafía manuscrita orgánica de trazo fino en tinta viva
+   - Cormorant Garamond: Editorial clásica de inspiración impresa
+   - Inter: Soporte funcional de alta legibilidad para etiquetas pequeñas */
+@import "@fontsource/oooh-baby/400.css";
 @import "@fontsource/cormorant-garamond/400.css";
 @import "@fontsource/cormorant-garamond/400-italic.css";
 @import "@fontsource/cormorant-garamond/500.css";
@@ -10,164 +14,323 @@
 @import "@fontsource/inter/300.css";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
 
-/* ── Scroll suave para anclas ───────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+  background-color: #F4F6F8;
 }
 
-/* ── Sistema de diseño (paleta plantilla: burdeos, crema, rosado empolvado) ── */
+/* ── A. Paleta de Pigmentos Naturales (Design Tokens Tailwind v4) ────── */
 @theme {
+  --font-hand: "Oooh Baby", cursive;
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
-  --color-crema: #F9F8F6;
-  --color-crema-alt: #F3EFEA;
-  --color-primary: #8B4542;
-  --color-text: #2A2A2A;
-  --color-accent: #D9C5C5;
-  --color-border: #E8E3D9;
+
+  /* Lienzo / Papel Base prensado en frío */
+  --color-paper: #F4F6F8;
+  --color-paper-warm: #EAECEF;
+
+  /* Azul Cielo Aguado */
+  --color-sky-mid: #7FA1C3;
+  --color-sky-wash: #B8CDE3;
+
+  /* Azul Cobalto Arquitectónico (Quinta Monteguerra) */
+  --color-cobalt: #3B539A;
+
+  /* Verde Olivo / Encina Manchega */
+  --color-olive-deep: #58693B;
+  --color-olive-light: #8A9A5B;
+
+  /* Tierra / Camino de Albero */
+  --color-albero-sand: #DFB98C;
+  --color-albero-ochre: #B88655;
+
+  /* Tinta / Grafito (PROHIBIDO #000000) */
+  --color-ink: #2B2B29;
+
+  /* Aliases semánticos para compatibilidad limpia */
+  --color-crema: #F4F6F8;
+  --color-crema-alt: #EAECEF;
+  --color-primary: #3B539A;
+  --color-text: #2B2B29;
+  --color-accent: #B8CDE3;
+  --color-border: #7FA1C3;
 }
 
-/* ── Tipografía fluida ──────────────────────────────────────────────── */
+/* ── Tipografía fluida y espaciado ──────────────────────────────────── */
 :root {
-  --text-display: clamp(3rem, 8vw + 1rem, 8rem);
-  --text-heading-xl: clamp(2rem, 4vw + 0.5rem, 4.5rem);
-  --text-heading-lg: clamp(1.5rem, 2.5vw + 0.5rem, 3rem);
-  --text-heading-md: clamp(1.2rem, 1.5vw + 0.4rem, 2rem);
-  --text-body-lg: clamp(1rem, 0.8vw + 0.5rem, 1.25rem);
-  --text-body: clamp(0.875rem, 0.5vw + 0.5rem, 1.125rem);
-  --text-small: clamp(0.75rem, 0.3vw + 0.4rem, 0.875rem);
+  --text-display: clamp(3.5rem, 9vw + 1rem, 8.5rem);
+  --text-heading-xl: clamp(2.25rem, 4.5vw + 0.5rem, 4.75rem);
+  --text-heading-lg: clamp(1.75rem, 3vw + 0.5rem, 3.25rem);
+  --text-heading-md: clamp(1.35rem, 1.8vw + 0.4rem, 2.2rem);
+  --text-body-lg: clamp(1.05rem, 0.8vw + 0.5rem, 1.3rem);
+  --text-body: clamp(0.95rem, 0.5vw + 0.5rem, 1.15rem);
+  --text-small: clamp(0.78rem, 0.3vw + 0.4rem, 0.9rem);
 
-  --spacing-section: clamp(4rem, 8vw, 8rem);
-  --spacing-section-sm: clamp(2rem, 4vw, 4rem);
+  --spacing-section: clamp(4.5rem, 8vw, 8.5rem);
+  --spacing-section-sm: clamp(2.5rem, 4vw, 4.5rem);
 }
 
-/* ── Scroll-driven animations ───────────────────────────────────────── */
-@keyframes revealUp {
+/* ── Lienzo Maestro de Papel de Algodón Prensado en Frío ────────────── */
+.watercolor-canvas {
+  background-color: #F4F6F8;
+  color: #2B2B29;
+  position: relative;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse at 15% 12%, rgba(184, 205, 227, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 38%, rgba(223, 185, 140, 0.16) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 72%, rgba(138, 154, 91, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(184, 205, 227, 0.20) 0%, transparent 50%);
+}
+
+/* Grano físico de papel de algodón en toda la pantalla con multiply */
+.watercolor-canvas::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: multiply;
+  opacity: 0.42;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 320 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='cotton'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.17  0 0 0 0 0.17  0 0 0 0 0.16  0 0 0 0.085 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23cotton)'/%3E%3C/svg%3E");
+  background-size: 280px 280px;
+}
+
+/* ── Integración de Pigmento sobre Papel ────────────────────────────── */
+.pigment-multiply {
+  mix-blend-mode: multiply;
+}
+
+/* Deformación de borde sangrado en agua (usa filtro SVG de Layout.astro) */
+.watercolor-edge {
+  filter: url(#watercolor-edge);
+}
+
+/* Máscara orgánica de mancha para fotografías y tarjetas */
+.watercolor-mask {
+  border-radius: 42% 58% 47% 53% / 54% 45% 55% 46%;
+}
+
+.watercolor-card-shape {
+  border-radius: 18px 6px 22px 8px / 8px 20px 6px 16px;
+}
+
+.watercolor-photo-frame {
+  clip-path: url(#watercolor-photo-clip);
+}
+
+/* ── Efecto "Boiling Line" (Vibración de trazo dibujado a mano) ─────── */
+@keyframes sketchBoil {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(0.65px, -0.55px) rotate(0.4deg) scale(1.008);
+  }
+  100% {
+    transform: translate(-0.55px, 0.65px) rotate(-0.4deg) scale(0.995);
+  }
+}
+
+/* Stop-motion a 2 frames por ciclo para iconos, ornamentos y divisores */
+.boil-line {
+  animation: sketchBoil 0.45s steps(2, end) infinite;
+}
+
+/* Animación stop-motion de brisa en ilustraciones (8 fps) */
+@keyframes breezeStopMotion {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(1.1deg) translateY(-2px);
+  }
+  50% {
+    transform: rotate(0.3deg) translateY(-1px);
+  }
+  75% {
+    transform: rotate(-0.9deg) translateY(1px);
+  }
+}
+
+.stop-motion-breeze {
+  animation: breezeStopMotion 3.2s steps(8, end) infinite;
+  transform-origin: bottom center;
+}
+
+/* ── Botón Artesanal con Mancha de Acuarela ─────────────────────────── */
+.btn-primary,
+.btn-watercolor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #F4F6F8;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  isolation: isolate;
+  transition: transform 0.25s steps(3, end), color 0.25s ease;
+}
+
+.btn-primary > *,
+.btn-watercolor > * {
+  position: relative;
+  z-index: 2;
+}
+
+.btn-primary::before,
+.btn-watercolor::before {
+  content: "";
+  position: absolute;
+  inset: -2px -6px;
+  background-color: #3B539A;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  filter: url(#watercolor-edge);
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+  z-index: 0;
+  transition: transform 0.3s steps(3, end), background-color 0.3s ease;
+}
+
+.btn-primary::after,
+.btn-watercolor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.2px solid #2B2B29;
+  border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  opacity: 0.45;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.btn-primary:hover::before,
+.btn-watercolor:hover::before {
+  background-color: #58693B;
+  transform: scale(1.03) rotate(-0.5deg);
+}
+
+.btn-primary:hover,
+.btn-watercolor:hover {
+  transform: translateY(-1px);
+}
+
+/* Variante secundaria de botón (aguada clara de cielo o albero con tinta) */
+.btn-watercolor-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #2B2B29;
+  background: transparent;
+  isolation: isolate;
+  transition: transform 0.25s steps(3, end), color 0.25s ease;
+}
+
+.btn-watercolor-ghost > * {
+  position: relative;
+  z-index: 2;
+}
+
+.btn-watercolor-ghost::before {
+  content: "";
+  position: absolute;
+  inset: -1px -4px;
+  background-color: #B8CDE3;
+  border-radius: 225px 18px 245px 16px / 16px 235px 18px 225px;
+  filter: url(#watercolor-edge);
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+  z-index: 0;
+  transition: opacity 0.25s ease, background-color 0.25s ease, transform 0.25s steps(3, end);
+}
+
+.btn-watercolor-ghost::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.1px solid rgba(43, 43, 41, 0.42);
+  border-radius: 18px 235px 16px 245px / 245px 16px 235px 18px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.btn-watercolor-ghost:hover::before {
+  opacity: 0.72;
+  background-color: #DFB98C;
+  transform: scale(1.02) rotate(0.4deg);
+}
+
+.btn-watercolor-ghost:hover {
+  color: #3B539A;
+}
+
+/* ── Inputs como Líneas de Escritura en Tinta sobre Papel ───────────── */
+.input-editorial,
+.input-ink-line {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1.5px dashed rgba(43, 43, 41, 0.38);
+  border-radius: 0;
+  color: #2B2B29;
+  transition: border-color 0.25s steps(4, end), background-color 0.25s ease;
+}
+
+.input-editorial:focus,
+.input-ink-line:focus {
+  outline: none;
+  border-bottom: 1.5px solid #3B539A;
+  background-color: rgba(184, 205, 227, 0.16);
+}
+
+/* ── Separador de Tinta a Mano Alzada ───────────────────────────────── */
+.divider-gold,
+.divider-ink {
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 4.5C45 1.5 92 6.8 145 3.2C168 1.8 185 5.1 198 3.8' stroke='%233B539A' stroke-width='1.5' stroke-linecap='round' stroke-opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+/* ── Scroll-driven animations (estilo cuaderno de campo) ────────────── */
+@keyframes revealUpPaper {
   from {
     opacity: 0;
-    transform: translateY(2rem);
+    transform: translateY(1.25rem);
+    filter: blur(3px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
-@keyframes revealFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes lineGrow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-@keyframes floatSubtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
 .reveal-up {
-  animation: revealUp linear both;
+  animation: revealUpPaper 0.7s steps(8, end) both;
   animation-timeline: view();
-  animation-range: entry 0% entry 30%;
+  animation-range: entry 0% entry 28%;
 }
 
 .reveal-fade {
-  animation: revealFade linear both;
+  animation: revealUpPaper 0.6s steps(6, end) both;
   animation-timeline: view();
   animation-range: entry 0% entry 25%;
 }
 
+@keyframes lineGrowInk {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 .reveal-line {
   transform-origin: left;
-  animation: lineGrow linear both;
+  animation: lineGrowInk 0.6s steps(8, end) both;
   animation-timeline: view();
   animation-range: entry 5% entry 25%;
-}
-
-/* ── Micro-interacciones globales ───────────────────────────────────── */
-.btn-primary {
-  position: relative;
-  transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
-.btn-primary > * {
-  position: relative;
-  z-index: 1;
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #8B4542 0%, #6d3532 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.btn-primary:hover::before { opacity: 1; }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(139, 69, 66, 0.25); }
-.btn-primary:active { transform: translateY(0); }
-
-/* Borde animado en inputs */
-.input-editorial {
-  position: relative;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-}
-
-.input-editorial:focus {
-  box-shadow: 0 0 0 3px rgba(139, 69, 66, 0.15);
-}
-
-/* ── Ornamento tipográfico ──────────────────────────────────────────── */
-.ornament::before,
-.ornament::after {
-  content: '—';
-  margin: 0 0.75rem;
-  color: #8B4542;
-  font-family: "Cormorant Garamond", serif;
-}
-
-/* ── Separador (burdeos) ───────────────────────────────────────────── */
-.divider-gold {
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #8B4542 30%, #8B4542 70%, transparent 100%);
-  opacity: 0.4;
-}
-
-/* ── Logo flotante ──────────────────────────────────────────────────── */
-.logo-ambient {
-  animation: floatSubtle 6s ease-in-out infinite;
-  filter: drop-shadow(0 4px 12px rgba(139, 69, 66, 0.2));
-}
-
-/* ── Paper texture (hero, integración orgánica con branding) ────────── */
-.paper-texture {
-  background-color: #F9F8F6;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 100px 100px;
-}
-
-/* ── Hero: tono más cálido para dar cuerpo (transición suave al scroll) ── */
-.hero-warm {
-  background-color: #F5F1EB;
-}
-
-/* ── Grain texture overlay ──────────────────────────────────────────── */
-.grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
 }
 
 /* ── View Transitions ───────────────────────────────────────────────── */
@@ -175,90 +338,45 @@ html {
   navigation: auto;
 }
 
-::view-transition-old(root) {
-  animation: 300ms ease both fade-out;
-}
-
-::view-transition-new(root) {
-  animation: 300ms ease both fade-in;
-}
-
-@keyframes fade-out {
-  to { opacity: 0; transform: translateY(-8px); }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-}
-
-/* ── Step progress ──────────────────────────────────────────────────── */
+/* ── Step progress & Form transitions ───────────────────────────────── */
 .step-dot {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 62% 38% 46% 54% / 60% 44% 56% 40%;
+  transition: all 0.35s steps(4, end);
 }
 
 .step-dot.active {
-  background: #8B4542;
-  box-shadow: 0 0 0 4px rgba(139, 69, 66, 0.2);
+  background: #3B539A;
+  color: #F4F6F8;
 }
 
 .step-dot.completed {
-  background: #2A2A2A;
+  background: #58693B;
+  color: #F4F6F8;
 }
 
-/* ── Form step transitions ──────────────────────────────────────────── */
 .step-panel {
-  animation: stepIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes stepIn {
-  from {
-    opacity: 0;
-    transform: translateX(1.5rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ── Acompañante card transitions ───────────────────────────────────── */
-@keyframes guestIn {
-  from {
-    opacity: 0;
-    transform: translateY(-0.75rem) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  animation: revealUpPaper 0.4s steps(6, end) both;
 }
 
 .guest-card {
-  animation: guestIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: revealUpPaper 0.3s steps(5, end) both;
 }
 
-/* ── Toast notification ─────────────────────────────────────────────── */
+/* ── Toast notification artesanal ───────────────────────────────────── */
 @keyframes toastIn {
-  from { opacity: 0; transform: translateY(1rem) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes toastOut {
-  from { opacity: 1; transform: translateY(0) scale(1); }
-  to { opacity: 0; transform: translateY(1rem) scale(0.95); }
-}
+.toast-enter { animation: toastIn 0.35s steps(5, end) both; }
 
-.toast-enter { animation: toastIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.toast-exit { animation: toastOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+/* ── Scrollbar y Selección en Azul Cielo / Cobalto ──────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F4F6F8; }
+::-webkit-scrollbar-thumb { background: #7FA1C3; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3B539A; }
 
-/* ── Scrollbar personalizado ────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #F9F8F6; }
-::-webkit-scrollbar-thumb { background: #8B4542; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #6d3532; }
-
-/* ── Selección de texto ─────────────────────────────────────────────── */
 ::selection {
-  background: #8B4542;
-  color: white;
+  background: #B8CDE3;
+  color: #2B2B29;
 }

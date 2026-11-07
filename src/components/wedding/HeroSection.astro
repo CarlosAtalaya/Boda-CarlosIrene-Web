@@ -1,77 +1,286 @@
 ---
 /**
- * Hero — Sección de apertura con logo, nombres y fecha.
- * Scroll-driven animations + tipografía fluida.
+ * HeroSection — Escena en Acuarela de Quinta Monteguerra + Coreografía en 3 Tiempos.
+ * Tiempo 1: Paisaje en acuarela vivo (encinas, camino de albero, caserío blanco y azul cobalto) en stop-motion (8fps).
+ * Tiempo 2: Lavado/desvanecimiento hacia el papel #F4F6F8 (fade-to-paper).
+ * Tiempo 3: Escritura caligráfica en tinta viva (#2B2B29 y #3B539A) + reaparición armónica de la acuarela.
  */
 import { EVENT_CONFIG } from '../../lib/event-config';
 
-const { novios, fechaCorta, fechaLegible, lugar, lugarDireccion } = EVENT_CONFIG;
-const fechaParts = fechaLegible.split(' ');
-const fechaHero = `${fechaParts[0]} ${fechaParts[2].toUpperCase()} ${fechaParts[4]} | ${lugarDireccion.split(',')[0].toUpperCase()}`;
+const { novios, fechaLegible, lugar } = EVENT_CONFIG;
 ---
 
 <section
   id="hero"
-  class="hero-warm paper-texture relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-24 sm:py-20 overflow-hidden pt-28 sm:pt-24"
+  class="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-28 pb-20 overflow-hidden select-none"
 >
-  <!-- Orbes decorativos (más presencia para dar cuerpo al fondo) -->
-  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-    <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#D9C5C5] mix-blend-multiply filter blur-[100px] opacity-40"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#8B4542] mix-blend-multiply filter blur-[100px] opacity-22"></div>
+  <!-- ── CAPA 1: ESCENA ILUSTRADA EN ACUARELA (QUINTA MONTEGUERRA) ──────── -->
+  <div
+    id="hero-watercolor-scene"
+    class="pointer-events-none absolute inset-0 flex items-center justify-center z-0"
+    aria-hidden="true"
+  >
+    <svg
+      viewBox="0 0 1200 800"
+      class="w-full h-full max-w-6xl object-cover pigment-multiply"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <!-- Lavado de Azul Cielo Aguado (#B8CDE3 y #7FA1C3) -->
+      <g filter="url(#watercolor-edge)" class="pigment-multiply">
+        <ellipse cx="600" cy="230" rx="520" ry="190" fill="#B8CDE3" fill-opacity="0.48" />
+        <ellipse cx="480" cy="190" rx="360" ry="130" fill="#7FA1C3" fill-opacity="0.26" />
+        <ellipse cx="750" cy="240" rx="310" ry="115" fill="#B8CDE3" fill-opacity="0.35" />
+      </g>
+
+      <!-- Silueta Arquitectónica del Caserío Manchego (Cal blanca y Azul Cobalto #3B539A) -->
+      <g id="hero-caserio" transform="translate(430, 250)" opacity="0.88">
+        <!-- Muros encalados y tejado ocre tostado -->
+        <path
+          d="M30 140 L170 65 L310 140 L310 250 L30 250 Z"
+          fill="#F4F6F8"
+          stroke="#2B2B29"
+          stroke-width="1.3"
+          stroke-dasharray="400 4"
+        />
+        <path
+          d="M20 142 L170 60 L320 142"
+          fill="none"
+          stroke="#B88655"
+          stroke-width="5"
+          stroke-linecap="round"
+          filter="url(#watercolor-edge)"
+        />
+        <!-- Portón y ventanales en Azul Cobalto Arquitectónico (#3B539A) -->
+        <path
+          d="M142 250 L142 178 C142 160 198 160 198 178 L198 250 Z"
+          fill="#3B539A"
+          fill-opacity="0.82"
+          filter="url(#watercolor-edge)"
+        />
+        <rect x="72" y="168" width="32" height="42" rx="2" fill="#3B539A" fill-opacity="0.72" />
+        <rect x="236" y="168" width="32" height="42" rx="2" fill="#3B539A" fill-opacity="0.72" />
+        <!-- Trazo de plumilla arquitectónico sobre el caserío -->
+        <path
+          d="M142 250 L142 178 C142 160 198 160 198 178 L198 250 M170 164 L170 250"
+          fill="none"
+          stroke="#2B2B29"
+          stroke-width="1.1"
+        />
+      </g>
+
+      <!-- Encinas Protegidas (Verde Olivo Profundo #58693B e Iluminado #8A9A5B) con brisa stop-motion -->
+      <g class="stop-motion-breeze" filter="url(#watercolor-edge)">
+        <!-- Encinas izquierda -->
+        <ellipse cx="220" cy="390" rx="185" ry="110" fill="#58693B" fill-opacity="0.45" />
+        <ellipse cx="290" cy="360" rx="145" ry="95" fill="#8A9A5B" fill-opacity="0.52" />
+        <!-- Encinas derecha -->
+        <ellipse cx="980" cy="395" rx="190" ry="115" fill="#58693B" fill-opacity="0.45" />
+        <ellipse cx="905" cy="365" rx="150" ry="90" fill="#8A9A5B" fill-opacity="0.5" />
+      </g>
+
+      <!-- Camino de Albero (#DFB98C y #B88655) hacia la entrada de la finca -->
+      <g filter="url(#watercolor-edge)">
+        <path
+          d="M555 500 C540 575 460 660 360 760 L840 760 C735 660 655 575 645 500 Z"
+          fill="#DFB98C"
+          fill-opacity="0.55"
+        />
+        <path
+          d="M575 505 C565 580 510 660 445 755 M625 505 C640 580 695 660 755 755"
+          stroke="#B88655"
+          stroke-width="2"
+          stroke-dasharray="8 10"
+          fill="none"
+          opacity="0.5"
+        />
+      </g>
+
+      <!-- Aves en vuelo (stop-motion 2 frames) -->
+      <g class="boil-line" stroke="#2B2B29" stroke-width="1.3" fill="none" opacity="0.55">
+        <path d="M350 165 Q360 155 370 163 Q380 155 390 165" />
+        <path d="M405 145 Q413 137 421 143 Q429 137 437 145" />
+      </g>
+    </svg>
   </div>
 
-  <!-- Logo branding disimulado (esquina, no protagonista) -->
-  <figure class="absolute top-6 right-6 sm:top-8 sm:right-8 z-10 opacity-20" aria-hidden="true">
-    <img
-      src="/branding-logo.png"
-      alt=""
-      width="64"
-      height="64"
-      class="w-12 h-12 sm:w-14 sm:h-14 object-contain"
-      loading="eager"
-    />
-  </figure>
-
-  <!-- Eyebrow (invitación a boda) -->
-  <p
-    class="font-sans text-xs md:text-sm uppercase tracking-[0.4em] text-[#8B4542] mb-8 relative z-10"
+  <!-- ── CAPA 2: ESCENARIO CALIGRÁFICO EN TINTA VIVA ────────────────────── -->
+  <div
+    id="hero-calligraphy-stage"
+    class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto px-4"
   >
-    Os invitan a su boda
-  </p>
+    <!-- Eyebrow en caligrafía manuscrita -->
+    <p
+      id="hero-eyebrow"
+      class="font-hand text-3xl sm:text-4xl text-[#3B539A] tracking-wide mb-3 opacity-0"
+    >
+      Nos casamos
+    </p>
 
-  <!-- Título principal — tipografía fluida -->
-  <h1
-    class="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-center tracking-tight text-[#2A2A2A] leading-tight mb-4 relative z-10"
+    <!-- Nombres con trazo caligráfico animado en tinta #2B2B29 -->
+    <h1
+      id="hero-names"
+      class="font-hand text-6xl sm:text-8xl md:text-9xl text-[#2B2B29] leading-[1.05] tracking-normal mb-2"
+    >
+      <span class="hero-ink-word inline-block opacity-0">{novios.ella}</span>
+      <span class="hero-ink-amp block font-serif italic text-4xl sm:text-5xl text-[#3B539A] my-1 opacity-0">
+        &amp;
+      </span>
+      <span class="hero-ink-word inline-block opacity-0">{novios.el}</span>
+    </h1>
+
+    <!-- Subrayado caligráfico dibujado en vivo (stroke-dashoffset) -->
+    <svg
+      viewBox="0 0 360 28"
+      class="w-60 sm:w-80 h-7 my-4 overflow-visible"
+      aria-hidden="true"
+    >
+      <path
+        id="hero-ink-flourish"
+        d="M12 16 C85 4, 155 26, 235 12 C280 5, 318 18, 348 11"
+        fill="none"
+        stroke="#3B539A"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        pathLength="100"
+        stroke-dasharray="100"
+        stroke-dashoffset="100"
+      />
+      <path
+        id="hero-ink-leaf"
+        d="M175 15 C182 8, 192 8, 196 15 C190 21, 180 21, 175 15 Z"
+        fill="#8A9A5B"
+        fill-opacity="0.6"
+        stroke="#2B2B29"
+        stroke-width="1"
+        opacity="0"
+      />
+    </svg>
+
+    <!-- Fecha y Lugar en serif impresa sobre papel -->
+    <div id="hero-meta" class="space-y-2 mt-2 opacity-0">
+      <p class="font-serif text-xl sm:text-2xl tracking-[0.22em] uppercase text-[#2B2B29]">
+        {fechaLegible}
+      </p>
+      <p class="font-serif italic text-lg sm:text-xl text-[#58693B]">
+        {lugar} · Alcázar de San Juan
+      </p>
+    </div>
+
+    <!-- CTA con Mancha de Acuarela Azul Cobalto -->
+    <div id="hero-cta" class="mt-10 opacity-0">
+      <a
+        href="#rsvp"
+        class="btn-watercolor min-h-[48px] px-10 py-4 font-serif text-sm sm:text-base uppercase tracking-[0.22em] text-[#F4F6F8] touch-manipulation"
+      >
+        <span>Confirmar Asistencia</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Indicador de scroll bocetado a mano -->
+  <div
+    id="hero-scroll-hint"
+    class="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-0 z-10"
   >
-    {novios.ella}
-    <span class="block italic text-4xl md:text-6xl lg:text-7xl my-2 text-[#8B4542]">&amp;</span>
-    {novios.el}
-  </h1>
-
-  <!-- Separador (estilo plantilla) -->
-  <div class="w-px h-16 bg-[#2A2A2A] opacity-20 my-8 relative z-10"></div>
-
-  <!-- Fecha y lugar (estilo plantilla) -->
-  <p
-    class="font-sans text-sm md:text-lg font-light tracking-[0.3em] text-[#2A2A2A] mb-12 relative z-10"
-  >
-    {fechaHero}
-  </p>
-
-  <!-- CTA Confirmar Asistencia (estilo plantilla: borde carbón, hover invertido) -->
-  <a
-    href="#rsvp"
-    class="mt-10 relative z-10 inline-flex min-h-[44px] items-center justify-center border border-[#2A2A2A] text-[#2A2A2A] px-10 py-4 hover:bg-[#2A2A2A] hover:text-[#F9F8F6] transition-all duration-500 uppercase tracking-[0.2em] font-sans text-xs touch-manipulation"
-  >
-    Confirmar Asistencia
-  </a>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-    <a href="#programa" class="text-[#8B4542] hover:text-[#2A2A2A] transition-colors">
-      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    <span class="font-hand text-xl text-[#58693B]">Sigue el camino</span>
+    <a href="#ubicacion" class="text-[#3B539A] hover:text-[#2B2B29] transition-colors boil-line" aria-label="Bajar a Ubicación">
+      <svg class="w-6 h-9" viewBox="0 0 24 36" fill="none">
+        <path
+          d="M12 3 C11 13, 13 22, 12 31 M6 25 C8.5 28, 10.5 31, 12 33 C13.5 31, 15.5 28, 18 25"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </a>
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const scene = document.getElementById('hero-watercolor-scene');
+  const eyebrow = document.getElementById('hero-eyebrow');
+  const words = document.querySelectorAll('.hero-ink-word');
+  const amp = document.querySelector('.hero-ink-amp');
+  const flourish = document.getElementById('hero-ink-flourish');
+  const leaf = document.getElementById('hero-ink-leaf');
+  const meta = document.getElementById('hero-meta');
+  const cta = document.getElementById('hero-cta');
+  const scrollHint = document.getElementById('hero-scroll-hint');
+
+  if (prefersReduced) {
+    gsap.set([eyebrow, words, amp, leaf, meta, cta, scrollHint], { opacity: 1 });
+    gsap.set(flourish, { strokeDashoffset: 0 });
+    gsap.set(scene, { opacity: 0.45 });
+  } else {
+    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+    // TIEMPO 1 (0.0s - 1.4s): Escena de acuarela viva en plenitud sobre el papel
+    tl.fromTo(
+      scene,
+      { opacity: 0, scale: 0.98, filter: 'blur(8px)' },
+      { opacity: 0.94, scale: 1, filter: 'blur(0px)', duration: 1.4 }
+    )
+      // TIEMPO 2 (1.4s - 2.5s): Lavado de acuarela hacia el papel blanco roto (Fade-to-Paper)
+      .to(scene, {
+        opacity: 0.16,
+        scale: 1.015,
+        filter: 'blur(5px)',
+        duration: 1.1,
+        ease: 'sine.inOut',
+      })
+      // TIEMPO 3 (2.3s - 4.8s): Escritura caligráfica secuencial en tinta viva
+      .fromTo(
+        eyebrow,
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        '-=0.3'
+      )
+      .fromTo(
+        words[0],
+        { opacity: 0, x: -10, filter: 'blur(2px)' },
+        { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.65 }
+      )
+      .fromTo(
+        amp,
+        { opacity: 0, scale: 0.85 },
+        { opacity: 1, scale: 1, duration: 0.35 },
+        '-=0.25'
+      )
+      .fromTo(
+        words[1],
+        { opacity: 0, x: 10, filter: 'blur(2px)' },
+        { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.65 },
+        '-=0.15'
+      )
+      .to(
+        flourish,
+        { strokeDashoffset: 0, duration: 0.85, ease: 'power1.inOut' },
+        '-=0.2'
+      )
+      .to(leaf, { opacity: 1, duration: 0.3 }, '-=0.3')
+      .fromTo(
+        meta,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        '-=0.2'
+      )
+      .fromTo(
+        cta,
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        '-=0.2'
+      )
+      // Reaparición armónica de la acuarela de fondo para abrazar la caligrafía
+      .to(
+        scene,
+        { opacity: 0.44, filter: 'blur(1px)', scale: 1, duration: 1.4, ease: 'sine.out' },
+        '-=0.6'
+      )
+      .to(scrollHint, { opacity: 0.8, duration: 0.5 }, '-=0.8');
+  }
+</script>

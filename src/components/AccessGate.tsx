@@ -1,20 +1,12 @@
 /**
- * AccessGate — Pantalla de acceso por código.
- * Barrera de seguridad para la web de boda. Solo código, sin usuarios.
- * Si PUBLIC_ACCESS_CODE está vacío, el gate se desactiva (desarrollo).
- *
- * Duración de sesión (siguiendo OWASP Session Management):
- * - sessionStorage: sesión termina al cerrar la pestaña.
- * - Timeout absoluto: 7 días desde primer acceso. Limita exposición de pestañas
- *   abiertas compartidas. Recomendado por OWASP para apps de bajo riesgo.
+ * AccessGate — Sobre artesanal de papel de algodón con sello en tinta viva.
+ * Si PUBLIC_ACCESS_CODE está vacío, el gate se desactiva automáticamente.
  */
 import { useState, useEffect } from "react";
-import { Lock } from "lucide-react";
 import { EVENT_CONFIG } from "../lib/event-config";
+import WatercolorCard from "./ui/WatercolorCard";
 
 const STORAGE_KEY = "boda_access_unlocked";
-
-/** 7 días en ms — timeout absoluto OWASP para apps de bajo riesgo */
 const ABSOLUTE_TIMEOUT_MS = 7 * 24 * 60 * 60 * 1000;
 
 function getExpectedCode(): string {
@@ -32,7 +24,6 @@ function isUnlockedStored(): boolean {
   try {
     const raw = sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return false;
-    // Formato legacy "1" — migrar a nuevo formato
     if (raw === "1") {
       setUnlocked();
       return true;
@@ -69,6 +60,7 @@ export default function AccessGate({ children }: AccessGateProps) {
   const [code, setCode] = useState("");
   const [error, setError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isWashingOut, setIsWashingOut] = useState(false);
 
   useEffect(() => {
     setIsHydrated(true);
@@ -78,9 +70,6 @@ export default function AccessGate({ children }: AccessGateProps) {
     if (!isHydrated) return;
     const gateOn = isGateEnabled();
     const stored = isUnlockedStored();
-    if (import.meta.env.DEV) {
-      console.log("[AccessGate] PUBLIC_ACCESS_CODE definido:", gateOn, "| sessionStorage unlock:", stored);
-    }
     if (!gateOn) {
       setIsUnlocked(true);
       return;
@@ -101,23 +90,27 @@ export default function AccessGate({ children }: AccessGateProps) {
     }
 
     const trimmed = code.trim();
-    if (trimmed === expected) {
+    if (trimmed.toLowerCase() === expected.toLowerCase()) {
       setUnlocked();
-      setIsUnlocked(true);
-      setCode("");
+      setIsWashingOut(true);
+      setTimeout(() => {
+        setIsUnlocked(true);
+        setCode("");
+        setIsSubmitting(false);
+      }, 550);
     } else {
       setError(true);
       setCode("");
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   if (!isHydrated) {
     return (
-      <div className="min-h-screen bg-[#F5F1EB] flex items-center justify-center">
-        <div className="animate-pulse text-[#8B4542]" aria-hidden="true">
-          <Lock size={32} strokeWidth={1.5} />
-        </div>
+      <div className="min-h-screen bg-[#F4F6F8] flex items-center justify-center">
+        <span className="font-hand text-3xl text-[#3B539A] animate-pulse">
+          {EVENT_CONFIG.novios.titulo}
+        </span>
       </div>
     );
   }
@@ -131,95 +124,106 @@ export default function AccessGate({ children }: AccessGateProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 bg-[#F5F1EB] paper-texture"
+      className={`fixed inset-0 z-[100] min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 bg-[#F4F6F8] watercolor-canvas transition-all duration-500 ${
+        isWashingOut ? "opacity-0 blur-md scale-105" : "opacity-100"
+      }`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="access-gate-title"
       aria-describedby="access-gate-desc"
     >
-      {/* Orbes decorativos (como HeroSection) */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#D9C5C5] mix-blend-multiply filter blur-[100px] opacity-40" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#8B4542] mix-blend-multiply filter blur-[100px] opacity-[0.22]" />
-      </div>
-
-      {/* Logo sutil */}
-      <figure className="absolute top-8 right-8 z-10 opacity-20" aria-hidden="true">
-        <img
-          src="/branding-logo.png"
-          alt=""
-          width="64"
-          height="64"
-          className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
-        />
-      </figure>
-
       <div className="relative z-10 w-full max-w-md mx-auto">
-        {/* Icono y títulos */}
-        <div className="flex justify-center mb-8">
-          <div className="rounded-full border border-[#8B4542]/40 p-4 bg-[#F9F8F6]/80">
-            <Lock size={28} className="text-[#8B4542]" strokeWidth={1.5} aria-hidden="true" />
-          </div>
-        </div>
-        <h1
-          id="access-gate-title"
-          className="font-serif text-3xl sm:text-4xl font-light text-center text-[#2A2A2A] mb-4"
-        >
-          {EVENT_CONFIG.novios.titulo}
-        </h1>
-        <p
-          id="access-gate-desc"
-          className="font-sans text-sm uppercase tracking-[0.3em] text-[#8B4542] text-center mb-2"
-        >
-          {titulo}
-        </p>
-        <p className="font-sans text-[#2A2A2A]/80 text-center text-sm sm:text-base mb-10 max-w-sm mx-auto">
-          {mensaje}
-        </p>
-
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="access-code" className="sr-only">
-              {placeholder}
-            </label>
-            <input
-              id="access-code"
-              type="text"
-              value={code}
-              onChange={(e) => {
-                setCode(e.target.value);
-                setError(false);
-              }}
-              placeholder={placeholder}
-              autoComplete="one-time-code"
-              autoFocus
-              disabled={isSubmitting}
-              className="input-editorial w-full px-6 py-4 bg-[#F9F8F6] border border-[#E8E3D9] rounded-sm text-[#2A2A2A] placeholder:text-[#2A2A2A]/50 font-sans text-center tracking-[0.2em] uppercase text-sm focus:outline-none focus:border-[#8B4542] disabled:opacity-60 transition-colors"
-              aria-invalid={error}
-              aria-describedby={error ? "code-error" : undefined}
-            />
-            {error && (
-              <p
-                id="code-error"
-                className="mt-2 text-sm text-[#8B4542] font-sans text-center"
-                role="alert"
+        <WatercolorCard wash="sky" className="text-center">
+          {/* Sello botánico en tinta y cobalto */}
+          <div className="flex justify-center mb-6">
+            <svg viewBox="0 0 80 80" className="w-16 h-16 overflow-visible boil-line" aria-hidden="true">
+              <circle
+                cx="40"
+                cy="40"
+                r="32"
+                fill="#DFB98C"
+                fillOpacity="0.35"
+                filter="url(#watercolor-edge)"
+              />
+              <circle
+                cx="40"
+                cy="40"
+                r="28"
+                fill="none"
+                stroke="#3B539A"
+                strokeWidth="1.2"
+                strokeDasharray="6 4"
+              />
+              <text
+                x="40"
+                y="47"
+                textAnchor="middle"
+                className="font-hand text-2xl fill-[#2B2B29]"
               >
-                {errorMensaje}
-              </p>
-            )}
+                P&amp;J
+              </text>
+            </svg>
           </div>
-          <button
-            type="submit"
-            disabled={isSubmitting || !code.trim()}
-            className="btn-primary w-full min-h-[52px] flex items-center justify-center border border-[#2A2A2A] bg-transparent text-[#2A2A2A] font-sans text-xs uppercase tracking-[0.2em] disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Comprobando…" : boton}
-          </button>
-        </form>
 
-        {/* Separador */}
-        <div className="w-px h-12 bg-[#2A2A2A]/20 mx-auto mt-12" />
+          <h1
+            id="access-gate-title"
+            className="font-hand text-5xl sm:text-6xl text-[#2B2B29] mb-2"
+          >
+            {EVENT_CONFIG.novios.titulo}
+          </h1>
+
+          <p
+            id="access-gate-desc"
+            className="font-serif text-xs uppercase tracking-[0.28em] text-[#3B539A] mb-3"
+          >
+            {titulo}
+          </p>
+
+          <p className="font-serif text-[#2B2B29]/80 text-base sm:text-lg mb-8 max-w-sm mx-auto leading-relaxed">
+            {mensaje}
+          </p>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="access-code" className="sr-only">
+                {placeholder}
+              </label>
+              <input
+                id="access-code"
+                type="text"
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                  setError(false);
+                }}
+                placeholder={placeholder}
+                autoComplete="one-time-code"
+                autoFocus
+                disabled={isSubmitting}
+                className="input-ink-line w-full px-4 py-3 text-[#2B2B29] placeholder:text-[#2B2B29]/45 font-serif text-center tracking-[0.22em] uppercase text-base disabled:opacity-60"
+                aria-invalid={error}
+                aria-describedby={error ? "code-error" : undefined}
+              />
+              {error && (
+                <p
+                  id="code-error"
+                  className="mt-3 text-sm text-[#B88655] font-serif italic text-center"
+                  role="alert"
+                >
+                  {errorMensaje}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting || !code.trim()}
+              className="btn-watercolor w-full min-h-[50px] font-serif text-xs sm:text-sm uppercase tracking-[0.22em] disabled:opacity-45 disabled:cursor-not-allowed"
+            >
+              <span>{isSubmitting ? "Abriendo sobre…" : boton}</span>
+            </button>
+          </form>
+        </WatercolorCard>
       </div>
     </div>
   );

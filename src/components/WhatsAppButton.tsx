@@ -1,27 +1,27 @@
 /**
- * Botón de WhatsApp — versión flotante y de footer.
- * Soporta contacto de Carlos o Irene.
+ * WhatsAppButton — Botón artesanal en acuarela Verde Olivo (#58693B / #8A9A5B)
+ * para hablar directamente con Paloma o Jose en el cierre de la invitación.
  */
 import { MessageCircle } from "lucide-react";
 import { EVENT_CONFIG } from "../lib/event-config";
 
-type ContactoPersona = "carlos" | "irene";
+export type ContactoPersona = keyof typeof EVENT_CONFIG.contacto;
 
 interface WhatsAppButtonProps {
   flotante?: boolean;
   contacto?: ContactoPersona;
-  /** Desplazamiento vertical para FAB (ej. segundo botón flotante) */
   bottomOffset?: number;
 }
 
 export default function WhatsAppButton({
-  flotante = true,
-  contacto = "carlos",
+  flotante = false,
+  contacto = "paloma",
   bottomOffset = 0,
 }: WhatsAppButtonProps) {
-  const { numero, mensaje } = EVENT_CONFIG.contacto[contacto];
+  const entry = EVENT_CONFIG.contacto[contacto];
+  const { numero, mensaje } = entry;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-  const label = contacto === "carlos" ? "Carlos" : "Irene";
+  const label = contacto === "paloma" ? EVENT_CONFIG.novios.ella : EVENT_CONFIG.novios.el;
 
   if (flotante) {
     return (
@@ -29,11 +29,11 @@ export default function WhatsAppButton({
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed right-6 z-50 flex h-14 w-14 min-w-[56px] min-h-[56px] items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/30 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#25D366]/40 touch-manipulation"
+        className="fixed right-6 z-50 flex h-14 w-14 min-w-[56px] min-h-[56px] items-center justify-center watercolor-mask bg-[#58693B] text-[#F4F6F8] transition-transform duration-300 hover:scale-105 touch-manipulation"
         style={{ bottom: `calc(24px + ${bottomOffset}px + env(safe-area-inset-bottom, 0px))` }}
-        aria-label={`Contactar a ${label} por WhatsApp`}
+        aria-label={`Escribir a ${label} por WhatsApp`}
       >
-        <MessageCircle size={26} />
+        <MessageCircle size={24} strokeWidth={1.5} />
       </a>
     );
   }
@@ -43,11 +43,10 @@ export default function WhatsAppButton({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex min-h-[44px] items-center justify-center gap-2.5 rounded-full border border-[#25D366]/40 bg-[#25D366]/8 px-6 py-3 font-sans font-light text-[#2A2A2A] transition-all duration-300 hover:border-[#25D366] hover:bg-[#25D366]/15 touch-manipulation"
-      style={{ fontSize: "var(--text-small)" }}
+      className="btn-watercolor-ghost min-h-[46px] px-7 py-3 font-serif text-xs uppercase tracking-[0.18em] text-[#2B2B29] inline-flex items-center justify-center gap-2.5 touch-manipulation"
     >
-      <MessageCircle size={14} className="text-[#25D366]" />
-      Hablar con {label}
+      <MessageCircle size={15} className="text-[#58693B]" strokeWidth={1.6} />
+      <span>Hablar con {label}</span>
     </a>
   );
 }

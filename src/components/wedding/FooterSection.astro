@@ -1,6 +1,7 @@
 ---
 /**
- * Footer editorial — fondo claro para mejor legibilidad del contacto.
+ * FooterSection — Cierre caligráfico sobre papel de algodón con ilustración de acuarela
+ * y contacto directo de Paloma y Jose.
  */
 import WhatsAppButton from '../WhatsAppButton';
 import { EVENT_CONFIG } from '../../lib/event-config';
@@ -8,56 +9,79 @@ import { EVENT_CONFIG } from '../../lib/event-config';
 const { novios, textos } = EVENT_CONFIG;
 ---
 
-<footer id="contacto" class="bg-[#F3EFEA] border-t border-[#E8E3D9] text-[#2A2A2A] px-6 py-20 sm:py-24 scroll-mt-24">
-  <div class="mx-auto max-w-xl text-center">
+<footer id="contacto" class="relative px-6 py-20 sm:py-28 overflow-hidden scroll-mt-20">
+  <!-- Trazo de tinta superior -->
+  <svg
+    viewBox="0 0 1200 10"
+    class="w-full max-w-4xl mx-auto h-2.5 mb-16 overflow-visible pointer-events-none"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M 10 5 C 350 1, 820 9, 1190 4"
+      fill="none"
+      stroke="#3B539A"
+      stroke-width="1.2"
+      stroke-opacity="0.35"
+      stroke-linecap="round"
+    />
+  </svg>
 
-    <!-- Eyebrow -->
-    <p class="font-sans text-xs uppercase tracking-[0.3em] text-[#8B4542] mb-6">
-      Contacto
+  <div class="mx-auto max-w-xl text-center relative z-10">
+    <p class="font-hand text-3xl text-[#3B539A] mb-2">
+      Contacto directo
     </p>
 
-    <!-- Mensaje principal -->
-    <h2 class="font-serif text-3xl sm:text-4xl italic mb-8 text-[#2A2A2A]" style="font-size: var(--text-heading-lg);">
-      ¿Dudas? Estamos a tu disposición
+    <h2 class="font-serif text-3xl sm:text-4xl italic mb-10 text-[#2B2B29]">
+      ¿Alguna duda? Escríbenos cuando quieras
     </h2>
 
-    <!-- Logo principal del branding (grande, protagonista al final) -->
-    <div class="flex flex-col items-center gap-4 mb-10">
-      <img
-        src="/branding-logo.png"
-        alt={`${novios.ella} y ${novios.el}`}
-        aria-hidden="true"
-        width="200"
-        height="200"
-        class="w-72 h-72 sm:w-96 sm:h-96 md:w-[30rem] md:h-[30rem] object-contain opacity-70"
-        loading="lazy"
-      />
-      <p class="font-serif text-2xl tracking-[0.2em] text-[#8B4542]">
-        {novios.ella}
-        <span class="text-[#2A2A2A] font-light mx-1">&</span>
-        {novios.el}
-      </p>
+    <!-- Medallón caligráfico ilustrado de Paloma & Jose en Acuarela -->
+    <div class="flex flex-col items-center gap-3 mb-10">
+      <div class="relative w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center">
+        <svg
+          viewBox="0 0 240 240"
+          class="w-full h-full overflow-visible pigment-multiply"
+          aria-hidden="true"
+        >
+          <g filter="url(#watercolor-edge)">
+            <ellipse cx="120" cy="120" rx="96" ry="88" fill="#B8CDE3" fill-opacity="0.45" />
+            <ellipse cx="135" cy="130" rx="75" ry="68" fill="#DFB98C" fill-opacity="0.35" />
+            <ellipse cx="100" cy="108" rx="65" ry="55" fill="#8A9A5B" fill-opacity="0.28" />
+          </g>
+          <!-- Corona botánica a plumilla -->
+          <g class="boil-line" fill="none" stroke="#2B2B29" stroke-width="1.15" stroke-opacity="0.65">
+            <circle cx="120" cy="120" r="82" stroke-dasharray="10 6" />
+            <circle cx="120" cy="120" r="76" stroke="#3B539A" stroke-opacity="0.4" />
+            <!-- Ramitas de encina en el borde -->
+            <path d="M 55 165 C 40 135, 42 95, 65 70" stroke="#58693B" stroke-width="1.4" />
+            <path d="M 185 165 C 200 135, 198 95, 175 70" stroke="#58693B" stroke-width="1.4" />
+          </g>
+        </svg>
+
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <span class="font-hand text-5xl sm:text-6xl text-[#2B2B29]">
+            {novios.ella}
+          </span>
+          <span class="font-serif italic text-2xl text-[#3B539A] -my-1">&amp;</span>
+          <span class="font-hand text-5xl sm:text-6xl text-[#2B2B29]">
+            {novios.el}
+          </span>
+        </div>
+      </div>
     </div>
 
-    <!-- Texto y contacto -->
-    <p
-      class="font-serif italic text-[#2A2A2A]/70 mb-8"
-      style="font-size: var(--text-body);"
-    >
+    <p class="font-serif italic text-lg sm:text-xl text-[#2B2B29]/80 mb-8">
       {textos.footerTexto}
     </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-      <WhatsAppButton client:load flotante={false} contacto="carlos" />
-      <WhatsAppButton client:load flotante={false} contacto="irene" />
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <WhatsAppButton client:load flotante={false} contacto="paloma" />
+      <WhatsAppButton client:load flotante={false} contacto="jose" />
     </div>
 
-    <p
-      class="font-sans text-[#2A2A2A]/50 tracking-widest mt-8"
-      style="font-size: var(--text-small);"
-    >
+    <p class="font-hand text-2xl text-[#3B539A] mt-12">
       {textos.footerCopyright}
     </p>
-
   </div>
 </footer>

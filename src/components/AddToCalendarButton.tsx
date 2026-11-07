@@ -1,5 +1,5 @@
 /**
- * Botón para añadir el evento al Google Calendar.
+ * Botón artesanal para añadir el evento a Google Calendar.
  */
 import { Calendar } from "lucide-react";
 import { getGoogleCalendarUrl } from "../lib/calendar";
@@ -16,10 +16,10 @@ export default function AddToCalendarButton({ className = "" }: Props) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#8B4542] bg-[#8B4542]/10 px-6 py-3 font-sans text-[#1A1A1A] transition hover:bg-[#8B4542]/20 touch-manipulation ${className}`}
+      className={`btn-watercolor-ghost min-h-[46px] px-7 py-3 font-serif text-xs uppercase tracking-[0.18em] text-[#2B2B29] inline-flex items-center justify-center gap-2 touch-manipulation ${className}`}
     >
-      <Calendar className="h-5 w-5 text-[#8B4542]" />
-      Añadir al calendario
+      <Calendar className="h-4 w-4 text-[#3B539A]" strokeWidth={1.5} />
+      <span>Guardar en Calendario</span>
     </a>
   );
 }
